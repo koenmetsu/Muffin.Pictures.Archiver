@@ -14,12 +14,7 @@ module Files =
         files 
         |> Seq.filter<FileInfo> isOld
     
-    let printOldFile (file:FileInfo) = 
+    let printFile (file:FileInfo) =
         printfn "%s with date %s" file.FullName (file.LastWriteTimeUtc.ToShortDateString())
-
-    let printOldFiles files = 
-        files
-            |> Seq.iter printOldFile
-            |> ignore
 
     
