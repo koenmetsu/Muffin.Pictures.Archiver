@@ -3,6 +3,7 @@
 
 open System
 open System.IO
+open Muffin.Pictures.Archiver.Files
 
 [<EntryPoint>]
 let main argv = 
@@ -12,29 +13,17 @@ let main argv =
         | [|first|] -> first
         | _ -> "."
 
-    let filesToArchive path = 
-        Directory.EnumerateFiles(path)
-        |> Seq.map (fun fileName -> new FileInfo(fileName))
+    let files = allFilesInPath path
 
-    let isOld (file:FileInfo) = file.LastWriteTimeUtc < DateTime.UtcNow.AddMonths(-1)
-    
-    let files = filesToArchive path
+    printfn "Found %i files in total" (Seq.length files)
 
-    printfn "Found %i files" (Seq.length files)
-
-    let oldFiles = 
-        files
-        |> Seq.filter isOld
+    let oldFiles = onlyOldFiles files
 
     printfn "Found %i old files" (Seq.length oldFiles)
     printfn "Would move the following files:"
 
-    let printOldFile (file:FileInfo) = 
-        printfn "%s with date %s" file.FullName (file.LastWriteTimeUtc.ToShortDateString())
+    printOldFiles files
 
-    oldFiles
-        |> Seq.iter printOldFile
-        |> ignore
     Console.ReadLine() |> ignore
 
     0 // return an integer exit code
