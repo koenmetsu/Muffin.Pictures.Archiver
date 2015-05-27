@@ -188,6 +188,8 @@ Target "NuGet" (fun _ ->
 Target "PublishNuget" (fun _ ->
     Paket.Push(fun p -> 
         { p with
+            ApiKey = getBuildParam "NugetKey"
+            PublishUrl = getBuildParam "NugetUrl"
             WorkingDir = "bin" })
 )
 
