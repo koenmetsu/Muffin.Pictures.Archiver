@@ -1,0 +1,6 @@
+type project
+id Muffin.Pictures.Archiver
+version 0.1
+authors Koen Metsu
+description
+	Picture Archiver
