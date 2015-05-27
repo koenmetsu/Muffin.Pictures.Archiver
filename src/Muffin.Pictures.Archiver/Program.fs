@@ -3,22 +3,19 @@ open System.IO
 open Muffin.Pictures.Archiver.Files
 
 [<EntryPoint>]
-let main argv = 
+let main argv =
 
-    let sourcePath = 
-        match argv with 
+    let sourcePath =
+        match argv with
         | [|first|] -> first
-        | _ -> "."
+        | _ -> @"."
 
-    let files = allFilesInPath sourcePath
-    let oldFiles = onlyOldFiles files
+    allFilesInPath sourcePath
+    |> onlyOldFiles
+    |> groupByMonth
+    |> move sourcePath
+    |> ignore
 
-    printfn "Found %i files in total" (Seq.length files)
-    printfn "Found %i old files" (Seq.length oldFiles)
-    printfn "Would move the following files:"
-    oldFiles |> Seq.iter printFile
-
-    Console.ReadLine() |> ignore
+    Console.WriteLine("Done archiving!") |> ignore
 
     0
-    
