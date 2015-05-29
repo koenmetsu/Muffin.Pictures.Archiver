@@ -1,3 +1,6 @@
+#### 0.1.2-beta - May 29 2015
+* trying out package without tools folder
+
 #### 0.1.1-beta - May 29 2015
 * Add missing exiftool exe
 
