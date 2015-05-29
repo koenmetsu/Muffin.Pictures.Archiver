@@ -9,7 +9,7 @@ module Files =
 
     let getMonthYear (file:FileInfo) =
         let time = timeTaken file.FullName
-        sprintf "%i-%i" time.Year time.Month
+        sprintf "%i-%02i" time.Year time.Month
 
     let allFilesInPath path =
         Directory.EnumerateFiles path
