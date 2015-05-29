@@ -1,6 +1,10 @@
-type project
+type file
 id Muffin.Pictures.Archiver
 version 0.1
 authors Koen Metsu
 description
 	Picture Archiver
+
+files
+	bin/Release/*.exe ==> tools
+	bin/Release/*.dll ==> tools
