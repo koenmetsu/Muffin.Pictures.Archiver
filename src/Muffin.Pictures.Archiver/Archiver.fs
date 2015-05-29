@@ -2,12 +2,14 @@
 
 open System.IO
 open System
+open TimeTakenRetriever
 
 module Files =
-    let isOld (file:FileInfo) = file.LastWriteTimeUtc < DateTime.UtcNow.AddMonths(-1)
+    let isOld (file:FileInfo) = DateTimeOffset.UtcNow.AddMonths(-1) > timeTaken file.FullName
 
     let getMonthYear (file:FileInfo) =
-        sprintf "%i-%i" file.LastWriteTimeUtc.Year file.LastWriteTimeUtc.Month
+        let time = timeTaken file.FullName
+        sprintf "%i-%i" time.Year time.Month
 
     let allFilesInPath path =
         Directory.EnumerateFiles path
