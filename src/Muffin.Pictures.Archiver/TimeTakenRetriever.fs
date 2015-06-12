@@ -1,9 +1,6 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open System.Text
 open System.Text.RegularExpressions
-open System.IO
-open System.Drawing
 open System
 
 module TimeTakenRetriever =

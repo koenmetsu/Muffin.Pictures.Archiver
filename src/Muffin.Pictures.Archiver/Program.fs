@@ -1,5 +1,4 @@
 ﻿open System
-open System.IO
 open Muffin.Pictures.Archiver.Files
 
 [<EntryPoint>]
