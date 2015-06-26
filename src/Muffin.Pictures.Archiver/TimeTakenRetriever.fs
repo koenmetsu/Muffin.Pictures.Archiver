@@ -30,6 +30,6 @@ module TimeTakenRetriever =
             |> Seq.tryPick (fun tagValue -> tryGetPrintValue tagValue)
             |> function
                 | Some x -> parseDate x
-                | None -> DateTimeOffset(File.GetLastWriteTimeUtc(path))
+                | None -> DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
 
         date
