@@ -45,7 +45,10 @@ module Files =
         snd fileGroup
         |> Seq.iter (fun file -> moveFile targetBase file)
 
-    let move basePath (files:seq<string * seq<FileInfo>>) =
+    let mapTargetPath basePath (files:seq<string * seq<FileInfo>>) =
         files
         |> Seq.map (fun fileGroup -> mapWithFullPath basePath fileGroup)
+
+    let move (files:seq<string * seq<FileInfo>>) =
+        files
         |> Seq.iter (fun fileGroup -> moveFiles fileGroup)

@@ -10,10 +10,11 @@ let main argv =
         | _ -> @"."
 
     allFilesInPath sourcePath
-    |> onlyOldFiles
-    |> groupByMonth
-    |> move sourcePath
-    |> ignore
+        |> onlyOldFiles
+        |> groupByMonth
+        |> mapTargetPath sourcePath
+        |> move
+        |> ignore
 
     Console.WriteLine("Done archiving!") |> ignore
 
