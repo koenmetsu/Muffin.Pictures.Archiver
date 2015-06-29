@@ -5,50 +5,44 @@ open System
 open TimeTakenRetriever
 
 module Files =
-    let isOld (file:FileInfo) = DateTimeOffset.UtcNow.AddMonths(-1) > timeTaken file.FullName
 
-    let getMonthYear (file:FileInfo) =
+    type FilesPerMonth = string * seq<FileInfo>
+
+    let private isOld (file:FileInfo) = DateTimeOffset.UtcNow.AddMonths(-1) > timeTaken file.FullName
+
+    let private getMonthYear (file:FileInfo) =
         let time = timeTaken file.FullName
         sprintf "%i-%02i" time.Year time.Month
 
-    let allFilesInPath path =
+    let private allFilesInPath path =
         Directory.EnumerateFiles path
         |> Seq.map (fun fileName -> new FileInfo(fileName))
 
-    let onlyOldFiles files =
+    let private onlyOldFiles files =
         files
         |> Seq.filter<FileInfo> isOld
 
-    let groupByMonth files =
+    let private groupByMonth files =
         files
         |> Seq.groupBy (fun file -> getMonthYear file)
 
-    let targetPath basePath target =
+    let combine basePath target =
         System.IO.Path.Combine(basePath, target)
 
-    let mapWithFullPath basePath (fileGroup:string * seq<FileInfo>) =
+    let private mapWithFullPath basePath (fileGroup:FilesPerMonth) =
         let target =
             fst fileGroup
-            |> targetPath basePath
+            |> combine basePath
         let files = snd fileGroup
 
         (target, files)
 
-    let moveFile targetBase (file:FileInfo) =
-        let targetFull = targetPath targetBase file.Name
-        System.IO.Directory.CreateDirectory(targetBase)
-        |> ignore
-        System.IO.File.Move(file.FullName, targetFull)
+    let mapTargetPath basePath (filesPerMonth:seq<FilesPerMonth>) =
+        filesPerMonth
+        |> Seq.map (fun files -> mapWithFullPath basePath files)
 
-    let moveFiles (fileGroup:string * seq<FileInfo>) =
-        let targetBase = fst fileGroup
-        snd fileGroup
-        |> Seq.iter (fun file -> moveFile targetBase file)
-
-    let mapTargetPath basePath (files:seq<string * seq<FileInfo>>) =
-        files
-        |> Seq.map (fun fileGroup -> mapWithFullPath basePath fileGroup)
-
-    let move (files:seq<string * seq<FileInfo>>) =
-        files
-        |> Seq.iter (fun fileGroup -> moveFiles fileGroup)
+    let getOldFilesByMonth sourcePath =
+        sourcePath
+        |> allFilesInPath
+        |> onlyOldFiles
+        |> groupByMonth

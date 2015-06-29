@@ -1,5 +1,6 @@
 ﻿open System
 open Muffin.Pictures.Archiver.Files
+open Muffin.Pictures.Mover.Mover
 
 [<EntryPoint>]
 let main argv =
@@ -9,9 +10,8 @@ let main argv =
         | [|first|] -> first
         | _ -> @"."
 
-    allFilesInPath sourcePath
-        |> onlyOldFiles
-        |> groupByMonth
+    sourcePath
+        |> getOldFilesByMonth
         |> mapTargetPath sourcePath
         |> move
         |> ignore

@@ -57,6 +57,7 @@
     <Compile Include="TimeTakenRetriever.fs" />
     <Compile Include="Archiver.fs" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Mover.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
   </ItemGroup>
