@@ -30,10 +30,10 @@ module Files =
         System.IO.Path.Combine(basePath, target)
 
     let private mapWithFullPath basePath (fileGroup:FilesPerMonth) =
+        let (month,files) = fileGroup
         let target =
-            fst fileGroup
+            month
             |> combine basePath
-        let files = snd fileGroup
 
         (target, files)
 
