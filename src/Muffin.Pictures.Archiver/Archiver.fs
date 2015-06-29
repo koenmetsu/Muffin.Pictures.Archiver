@@ -6,39 +6,42 @@ open TimeTakenRetriever
 
 module Files =
 
-    type FilesPerMonth = string * seq<FileInfo>
+    type Picture = {FullPath:string; Name:string; TakenOn:DateTimeOffset}
+    type PicturesPerMonth = {MonthYear:string; Pictures:Picture seq}
 
-    let private isOld (file:FileInfo) = DateTimeOffset.UtcNow.AddMonths(-1) > timeTaken file.FullName
+    let private isOld {FullPath=_; TakenOn=takenOn} = DateTimeOffset.UtcNow.AddMonths(-1) > takenOn
 
-    let private getMonthYear (file:FileInfo) =
-        let time = timeTaken file.FullName
+    let private getMonthYear picture =
+        let time = picture.TakenOn
         sprintf "%i-%02i" time.Year time.Month
 
     let private allFilesInPath path =
         Directory.EnumerateFiles path
-        |> Seq.map (fun fileName -> new FileInfo(fileName))
+        |> Seq.map FileInfo
+        |> Seq.map (fun fileInfo -> {FullPath=fileInfo.FullName; Name=fileInfo.Name; TakenOn=timeTaken fileInfo.FullName})
 
     let private onlyOldFiles files =
         files
-        |> Seq.filter<FileInfo> isOld
+        |> Seq.filter isOld
 
     let private groupByMonth files =
         files
         |> Seq.groupBy (fun file -> getMonthYear file)
+        |> Seq.map (fun group -> {MonthYear= fst group; Pictures= snd group})
 
     let combine basePath target =
         System.IO.Path.Combine(basePath, target)
 
-    let private mapWithFullPath basePath (fileGroup:FilesPerMonth) =
-        let (month,files) = fileGroup
+    let private mapWithFullPath basePath (fileGroup:PicturesPerMonth) =
+        let {MonthYear=month; Pictures=pictures} = fileGroup
         let target =
             month
             |> combine basePath
 
-        (target, files)
+        {MonthYear=target; Pictures=pictures}
 
-    let mapTargetPath basePath (filesPerMonth:seq<FilesPerMonth>) =
-        filesPerMonth
+    let mapTargetPath basePath (picturesPerMonth:seq<PicturesPerMonth>) =
+        picturesPerMonth
         |> Seq.map (fun files -> mapWithFullPath basePath files)
 
     let getOldFilesByMonth sourcePath =

@@ -1,20 +1,19 @@
 ﻿namespace Muffin.Pictures.Mover
 
-open System.IO
 open Muffin.Pictures.Archiver.Files
 
 module Mover =
-    let private moveFile targetBase (file:FileInfo) =
-        let targetFull = combine targetBase file.Name
+    let private moveFile targetBase (picture:Picture) =
+        let targetFull = combine targetBase picture.Name
         System.IO.Directory.CreateDirectory(targetBase)
         |> ignore
-        System.IO.File.Move(file.FullName, targetFull)
+        System.IO.File.Move(picture.Name, targetFull)
 
-    let private moveFiles (fileGroup:FilesPerMonth) =
-        let targetBase = fst fileGroup
-        snd fileGroup
+    let private moveFiles {Pictures=pictures; MonthYear=takenOn} =
+        let targetBase = takenOn
+        pictures
         |> Seq.iter (fun file -> moveFile targetBase file)
 
-    let move (files:seq<FilesPerMonth>) =
+    let move (files:seq<PicturesPerMonth>) =
         files
         |> Seq.iter (fun fileGroup -> moveFiles fileGroup)
