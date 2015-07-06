@@ -7,7 +7,9 @@ open TimeTakenRetriever
 module Files =
 
     type Picture = {FullPath:string; Name:string; TakenOn:DateTimeOffset}
+    type PictureWithMonth = {Picture:Picture; MonthYear:string}
     type PicturesPerMonth = {MonthYear:string; Pictures:Picture seq}
+    type Move = {Source:string; Destination:string}
 
     let private isOld {FullPath=_; TakenOn=takenOn} = DateTimeOffset.UtcNow.AddMonths(-1) > takenOn
 
@@ -24,28 +26,28 @@ module Files =
         files
         |> Seq.filter isOld
 
-    let private groupByMonth files =
-        files
-        |> Seq.groupBy (fun file -> getMonthYear file)
-        |> Seq.map (fun group -> {MonthYear= fst group; Pictures= snd group})
+    let private toPictureWithMonth pictures =
+        pictures
+        |> Seq.map (fun picture -> {Picture=picture; MonthYear=getMonthYear picture})
 
-    let combine basePath target =
+    let pathCombine basePath target =
         System.IO.Path.Combine(basePath, target)
 
-    let private mapWithFullPath basePath (fileGroup:PicturesPerMonth) =
-        let {MonthYear=month; Pictures=pictures} = fileGroup
-        let target =
-            month
-            |> combine basePath
+    let private getMove basePath {MonthYear=monthYear; Picture=picture} =
+        let destinationFolder =
+            pathCombine basePath monthYear
 
-        {MonthYear=target; Pictures=pictures}
+        let destination =
+            pathCombine destinationFolder picture.Name
 
-    let mapTargetPath basePath (picturesPerMonth:seq<PicturesPerMonth>) =
+        {Source=picture.FullPath; Destination=destination}
+
+    let getMoves basePath (picturesPerMonth:seq<PictureWithMonth>) =
         picturesPerMonth
-        |> Seq.map (fun files -> mapWithFullPath basePath files)
+        |> Seq.map (fun pictures -> getMove basePath pictures)
 
-    let getOldFilesByMonth sourcePath =
+    let getOldPicturesWithMonth sourcePath =
         sourcePath
         |> allFilesInPath
         |> onlyOldFiles
-        |> groupByMonth
+        |> toPictureWithMonth

@@ -7,12 +7,18 @@ let main argv =
 
     let sourcePath =
         match argv with
-        | [|first|] -> first
+        | [|source|] -> source
+        | [|source; _|] -> source
         | _ -> @"."
 
+    let targetPath =
+        match argv with
+        | [|_; target|] -> target
+        | _ -> sourcePath
+
     sourcePath
-        |> getOldFilesByMonth
-        |> mapTargetPath sourcePath
+        |> getOldPicturesWithMonth
+        |> getMoves targetPath
         |> move
         |> ignore
 
