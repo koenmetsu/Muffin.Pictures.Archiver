@@ -17,9 +17,12 @@ module Files =
         let time = picture.TakenOn
         sprintf "%i-%02i" time.Year time.Month
 
+    let private createFileInfo filePath =
+        FileInfo filePath
+
     let private allFilesInPath path =
         Directory.EnumerateFiles path
-        |> Seq.map FileInfo
+        |> Seq.map createFileInfo
         |> Seq.map (fun fileInfo -> {FullPath=fileInfo.FullName; Name=fileInfo.Name; TakenOn=timeTaken fileInfo.FullName})
 
     let private onlyOldFiles files =
