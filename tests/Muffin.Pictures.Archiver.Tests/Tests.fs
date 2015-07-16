@@ -1,8 +1,8 @@
 module Muffin.Pictures.Archiver.Tests
 
 open Muffin.Pictures.Archiver
-open NUnit.Framework
+open Xunit
 
-[<Test>]
+[<Fact>]
 let ``hello returns 42`` () =
     Assert.True true
