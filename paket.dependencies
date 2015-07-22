@@ -7,6 +7,7 @@ nuget Unquote
 nuget fsharp.management
 nuget logary
 nuget xunit
+nuget xunit.runner.console
 nuget xunit.runner.visualstudio
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx

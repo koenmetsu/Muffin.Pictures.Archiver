@@ -1,6 +1,9 @@
 ﻿open System
+open Muffin.Pictures.Archiver.Pictures
+open Muffin.Pictures.Archiver.Mover
+open Muffin.Pictures.Archiver.Paths
 open Muffin.Pictures.Archiver.Files
-open Muffin.Pictures.Mover.Mover
+open Muffin.Pictures.Archiver.TimeTakenRetriever
 
 [<EntryPoint>]
 let main argv =
@@ -16,10 +19,14 @@ let main argv =
         | [|_; target|] -> target
         | _ -> sourcePath
 
-    sourcePath
-        |> getOldPicturesWithMonth
-        |> getMoves targetPath
-        |> move
+    let timeProvider () = DateTimeOffset.UtcNow
+    let fileProvider () = allFilesInPath sourcePath
+    let timeTakenRetriever = timeTaken
+
+    let getPictures = getOldPictures timeTakenRetriever timeProvider fileProvider
+
+    getPictures
+        |> move targetPath
         |> ignore
 
     Console.WriteLine("Done archiving!") |> ignore

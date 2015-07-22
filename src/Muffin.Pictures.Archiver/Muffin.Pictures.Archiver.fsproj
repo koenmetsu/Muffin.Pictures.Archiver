@@ -54,9 +54,13 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain.fs" />
     <Compile Include="TimeTakenRetriever.fs" />
-    <Compile Include="Archiver.fs" />
+    <Compile Include="Age.fs" />
+    <Compile Include="Files.fs" />
+    <Compile Include="Pictures.fs" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Paths.fs" />
     <Compile Include="Mover.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />

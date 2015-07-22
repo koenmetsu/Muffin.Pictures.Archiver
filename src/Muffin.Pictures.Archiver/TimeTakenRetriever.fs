@@ -2,6 +2,7 @@
 
 open System.Text.RegularExpressions
 open System
+open Domain
 
 module TimeTakenRetriever =
 
@@ -20,7 +21,7 @@ module TimeTakenRetriever =
         | _ -> let dateTaken = r.Replace(strDate, "-", 2)
                DateTimeOffset.Parse(dateTaken)
 
-    let timeTaken path =
+    let timeTaken path : TimeTaken =
         ExifToolLib.ExifToolIO.Initiailize() |> ignore // todo;
         let fileTagValues = ExifToolVBNetDemo.FileTagValues(path, [|"XMP-xmp:CreateDate";"ExifIFD:CreateDate"|])
 
