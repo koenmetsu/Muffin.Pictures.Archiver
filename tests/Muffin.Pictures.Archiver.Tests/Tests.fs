@@ -1,19 +1,14 @@
-module Muffin.Pictures.Archiver.Tests
+namespace Muffin.Pictures.Archiver.Tests
 
-open System
+open TestHelpers
 open Xunit
 open Swensen.Unquote
 
-open Domain
-
-let dateTimeOffset year month day = 
-    new DateTimeOffset(new DateTime(year, month, day, 0, 0, 0))
-
-let stubFile = {FullPath = @"\path\to\anyPicture.jpg"; Name = "anyPicture.jpg"}
+open Muffin.Pictures.Archiver.Domain
 
 module AgeTests =
 
-    open Age
+    open Muffin.Pictures.Archiver.Age
 
     [<Fact>]
     let ``a picture is old when it is older than one month`` () =
@@ -47,29 +42,13 @@ module AgeTests =
 
         test <@ not <| isOld timeProvider picture @>
 
-module OtherTests =
+module DomainTests =
 
-    open Muffin.Pictures.Archiver.Pictures
-
-    [<Fact>]
-    let ``toPicture returns Picture with same File and timeTaken provided by timeTakenRetriever`` () =
-        let timeTaken = dateTimeOffset 2015 12 31
-        let file = stubFile
-        let timeTakenRetriever = fun (_ : string) -> timeTaken
-
-        let expected = {File = file; TakenOn = timeTaken}
-
-        let actual = toPicture timeTakenRetriever file
-
-        test <@ expected = actual @>
-
-module DomainTests = 
-    
     [<Fact>]
     let ``Picture.formatToken with two-digit month returns unpadded month`` () =
-        let picture = 
+        let picture =
             {
-                File = stubFile; 
+                File = stubFile;
                 TakenOn = dateTimeOffset 2014 12 31
             }
 
@@ -77,9 +56,9 @@ module DomainTests =
 
     [<Fact>]
     let ``Picture.formatToken with single digit month returns zero-padded month`` () =
-        let picture = 
+        let picture =
             {
-                File = stubFile; 
+                File = stubFile;
                 TakenOn = dateTimeOffset 2015 01 01
             }
 
