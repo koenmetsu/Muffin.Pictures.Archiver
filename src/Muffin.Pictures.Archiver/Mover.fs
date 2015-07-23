@@ -2,7 +2,6 @@
 
 open System.IO
 open Domain
-open Pictures
 open Paths
 
 module Mover =
@@ -16,9 +15,9 @@ module Mover =
 
         {Source=picture.File.FullPath; Destination=destination}
 
-    let private getMoves basePath (picturesPerMonth:seq<Picture>) =
-        picturesPerMonth
-        |> Seq.map (fun pictures -> getMove basePath pictures)
+    let getMoves basePath (pictures:seq<Picture>) =
+        pictures
+        |> Seq.map (fun picture -> getMove basePath picture)
 
     let private createDirectory destination =
         let fileInfo = FileInfo destination
@@ -29,7 +28,7 @@ module Mover =
         createDirectory destination
         File.Move(source, destination)
 
-    let move targetPath picturesPerMonth =
-        picturesPerMonth
-        |> getMoves targetPath 
+    let move targetPath pictures =
+        pictures
+        |> getMoves targetPath
         |> Seq.iter moveFile
