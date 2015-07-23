@@ -14,11 +14,7 @@ module AgeTests =
     let ``a picture is old when it is older than one month`` () =
         let picture =
             {
-                Picture.File =
-                    {
-                        FullPath = "";
-                        Name = "";
-                    };
+                Picture.File = stubFile
                 TakenOn = dateTimeOffset 2014 12 1
             }
 
@@ -30,11 +26,7 @@ module AgeTests =
     let ``a picture is not old when it is older than one month`` () =
         let picture =
             {
-                Picture.File =
-                    {
-                        FullPath = "";
-                        Name = "";
-                    };
+                Picture.File = stubFile
                 TakenOn = dateTimeOffset 2014 12 1
             }
 
@@ -48,7 +40,7 @@ module DomainTests =
     let ``Picture.formatToken with two-digit month returns unpadded month`` () =
         let picture =
             {
-                File = stubFile;
+                File = stubFile
                 TakenOn = dateTimeOffset 2014 12 31
             }
 
@@ -58,7 +50,7 @@ module DomainTests =
     let ``Picture.formatToken with single digit month returns zero-padded month`` () =
         let picture =
             {
-                File = stubFile;
+                File = stubFile
                 TakenOn = dateTimeOffset 2015 01 01
             }
 
