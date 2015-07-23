@@ -3,21 +3,9 @@
 open System.IO
 open Domain
 open Paths
+open Moves
 
-module Mover =
-
-    let private getMove basePath (picture: Picture) =
-        let destinationFolder =
-            pathCombine basePath picture.formatTakenOn
-
-        let destination =
-            pathCombine destinationFolder picture.File.Name
-
-        {Source=picture.File.FullPath; Destination=destination}
-
-    let getMoves basePath (pictures:seq<Picture>) =
-        pictures
-        |> Seq.map (fun picture -> getMove basePath picture)
+module FileMover =
 
     let private createDirectory destination =
         let fileInfo = FileInfo destination

@@ -65,11 +65,13 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
-    <Compile Include="TestHelpers.fs" />
-    <Compile Include="Tests.fs" />
     <None Include="paket.references" />
     <Content Include="App.config" />
+    <Compile Include="TestHelpers.fs" />
+    <Compile Include="DomainTests.fs" />
     <Compile Include="PicturesTests.fs" />
+    <Compile Include="MovesTests.fs" />
+    <Compile Include="AgeTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

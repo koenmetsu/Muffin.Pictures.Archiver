@@ -1,6 +1,6 @@
 ﻿open System
 open Muffin.Pictures.Archiver.Pictures
-open Muffin.Pictures.Archiver.Mover
+open Muffin.Pictures.Archiver.FileMover
 open Muffin.Pictures.Archiver.Paths
 open Muffin.Pictures.Archiver.Files
 open Muffin.Pictures.Archiver.TimeTakenRetriever

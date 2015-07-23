@@ -61,7 +61,8 @@
     <Compile Include="Pictures.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Paths.fs" />
-    <Compile Include="Mover.fs" />
+    <Compile Include="Moves.fs" />
+    <Compile Include="FileMover.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
   </ItemGroup>
