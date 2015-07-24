@@ -2,6 +2,7 @@
 
 open System
 
+[<AutoOpen>]
 module Domain =
 
     type File = {FullPath:string; Name:string}
