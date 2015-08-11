@@ -5,7 +5,7 @@ open System
 open Domain
 
 module Files =
- 
+
     let allFilesInPath path : seq<Domain.File> =
         let createFileInfo filePath =
             FileInfo filePath

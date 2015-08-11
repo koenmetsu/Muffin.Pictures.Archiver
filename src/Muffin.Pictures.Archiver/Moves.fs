@@ -4,7 +4,7 @@ open Domain
 open Paths
 
 module Moves =
-    let private getMove basePath (picture: Picture) =
+    let private getMoveRequest basePath (picture: Picture) =
         let destinationFolder =
             pathCombine basePath picture.formatTakenOn
 
@@ -13,6 +13,6 @@ module Moves =
 
         {Source=picture.File.FullPath; Destination=destination}
 
-    let getMoves basePath (pictures:seq<Picture>) =
+    let getMoveRequests basePath (pictures:seq<Picture>) =
         pictures
-        |> Seq.map (fun picture -> getMove basePath picture)
+        |> Seq.map (fun picture -> getMoveRequest basePath picture)

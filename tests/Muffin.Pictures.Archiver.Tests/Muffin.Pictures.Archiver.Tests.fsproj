@@ -72,6 +72,7 @@
     <Compile Include="PicturesTests.fs" />
     <Compile Include="MovesTests.fs" />
     <Compile Include="AgeTests.fs" />
+    <Compile Include="FileMoverTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -81,6 +82,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Muffin.Pictures.Archiver\Muffin.Pictures.Archiver.fsproj">
       <Name>Muffin.Pictures.Archiver</Name>
       <Project>{3b1a10cf-1e23-481a-ba86-ed83b9c46fdb}</Project>

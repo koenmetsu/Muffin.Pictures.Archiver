@@ -20,7 +20,7 @@ module MovesTests =
                       TakenOn = dateTimeOffset 2014 12 31 }
                 ]
 
-        let actual = getMoves @"c:\path\to\destinationDir" pictures |> List.ofSeq
+        let actual = getMoveRequests @"c:\path\to\destinationDir" pictures |> List.ofSeq
         let expected =
             [
                     { Source = @"c:\path\to\originDir\pic.jpg";

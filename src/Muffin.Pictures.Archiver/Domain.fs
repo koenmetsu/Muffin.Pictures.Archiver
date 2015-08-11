@@ -13,4 +13,13 @@ module Domain =
         member this.formatTakenOn : string =
             sprintf "%i-%02i" this.TakenOn.Year this.TakenOn.Month
 
-    type Move = {Source:string; Destination:string}
+    type MoveRequest = {Source:string; Destination:string}
+
+    type FailureReason =
+    | BytesDidNotMatch
+
+    type MoveResult =
+    | Success
+    | Failure of FailureReason
+
+    type Move = {Request:MoveRequest; Result: MoveResult}
