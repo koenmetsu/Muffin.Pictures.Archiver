@@ -57,24 +57,3 @@ module FileMoverTests =
         moveFile copyToDestination compareFiles deleteSource {MoveRequest.Source = ""; Destination = ""} |> ignore
 
         test <@ false = deleteSourceWasCalled @>
-
-
-
-//    [<Fact>]
-//    let ``Blablabla`` () =
-//        let pictures : seq<Picture> =
-//            seq [
-//                    { Picture.File = { FullPath = @"c:\path\to\originDir\pic.jpg"; File.Name = "pic.jpg" };
-//                      TakenOn = dateTimeOffset 2014 01 01 }
-//                    { Picture.File = { FullPath = @"c:\path\to\originDir\pic2.jpg"; File.Name = "pic2.jpg" };
-//                      TakenOn = dateTimeOffset 2014 12 31 }
-//                ]
-//
-//        let mutable copyCalled = false
-//
-//        let copyImpl = fun () -> copyCalled <- true
-//
-//        let fileSystem = new MockFileSystem(copyImpl, (fun _ -> ()), (fun _ -> byte(0)),  (fun _ -> ()), (fun _ -> false))
-//
-//        move fileSystem ".\temp" pictures
-
