@@ -23,3 +23,5 @@ module Domain =
     | Failure of FailureReason
 
     type Move = {Request:MoveRequest; Result: MoveResult}
+
+    type RunnerArguments = {SourceDir:string; DestinationDir:string}
