@@ -18,10 +18,11 @@ module Domain =
     type FailureReason =
     | BytesDidNotMatch
 
-    type MoveResult =
-    | Success
-    | Failure of FailureReason
+    type FailedMove = {Request:MoveRequest; Reason: FailureReason}
+    type SuccessfulMove = {Request:MoveRequest}
 
-    type Move = {Request:MoveRequest; Result: MoveResult}
+    type Move =
+    | SuccessfulMove of SuccessfulMove
+    | FailedMove of FailedMove
 
     type RunnerArguments = {SourceDir:string; DestinationDir:string}

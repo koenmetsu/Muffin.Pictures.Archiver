@@ -64,6 +64,7 @@
     <Compile Include="Moves.fs" />
     <Compile Include="FileMover.fs" />
     <Compile Include="Arguments.fs" />
+    <Compile Include="Reporter.fs" />
     <Compile Include="Runner.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />

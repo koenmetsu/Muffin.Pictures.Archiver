@@ -44,9 +44,9 @@ module FileMover =
 
         if filesMatch then
             deleteSource moveRequest
-            {Request = moveRequest; Result = Success}
+            SuccessfulMove {Request = moveRequest}
         else
-            {Request = moveRequest; Result = Failure BytesDidNotMatch}
+            FailedMove {Request = moveRequest; Reason = BytesDidNotMatch}
 
     let compareFiles readAllBytes moveRequest =
         let sourceStream = readAllBytes moveRequest.Source
