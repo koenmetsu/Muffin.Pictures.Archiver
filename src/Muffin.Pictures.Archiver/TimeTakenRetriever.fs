@@ -27,7 +27,7 @@ module TimeTakenRetriever =
 
         fileTagValues.TagValueList
         |> Seq.cast
-        |> Seq.tryPick (fun tagValue -> tryGetPrintValue tagValue)
+        |> Seq.tryPick tryGetPrintValue
         |> function
             | Some x -> parseDate x
             | None -> DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
