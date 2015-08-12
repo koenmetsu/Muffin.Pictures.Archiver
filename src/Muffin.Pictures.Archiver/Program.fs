@@ -31,11 +31,10 @@ let composeMoveWithFs =
 
     moveFile copyToDestination compareFiles deleteSource
 
-let composeGetPictures sourceDir =
+let composeGetPictures =
     let timeProvider () = DateTimeOffset.UtcNow
-    let fileProvider = allFilesInPath sourceDir
 
-    getOldPictures timeTaken timeProvider fileProvider
+    getOldPictures timeTaken timeProvider
 
 [<EntryPoint>]
 let main argv =
@@ -46,7 +45,7 @@ let main argv =
     let destinationDir = arguments.GetResult <@ DestinationDir @>
 
 
-    let getPictures = composeGetPictures sourceDir // feels strange to pass in sourceDir, would probably be better to pass in (string -> seq<File>)
+    let getPictures = composeGetPictures
     let moveWithFs = composeMoveWithFs
 
     let printResult (moveResult:MoveResult) =
@@ -54,8 +53,9 @@ let main argv =
         ignore()
 
     let moves =
-        getPictures
-        |> getMoveRequests sourceDir
+        allFilesInPath sourceDir
+        |> getPictures
+        |> getMoveRequests destinationDir
         |> Seq.map moveWithFs
         |> List.ofSeq
 
