@@ -21,6 +21,22 @@ with
             | SourceDir _ -> "Specify a source directory"
             | DestinationDir _ -> "Specify a destination directory"
 
+let composeMoveWithFs =
+    let fsOperations = FileSystemOperations
+    let ensureDirectoryExists = ensureDirectoryExists fsOperations.DirectoryExists fsOperations.CreateDirectory
+    let copy source destination overwrite = fsOperations.Copy(source, destination, overwrite)
+    let copyToDestination moveRequest = copyToDestination ensureDirectoryExists copy moveRequest
+    let compareFiles moveRequest = compareFiles fsOperations.ReadAllBytes moveRequest
+    let deleteSource moveRequest = fsOperations.Delete moveRequest.Source
+
+    moveFile copyToDestination compareFiles deleteSource
+
+let composeGetPictures sourceDir =
+    let timeProvider () = DateTimeOffset.UtcNow
+    let fileProvider = allFilesInPath sourceDir
+
+    getOldPictures timeTaken timeProvider fileProvider
+
 [<EntryPoint>]
 let main argv =
 
@@ -29,24 +45,13 @@ let main argv =
     let sourceDir = arguments.GetResult <@ SourceDir @>
     let destinationDir = arguments.GetResult <@ DestinationDir @>
 
-    let timeProvider () = DateTimeOffset.UtcNow
-    let fileProvider = allFilesInPath sourceDir
 
-    let getPictures = getOldPictures timeTaken timeProvider fileProvider
+    let getPictures = composeGetPictures sourceDir // feels strange to pass in sourceDir, would probably be better to pass in (string -> seq<File>)
+    let moveWithFs = composeMoveWithFs
 
     let printResult (moveResult:MoveResult) =
         printf "Move: %A" moveResult
         ignore()
-
-    let fsOperations = FileSystemOperations
-
-    let ensureDirectoryExists = ensureDirectoryExists fsOperations.DirectoryExists fsOperations.CreateDirectory
-    let copy source destination overwrite = fsOperations.Copy(source, destination, overwrite)
-    let copyToDestination moveRequest = copyToDestination ensureDirectoryExists copy moveRequest
-    let compareFiles moveRequest = compareFiles fsOperations.ReadAllBytes moveRequest
-    let deleteSource moveRequest = fsOperations.Delete moveRequest.Source
-
-    let moveWithFs = moveFile copyToDestination compareFiles deleteSource
 
     let moves =
         getPictures
