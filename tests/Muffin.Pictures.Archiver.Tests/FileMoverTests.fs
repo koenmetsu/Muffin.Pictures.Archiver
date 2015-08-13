@@ -48,6 +48,31 @@ module FileMoverTests =
         test <@ true = deleteSourceWasCalled @>
 
     [<Fact>]
+    let ``when the move was successful, it returns a successful move`` () =
+        let compareFiles _ = true
+        let deleteSource _ = ()
+
+        let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
+
+        let move =
+            moveFile copyToDestination compareFiles deleteSource moveRequest
+
+        test <@ SuccessfulMove {Request = moveRequest} = move @>
+
+    [<Fact>]
+    let ``when the move was NOT successful, it returns a failed move with a failure reason`` () =
+        let compareFiles _ = false
+        let deleteSource _ = ()
+
+        let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
+
+        let move =
+            moveFile copyToDestination compareFiles deleteSource moveRequest
+
+        test <@ FailedMove {Request = moveRequest; Reason = BytesDidNotMatch} = move @>
+
+
+    [<Fact>]
     let ``when the source and destination files do NOT match byte contents, the source file does NOT get deleted`` () =
         let compareFiles _ = false
         let mutable deleteSourceWasCalled = false
