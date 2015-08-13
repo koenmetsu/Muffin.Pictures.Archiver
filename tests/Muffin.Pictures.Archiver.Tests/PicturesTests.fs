@@ -24,8 +24,8 @@ module PicturesTests =
     let ``getOldPictures returns only pictures older than 1 month`` () =
         let oldFile = stubFile
         let newFile = anotherStubFile
-        let files = seq [ oldFile
-                          newFile ]
+        let files _ = seq [ oldFile
+                            newFile ]
 
         let oldDate = dateTimeOffset 2014 12 01
 
@@ -37,7 +37,7 @@ module PicturesTests =
 
         let timeProvider () = dateTimeOffset 2015 01 05
 
-        let actual = getOldPictures timeTakenRetriever timeProvider files |> List.ofSeq
+        let actual = List.ofSeq <| getOldPictures timeTakenRetriever timeProvider files "path"
         let expected = [ {File = oldFile; TakenOn = oldDate} ]
 
         test <@ expected = actual @>

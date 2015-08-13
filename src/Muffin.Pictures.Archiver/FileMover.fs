@@ -38,7 +38,7 @@ module FileSystem =
 
 module FileMover =
 
-    let moveFile copyToDestination compareFiles deleteSource moveRequest =
+    let moveFile copyToDestination compareFiles moveRequest =
         copyToDestination moveRequest
         let filesMatch = compareFiles moveRequest
 
@@ -46,6 +46,11 @@ module FileMover =
             SuccessfulMove {Request = moveRequest}
         else
             FailedMove {Request = moveRequest; Reason = BytesDidNotMatch}
+
+    let cleanUp deleteSource move =
+        match move with
+        | SuccessfulMove success -> deleteSource success.Request
+        | FailedMove failure -> ignore()
 
     let compareFiles readAllBytes moveRequest =
         let sourceStream = readAllBytes moveRequest.Source

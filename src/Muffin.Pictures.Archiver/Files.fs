@@ -6,7 +6,7 @@ open Domain
 
 module Files =
 
-    let allFilesInPath path : seq<Domain.File> =
+    let allFilesInPath path : seq<File> =
         let createFileInfo filePath =
             FileInfo filePath
 

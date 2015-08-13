@@ -38,24 +38,13 @@ module FileMoverTests =
         test <@ List.isEmpty createDirectoryCalls @>
 
     [<Fact>]
-    let ``when the source and destination files match byte contents, the source file gets deleted`` () =
-        let compareFiles _ = true
-        let mutable deleteSourceWasCalled = false
-        let deleteSource _ = deleteSourceWasCalled <- true
-
-        moveFile copyToDestination compareFiles deleteSource {MoveRequest.Source = ""; Destination = ""} |> ignore
-
-        test <@ true = deleteSourceWasCalled @>
-
-    [<Fact>]
     let ``when the move was successful, it returns a successful move`` () =
         let compareFiles _ = true
-        let deleteSource _ = ()
 
         let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
 
         let move =
-            moveFile copyToDestination compareFiles deleteSource moveRequest
+            moveFile copyToDestination compareFiles moveRequest
 
         test <@ SuccessfulMove {Request = moveRequest} = move @>
 
@@ -67,18 +56,6 @@ module FileMoverTests =
         let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
 
         let move =
-            moveFile copyToDestination compareFiles deleteSource moveRequest
+            moveFile copyToDestination compareFiles moveRequest
 
         test <@ FailedMove {Request = moveRequest; Reason = BytesDidNotMatch} = move @>
-
-
-    [<Fact>]
-    let ``when the source and destination files do NOT match byte contents, the source file does NOT get deleted`` () =
-        let compareFiles _ = false
-        let mutable deleteSourceWasCalled = false
-        let deleteSource _ =
-            deleteSourceWasCalled <- true
-
-        moveFile copyToDestination compareFiles deleteSource {MoveRequest.Source = ""; Destination = ""} |> ignore
-
-        test <@ false = deleteSourceWasCalled @>

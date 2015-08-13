@@ -9,7 +9,7 @@ module Pictures =
     let toPicture timeTakenRetriever (file : File) =
         {Picture.File = file; TakenOn = timeTakenRetriever file}
 
-    let getOldPictures (timeTakenRetriever : File -> TimeTaken) (timeProvider : unit -> DateTimeOffset) (files : seq<File>) =
-        files
-        |> Seq.map (fun file -> toPicture timeTakenRetriever file)
-        |> Seq.filter (fun picture -> isOld timeProvider picture)
+    let getOldPictures (timeTakenRetriever : File -> TimeTaken) (timeProvider : unit -> DateTimeOffset) (filesProvider : string -> seq<File>) path=
+        filesProvider path
+        |> Seq.map (toPicture timeTakenRetriever)
+        |> Seq.filter (isOld timeProvider)
