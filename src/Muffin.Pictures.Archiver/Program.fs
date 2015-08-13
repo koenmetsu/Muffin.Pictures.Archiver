@@ -12,6 +12,7 @@ open Muffin.Pictures.Archiver.FileSystem
 open Muffin.Pictures.Archiver.Runner
 open Muffin.Pictures.Archiver.Arguments
 
+let deleteSource moveRequest = FileSystemOperations.Delete moveRequest.Source
 
 let composeMoveWithFs =
     let fsOperations = FileSystemOperations
@@ -19,7 +20,6 @@ let composeMoveWithFs =
     let copy source destination overwrite = fsOperations.Copy(source, destination, overwrite)
     let copyToDestination moveRequest = copyToDestination ensureDirectoryExists copy moveRequest
     let compareFiles moveRequest = compareFiles fsOperations.ReadAllBytes moveRequest
-    let deleteSource moveRequest = fsOperations.Delete moveRequest.Source
 
     moveFile copyToDestination compareFiles deleteSource
 
@@ -36,6 +36,6 @@ let main argv =
 
     let arguments = parseArguments argv
 
-    runner arguments getPictures moveWithFs
+    runner arguments getPictures moveWithFs deleteSource
 
     0

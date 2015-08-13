@@ -43,7 +43,6 @@ module FileMover =
         let filesMatch = compareFiles moveRequest
 
         if filesMatch then
-            deleteSource moveRequest
             SuccessfulMove {Request = moveRequest}
         else
             FailedMove {Request = moveRequest; Reason = BytesDidNotMatch}

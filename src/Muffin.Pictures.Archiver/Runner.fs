@@ -9,12 +9,22 @@ open Muffin.Pictures.Archiver.Reporter
 
 module Runner =
 
-    let runner arguments getPictures moveWithFs =
+    let runner arguments getPictures moveWithFs deleteSource =
 
-        allFilesInPath arguments.SourceDir
-        |> getPictures
-        |> getMoveRequests arguments.DestinationDir
-        |> Seq.map moveWithFs
-        |> List.ofSeq
-        |> report
-        |> ignore
+        let moves =
+            allFilesInPath arguments.SourceDir
+            |> getPictures
+            |> getMoveRequests arguments.DestinationDir
+            |> Seq.map moveWithFs
+            |> List.ofSeq
+
+        let cleanUp move =
+            match move with
+            | SuccessfulMove success -> deleteSource success.Request
+            | FailedMove failure -> ignore()
+
+        moves |> Seq.iter cleanUp
+
+        moves
+            |> report
+            |> ignore
