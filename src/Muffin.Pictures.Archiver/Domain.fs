@@ -5,7 +5,9 @@ open System
 [<AutoOpen>]
 module Domain =
 
-    type File = {FullPath:string; Name:string}
+    type FilePath = string
+
+    type File = {FullPath:FilePath; Name:string}
 
     type TimeTaken = DateTimeOffset
 
@@ -13,7 +15,7 @@ module Domain =
         member this.formatTakenOn : string =
             sprintf "%i-%02i" this.TakenOn.Year this.TakenOn.Month
 
-    type MoveRequest = {Source:string; Destination:string}
+    type MoveRequest = {Source:FilePath; Destination:FilePath}
 
     type FailureReason =
     | BytesDidNotMatch
