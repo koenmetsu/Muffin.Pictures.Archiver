@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain.fs" />
+    <Compile Include="Rop.fs" />
     <Compile Include="TimeTakenRetriever.fs" />
     <Compile Include="Age.fs" />
     <Compile Include="Files.fs" />
@@ -85,7 +86,7 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

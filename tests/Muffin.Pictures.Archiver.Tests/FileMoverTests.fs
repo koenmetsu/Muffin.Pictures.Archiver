@@ -5,13 +5,12 @@ open Xunit;
 
 open Muffin.Pictures.Archiver.Tests.TestHelpers
 open Muffin.Pictures.Archiver.Domain
+open Muffin.Pictures.Archiver.Rop
 
 module FileMoverTests =
 
     open Muffin.Pictures.Archiver.FileMover
     open Muffin.Pictures.Archiver.FileSystem
-
-    let copyToDestination _ = ()
 
     [<Fact>]
     let ``when directory does not exist, it gets created`` () =
@@ -39,23 +38,22 @@ module FileMoverTests =
 
     [<Fact>]
     let ``when the move was successful, it returns a successful move`` () =
-        let compareFiles _ = true
-
         let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
+        let copyToDestination _ = ()
 
         let move =
-            moveFile copyToDestination compareFiles moveRequest
+            moveFile copyToDestination moveRequest
 
-        test <@ SuccessfulMove {Request = moveRequest} = move @>
+        test <@ Success moveRequest = move @>
 
     [<Fact>]
     let ``when the move was NOT successful, it returns a failed move with a failure reason`` () =
         let compareFiles _ = false
-        let deleteSource _ = ()
+        let copyToDestination _ = failwith "File in use or something"
 
         let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
 
         let move =
-            moveFile copyToDestination compareFiles moveRequest
+            moveFile copyToDestination moveRequest
 
-        test <@ FailedMove {Request = moveRequest; Reason = BytesDidNotMatch} = move @>
+        test <@ Failure {Request = moveRequest; Reason = CouldNotCopyFile "File in use or something"} = move @>

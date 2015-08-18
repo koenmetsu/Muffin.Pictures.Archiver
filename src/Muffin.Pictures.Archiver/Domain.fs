@@ -19,12 +19,14 @@ module Domain =
 
     type FailureReason =
     | BytesDidNotMatch
+    | CouldNotCopyFile of string
+    | CouldNotDeleteSource of string
 
-    type FailedMove = {Request:MoveRequest; Reason: FailureReason}
+    type FailedMove<'a> = {Request:'a; Reason: FailureReason}
     type SuccessfulMove = {Request:MoveRequest}
 
     type Move =
     | SuccessfulMove of SuccessfulMove
-    | FailedMove of FailedMove
+    | FailedMove of FailedMove<MoveRequest>
 
     type RunnerArguments = {SourceDir:string; DestinationDir:string}

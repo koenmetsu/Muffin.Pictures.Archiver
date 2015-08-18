@@ -1,6 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver
 
 open Domain
+open Rop
 open Paths
 open Moves
 
@@ -38,24 +39,27 @@ module FileSystem =
 
 module FileMover =
 
-    let moveFile copyToDestination compareFiles moveRequest =
-        copyToDestination moveRequest
-        let filesMatch = compareFiles moveRequest
+    let moveFile copyToDestination moveRequest =
+        try
+            copyToDestination moveRequest
+            Success moveRequest
+        with
+        | ex -> CouldNotCopyFile ex.Message |> fail moveRequest
 
-        if filesMatch then
-            SuccessfulMove {Request = moveRequest}
-        else
-            FailedMove {Request = moveRequest; Reason = BytesDidNotMatch}
-
-    let cleanUp deleteSource move =
-        match move with
-        | SuccessfulMove success -> deleteSource success.Request
-        | FailedMove failure -> ignore()
+    let cleanUp deleteSource moveRequest =
+        try
+            deleteSource moveRequest
+            Success moveRequest
+        with
+        | ex -> CouldNotDeleteSource ex.Message |> fail moveRequest
 
     let compareFiles readAllBytes moveRequest =
         let sourceStream = readAllBytes moveRequest.Source
         let destinationStream = readAllBytes moveRequest.Destination
-        sourceStream = destinationStream
+        if sourceStream = destinationStream then
+            Success moveRequest
+        else
+            BytesDidNotMatch |> fail moveRequest
 
     let copyToDestination ensureDirectoryExists copy moveRequest =
         ensureDirectoryExists moveRequest.Destination

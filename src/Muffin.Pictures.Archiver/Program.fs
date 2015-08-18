@@ -11,20 +11,22 @@ open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.FileSystem
 open Muffin.Pictures.Archiver.Runner
 open Muffin.Pictures.Archiver.Arguments
+open Muffin.Pictures.Archiver.Rop
 
-let composeCleanUp = 
-    let deleteSource moveRequest = FileSystemOperations.Delete moveRequest.Source
+let fsOperations = FileSystemOperations
+
+let composeCleanUp =
+    let deleteSource moveRequest = fsOperations.Delete moveRequest.Source
     cleanUp deleteSource
 
+let composeCompareFiles = compareFiles fsOperations.ReadAllBytes
 
 let composeMoveWithFs =
-    let fsOperations = FileSystemOperations
     let ensureDirectoryExists = ensureDirectoryExists fsOperations.DirectoryExists fsOperations.CreateDirectory
     let copy source destination overwrite = fsOperations.Copy(source, destination, overwrite)
     let copyToDestination moveRequest = copyToDestination ensureDirectoryExists copy moveRequest
-    let compareFiles moveRequest = compareFiles fsOperations.ReadAllBytes moveRequest
 
-    moveFile copyToDestination compareFiles
+    moveFile copyToDestination
 
 let composeGetPictures =
     let timeProvider () = DateTimeOffset.UtcNow
@@ -41,6 +43,6 @@ let main argv =
 
     let arguments = parseArguments argv
 
-    runner getMoveRequests moveWithFs cleanUp arguments
+    runner moveWithFs composeCompareFiles cleanUp getMoveRequests arguments
 
     0
