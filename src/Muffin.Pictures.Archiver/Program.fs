@@ -19,8 +19,6 @@ let composeCleanUp =
     let deleteSource moveRequest = fsOperations.Delete moveRequest.Source
     cleanUp deleteSource
 
-let composeCompareFiles = compareFiles fsOperations.ReadAllBytes
-
 let composeMoveWithFs =
     let ensureDirectoryExists = ensureDirectoryExists fsOperations.DirectoryExists fsOperations.CreateDirectory
     let copy source destination overwrite = fsOperations.Copy(source, destination, overwrite)
@@ -28,21 +26,26 @@ let composeMoveWithFs =
 
     moveFile copyToDestination
 
-let composeGetPictures =
+let composeGetPictures arguments =
     let timeProvider () = DateTimeOffset.UtcNow
-
-    getOldPictures timeTaken timeProvider allFilesInPath
+    let timeTakenProvider = timeTaken arguments.Mode
+    getOldPictures timeTakenProvider timeProvider allFilesInPath
 
 [<EntryPoint>]
 let main argv =
-
-    let getPictures = composeGetPictures
-    let getMoveRequests = getMoveRequests getPictures
-    let moveWithFs = composeMoveWithFs
-    let cleanUp = composeCleanUp
-
     let arguments = parseArguments argv
 
-    runner moveWithFs composeCompareFiles cleanUp getMoveRequests arguments
+    // compose move
+    let moveWithFs = composeMoveWithFs
+    let cleanUp = composeCleanUp
+    let composeCompareFiles = compareFiles fsOperations.ReadAllBytes
+    let move = move moveWithFs composeCompareFiles cleanUp
+
+    // compose moveRequests
+    let getPictures = composeGetPictures arguments
+    let getMoveRequests = getMoveRequests getPictures
+    let moveRequests = moveRequests getMoveRequests arguments
+
+    runner move moveRequests
 
     0

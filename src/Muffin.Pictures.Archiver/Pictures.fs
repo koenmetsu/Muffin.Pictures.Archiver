@@ -7,9 +7,12 @@ open Muffin.Pictures.Archiver.Age
 module Pictures =
 
     let toPicture timeTakenRetriever (file : File) =
-        {Picture.File = file; TakenOn = timeTakenRetriever file}
+        let timeTaken = timeTakenRetriever file
+        match timeTaken with
+        | Some t -> Some {Picture.File = file; TakenOn = t}
+        | None -> None
 
-    let getOldPictures (timeTakenRetriever : File -> TimeTaken) (timeProvider : unit -> DateTimeOffset) (filesProvider : string -> seq<File>) path=
+    let getOldPictures timeTakenRetriever (timeProvider : unit -> DateTimeOffset) (filesProvider : string -> seq<File>) path =
         filesProvider path
-        |> Seq.map (toPicture timeTakenRetriever)
+        |> Seq.choose (toPicture timeTakenRetriever)
         |> Seq.filter (isOld timeProvider)

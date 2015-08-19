@@ -5,5 +5,7 @@ open Domain
 
 module Age =
     let isOld (timeProvider : unit -> DateTimeOffset) {File=_; TakenOn=takenOn} =
-        let time = timeProvider ()
-        time.AddMonths(-1) > takenOn
+        // todo: replace this with single time at start of the program,
+        // ie: not a function but a DT value
+        let currentTime = timeProvider ()
+        currentTime.AddMonths(-1) > takenOn

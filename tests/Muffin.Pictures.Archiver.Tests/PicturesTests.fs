@@ -12,9 +12,9 @@ module PicturesTests =
     [<Fact>]
     let ``toPicture returns Picture with same File and timeTaken provided by timeTakenRetriever`` () =
         let file = stubFile
-        let timeTakenRetriever = fun (_ : File) -> dateTimeOffset 2015 12 31
+        let timeTakenRetriever = fun (_ : File) -> Some <| dateTimeOffset 2015 12 31
 
-        let expected = {File = file; TakenOn = dateTimeOffset 2015 12 31}
+        let expected = Some {File = file; TakenOn = dateTimeOffset 2015 12 31}
 
         let actual = toPicture timeTakenRetriever file
 
@@ -31,9 +31,9 @@ module PicturesTests =
 
         let timeTakenRetriever file =
             if file = oldFile then
-                oldDate
+                Some oldDate
             else
-                dateTimeOffset 2014 12 31
+                Some <| dateTimeOffset 2014 12 31
 
         let timeProvider () = dateTimeOffset 2015 01 05
 

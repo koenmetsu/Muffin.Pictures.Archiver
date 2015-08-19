@@ -9,6 +9,10 @@ module Domain =
 
     type File = {FullPath:FilePath; Name:string}
 
+    type TimeTakenMode =
+    | Strict
+    | Fallback
+
     type TimeTaken = DateTimeOffset
 
     type Picture = {File:File; TakenOn:TimeTaken} with
@@ -29,4 +33,4 @@ module Domain =
     | SuccessfulMove of SuccessfulMove
     | FailedMove of FailedMove<MoveRequest>
 
-    type RunnerArguments = {SourceDir:string; DestinationDir:string}
+    type RunnerArguments = {SourceDir: string; DestinationDir: string; Mode: TimeTakenMode}

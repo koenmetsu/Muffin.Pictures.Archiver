@@ -9,15 +9,17 @@ open Muffin.Pictures.Archiver.Reporter
 
 module Runner =
 
-    let runner (moveWithFs:MoveRequest -> Result<MoveRequest>) (compareFiles:MoveRequest -> Result<MoveRequest>) (cleanUp:MoveRequest -> Result<MoveRequest>) getMoveRequests arguments =
-
-        let moveIt =
-            moveWithFs
-            >=> compareFiles
-            >=> cleanUp
-
+    let moveRequests getMoveRequests arguments =
         getMoveRequests arguments.SourceDir arguments.DestinationDir
-            |> Seq.map moveIt
+
+    let move (moveWithFs:MoveRequest -> Result<MoveRequest>) (compareFiles:MoveRequest -> Result<MoveRequest>) (cleanUp:MoveRequest -> Result<MoveRequest>) =
+        moveWithFs
+        >=> compareFiles
+        >=> cleanUp
+
+    let runner move moveRequests =
+        moveRequests
+            |> Seq.map move
             |> List.ofSeq
             |> report
             |> ignore

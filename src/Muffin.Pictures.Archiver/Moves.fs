@@ -13,6 +13,6 @@ module Moves =
 
         {Source=picture.File.FullPath; Destination=destination}
 
-    let getMoveRequests (pictures:string -> seq<Picture>) sourceDir destinationDir =
-        pictures sourceDir
+    let getMoveRequests (getPictures:string -> seq<Picture>) sourceDir destinationDir =
+        getPictures sourceDir
         |> Seq.map (fun picture -> getMoveRequest picture destinationDir)

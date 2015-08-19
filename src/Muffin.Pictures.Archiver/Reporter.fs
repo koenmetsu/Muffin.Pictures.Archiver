@@ -34,7 +34,6 @@ module Reporter =
                 printfn "Reason: Could not delete source file: %s." msg
                 printfn "%s -> %s" request.Source request.Destination
 
-
         printfn "Successes:"
         successes
         |> List.iter printSuccess
