@@ -13,7 +13,7 @@ module MovesTests =
     [<Fact>]
     let ``getMoveRequests returns the correct moves `` () =
         let getPictures _ =
-            seq [
+                [
                     { Picture.File = { FullPath = @"c:\path\to\originDir\pic.jpg"; File.Name = "pic.jpg" };
                       TakenOn = dateTimeOffset 2014 01 01 }
                     { Picture.File = { FullPath = @"c:\path\to\originDir\pic2.jpg"; File.Name = "pic2.jpg" };

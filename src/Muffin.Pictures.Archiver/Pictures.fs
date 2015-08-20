@@ -14,5 +14,6 @@ module Pictures =
 
     let getOldPictures timeTakenRetriever (timeProvider : unit -> DateTimeOffset) (filesProvider : string -> seq<File>) path =
         filesProvider path
-        |> Seq.choose (toPicture timeTakenRetriever)
-        |> Seq.filter (isOld timeProvider)
+        |> List.ofSeq
+        |> List.choose (toPicture timeTakenRetriever)
+        |> List.filter (isOld timeProvider)

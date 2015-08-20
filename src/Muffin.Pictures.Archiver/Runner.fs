@@ -5,7 +5,7 @@ open System
 open Muffin.Pictures.Archiver.Moves
 open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.Domain
-open Muffin.Pictures.Archiver.Reporter
+open Muffin.Pictures.Archiver.ConsoleReporter
 
 module Runner =
 
@@ -17,9 +17,9 @@ module Runner =
         >=> compareFiles
         >=> cleanUp
 
-    let runner move moveRequests =
-        moveRequests
-            |> Seq.map move
-            |> List.ofSeq
-            |> report
+    let runner move getMoveRequests arguments =
+        getMoveRequests arguments.SourceDir arguments.DestinationDir
+            |> List.map move
+            |> createReport
+            |> reportToConsole
             |> ignore

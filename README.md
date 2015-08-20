@@ -5,3 +5,6 @@ Personal learning project for:
 - ProjectScaffold
 - OctopusDeploy
 - Mono
+
+## Notes
+PNG does not support Exif

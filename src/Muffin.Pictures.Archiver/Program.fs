@@ -44,8 +44,7 @@ let main argv =
     // compose moveRequests
     let getPictures = composeGetPictures arguments
     let getMoveRequests = getMoveRequests getPictures
-    let moveRequests = moveRequests getMoveRequests arguments
 
-    runner move moveRequests
+    runner move getMoveRequests arguments
 
     0
