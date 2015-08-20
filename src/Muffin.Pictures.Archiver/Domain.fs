@@ -33,4 +33,6 @@ module Domain =
     | SuccessfulMove of SuccessfulMove
     | FailedMove of FailedMove<MoveRequest>
 
-    type RunnerArguments = {SourceDir: string; DestinationDir: string; Mode: TimeTakenMode}
+    type RunnerArguments = {SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option}
+
+    let notNullOrEmpty = not << System.String.IsNullOrEmpty

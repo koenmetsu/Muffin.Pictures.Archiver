@@ -8,8 +8,6 @@ module TimeTakenRetriever =
 
     let private r = new Regex(":")
 
-    let private notNullOrEmpty = not << System.String.IsNullOrEmpty
-
     let private tryGetPrintValue (tagValue:ExifToolVBNetDemo.TagValue) =
         match tagValue.PrintValue with
             | [||] | null -> None

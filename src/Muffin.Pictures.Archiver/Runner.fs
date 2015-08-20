@@ -6,6 +6,8 @@ open Muffin.Pictures.Archiver.Moves
 open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.ConsoleReporter
+open Muffin.Pictures.Archiver.Report
+open Muffin.Pictures.Archiver.Mail
 
 module Runner =
 
@@ -18,8 +20,12 @@ module Runner =
         >=> cleanUp
 
     let runner move getMoveRequests arguments =
-        getMoveRequests arguments.SourceDir arguments.DestinationDir
+        let report =
+            getMoveRequests arguments.SourceDir arguments.DestinationDir
             |> List.map move
             |> createReport
-            |> reportToConsole
-            |> ignore
+
+        reportToConsole report
+
+        if arguments.MailTo.IsSome then
+            reportToMail report arguments.MailTo.Value
