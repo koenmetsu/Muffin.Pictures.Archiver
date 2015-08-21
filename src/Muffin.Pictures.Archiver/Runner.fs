@@ -1,8 +1,5 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open System
-
-open Muffin.Pictures.Archiver.Moves
 open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.ConsoleReporter

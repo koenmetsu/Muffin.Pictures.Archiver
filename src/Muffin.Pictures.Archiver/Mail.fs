@@ -1,10 +1,8 @@
 namespace Muffin.Pictures.Archiver
 
-open System.Net
 open System.Net.Mail
 open Printf
 
-open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.Report
 
 module Mail =

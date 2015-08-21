@@ -1,8 +1,8 @@
 ﻿namespace Muffin.Pictures.Archiver
 
 open System.IO
-open System
-open Domain
+
+open Muffin.Pictures.Archiver.Domain
 
 module Files =
 

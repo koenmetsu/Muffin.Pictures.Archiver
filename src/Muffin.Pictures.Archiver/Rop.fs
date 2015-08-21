@@ -8,7 +8,7 @@ module Rop =
     | Failure of FailedMove<'a>
 
     let fail request reason =
-        Failure {FailedMove.Request = request; FailedMove.Reason = reason}
+        Failure {Request = request; Reason = reason}
 
     let bind switchFunction =
         function

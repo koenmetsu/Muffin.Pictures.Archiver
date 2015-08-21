@@ -1,9 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open Domain
-open Rop
-open Paths
-open Moves
+open Muffin.Pictures.Archiver.Domain
+open Muffin.Pictures.Archiver.Rop
 
 module FileSystem =
 

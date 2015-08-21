@@ -3,7 +3,6 @@
 open Nessos.UnionArgParser
 
 open Muffin.Pictures.Archiver.Domain
-open System
 
 module Arguments =
 

@@ -3,15 +3,12 @@
 open Muffin.Pictures.Archiver.Pictures
 open Muffin.Pictures.Archiver.FileMover
 open Muffin.Pictures.Archiver.Moves
-open Muffin.Pictures.Archiver.Paths
 open Muffin.Pictures.Archiver.Files
 open Muffin.Pictures.Archiver.TimeTakenRetriever
-open Muffin.Pictures.Archiver.Age
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.FileSystem
 open Muffin.Pictures.Archiver.Runner
 open Muffin.Pictures.Archiver.Arguments
-open Muffin.Pictures.Archiver.Rop
 
 let fsOperations = FileSystemOperations
 

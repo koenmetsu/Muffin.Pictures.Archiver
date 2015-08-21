@@ -1,9 +1,6 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.Report
-
-open System
 
 module ConsoleReporter =
 
