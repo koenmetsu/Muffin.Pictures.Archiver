@@ -4,7 +4,7 @@ open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.ConsoleReporter
 open Muffin.Pictures.Archiver.Report
-open Muffin.Pictures.Archiver.Mail
+open Muffin.Pictures.Archiver.MailReporter
 
 module Runner =
 

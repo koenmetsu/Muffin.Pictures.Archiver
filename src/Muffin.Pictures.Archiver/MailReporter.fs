@@ -5,7 +5,7 @@ open Printf
 
 open Muffin.Pictures.Archiver.Report
 
-module Mail =
+module MailReporter =
 
     let sendMail body mailTo =
         let msg = new MailMessage(mailTo, mailTo, @"Muffin Archiver Mail!", body)
