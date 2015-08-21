@@ -37,11 +37,14 @@ module Report =
         let reportOrNone onAny results =
             match results with
             | [] -> writer "None"
-            | xs -> xs |> List.iter (onAny >> writer)
+            | xs ->
+                xs |> List.iter (onAny >> writer)
 
         writer "Successes:"
+        writer (sprintf "%i files were successfully moved." report.Successes.Length)
         reportOrNone formatSuccess report.Successes
         writer ""
         writer "Failures:"
+        writer (sprintf "%i files could not be moved." report.Successes.Length)
         reportOrNone formatFailure report.Failures
         writer "Done archiving!"
