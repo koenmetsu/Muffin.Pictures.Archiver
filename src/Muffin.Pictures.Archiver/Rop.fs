@@ -1,11 +1,9 @@
 namespace Muffin.Pictures.Archiver
 
-open Muffin.Pictures.Archiver.Domain
-
 module Rop =
-    type Result<'a> =
-    | Success of 'a
-    | Failure of FailedMove<'a>
+    type Result<'success, 'failure> =
+    | Success of 'success
+    | Failure of 'failure
 
     let fail request reason =
         Failure {Request = request; Reason = reason}

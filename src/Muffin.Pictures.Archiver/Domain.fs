@@ -26,12 +26,8 @@ module Domain =
     | CouldNotCopyFile of string
     | CouldNotDeleteSource of string
 
-    type FailedMove<'a> = {Request:'a; Reason: FailureReason}
+    type FailedMove<'entity> = {Request:'entity; Reason: FailureReason}
     type SuccessfulMove = {Request:MoveRequest}
-
-    type Move =
-    | SuccessfulMove of SuccessfulMove
-    | FailedMove of FailedMove<MoveRequest>
 
     type RunnerArguments = {SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option}
 

@@ -11,7 +11,7 @@ module Runner =
     let moveRequests getMoveRequests arguments =
         getMoveRequests arguments.SourceDir arguments.DestinationDir
 
-    let move (moveWithFs:MoveRequest -> Result<MoveRequest>) (compareFiles:MoveRequest -> Result<MoveRequest>) (cleanUp:MoveRequest -> Result<MoveRequest>) =
+    let move moveWithFs compareFiles cleanUp =
         moveWithFs
         >=> compareFiles
         >=> cleanUp
