@@ -4,7 +4,7 @@ open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.Domain
 
 module Report =
-    type Report = {Successes : MoveRequest list; Failures : FailedMove<MoveRequest> list}
+    type Report = {Successes : MoveRequest list; Failures : Failure list}
 
     let private isSuccess move =
         match move with
@@ -24,13 +24,13 @@ module Report =
     let formatSuccess request =
         sprintf "%s -> %s" request.Source request.Destination
 
-    let formatFailure {Request = request; Reason = failure} =
+    let formatFailure failure =
         match failure with
-        | BytesDidNotMatch ->
+        | BytesDidNotMatch request ->
             sprintf "Reason: Bytes did not match in source and destination.\n%s -> %s" request.Source request.Destination
-        | CouldNotCopyFile msg ->
+        | CouldNotCopyFile {Request = request; Message = msg} ->
             sprintf "Reason: Could not copy file: %s.\n%s -> %s" msg request.Source request.Destination
-        | CouldNotDeleteSource msg ->
+        | CouldNotDeleteSource {Request = request; Message = msg} ->
             sprintf "Reason: Could not delete source file: %s.\n%s -> %s" msg request.Source request.Destination
 
     let reportTo report writer =

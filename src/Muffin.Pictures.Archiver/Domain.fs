@@ -20,13 +20,18 @@ module Domain =
             sprintf "%i-%02i" this.TakenOn.Year this.TakenOn.Month
 
     type MoveRequest = {Source:FilePath; Destination:FilePath}
+    type FailedMove = {Request:MoveRequest; Message : string}
 
-    type FailureReason =
-    | BytesDidNotMatch
-    | CouldNotCopyFile of string
-    | CouldNotDeleteSource of string
+    type Skip =
+    | FileHasNoTimeTaken of File
+    | PictureWasNotOldEnough of Picture
 
-    type FailedMove<'entity> = {Request:'entity; Reason: FailureReason}
+    type Failure =
+    | BytesDidNotMatch of MoveRequest
+    | CouldNotCopyFile of FailedMove
+    | CouldNotDeleteSource of FailedMove
+
+
     type SuccessfulMove = {Request:MoveRequest}
 
     type RunnerArguments = {SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option}

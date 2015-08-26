@@ -5,9 +5,6 @@ module Rop =
     | Success of 'success
     | Failure of 'failure
 
-    let fail request reason =
-        Failure {Request = request; Reason = reason}
-
     let bind switchFunction =
         function
         | Success s -> switchFunction s
