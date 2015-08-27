@@ -4,7 +4,7 @@ open System
 
 open Muffin.Pictures.Archiver.Pictures
 open Muffin.Pictures.Archiver.FileMover
-open Muffin.Pictures.Archiver.Moves
+open Muffin.Pictures.Archiver.MoveRequests
 open Muffin.Pictures.Archiver.Files
 open Muffin.Pictures.Archiver.TimeTakenRetriever
 open Muffin.Pictures.Archiver.Domain

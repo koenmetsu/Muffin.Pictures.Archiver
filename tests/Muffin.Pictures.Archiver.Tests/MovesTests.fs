@@ -9,7 +9,7 @@ open Muffin.Pictures.Archiver.Rop
 
 module MovesTests =
 
-    open Muffin.Pictures.Archiver.Moves;
+    open Muffin.Pictures.Archiver.MoveRequests;
 
     [<Fact>]
     let ``getMoveRequests returns the correct moves `` () =
