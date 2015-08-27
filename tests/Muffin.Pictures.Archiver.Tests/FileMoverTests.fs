@@ -56,4 +56,4 @@ module FileMoverTests =
         let move =
             moveFile copyToDestination moveRequest
 
-        test <@ Failure {Request = moveRequest; Reason = CouldNotCopyFile "File in use or something"} = move @>
+        test <@ Failure <| CouldNotCopyFile {Request = moveRequest; Message = "File in use or something"} = move @>

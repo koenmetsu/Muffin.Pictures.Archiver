@@ -16,11 +16,15 @@ module Runner =
         >=> compareFiles
         >=> cleanUp
 
+
     let runner move getMoveRequests arguments =
-        let report =
-            getMoveRequests arguments.SourceDir arguments.DestinationDir
+        let moveRequests : Result<MoveRequest, Skip> list = getMoveRequests arguments.SourceDir arguments.DestinationDir
+        let moveResults =
+            moveRequests
+            |> List.choose isSuccess
             |> List.map move
-            |> createReport
+
+        let report = createReport moveRequests moveResults
 
         reportToConsole report
 

@@ -221,7 +221,6 @@
     <Compile Include="Rop.fs" />
     <Compile Include="Report.fs" />
     <Compile Include="TimeTakenRetriever.fs" />
-    <Compile Include="Age.fs" />
     <Compile Include="Files.fs" />
     <Compile Include="Pictures.fs" />
     <Compile Include="AssemblyInfo.fs" />

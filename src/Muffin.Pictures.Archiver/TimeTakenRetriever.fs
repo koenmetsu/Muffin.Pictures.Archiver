@@ -3,7 +3,6 @@
 open System
 open System.Text.RegularExpressions
 
-
 open Muffin.Pictures.Archiver.Domain
 
 module TimeTakenRetriever =

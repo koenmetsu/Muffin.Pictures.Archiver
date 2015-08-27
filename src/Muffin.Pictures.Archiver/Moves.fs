@@ -1,7 +1,8 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open Domain
-open Paths
+open Muffin.Pictures.Archiver.Domain
+open Muffin.Pictures.Archiver.Paths
+open Muffin.Pictures.Archiver.Rop
 
 module Moves =
     let private getMoveRequest (picture: Picture) basePath =
@@ -13,6 +14,13 @@ module Moves =
 
         {Source=picture.File.FullPath; Destination=destination}
 
-    let getMoveRequests (getPictures:string -> List<Picture>) sourceDir destinationDir =
+    let getMoveRequests getPictures sourceDir destinationDir =
+        let toMoveRequest picture =
+            match picture with
+            | Success pic ->
+                let moveRequest = getMoveRequest pic destinationDir
+                Success moveRequest
+            | Failure f -> Failure f
+
         getPictures sourceDir
-        |> List.map (fun picture -> getMoveRequest picture destinationDir)
+        |> List.map toMoveRequest

@@ -5,10 +5,10 @@ open Xunit
 open Swensen.Unquote
 
 open Muffin.Pictures.Archiver.Domain
+open Muffin.Pictures.Archiver.Pictures
+open Muffin.Pictures.Archiver.Rop
 
 module AgeTests =
-
-    open Muffin.Pictures.Archiver.Age
 
     [<Fact>]
     let ``a picture is old when it is older than one month`` () =
@@ -20,7 +20,7 @@ module AgeTests =
 
         let timeProvider () = dateTimeOffset 2015 12 31
 
-        test <@ isOld timeProvider picture @>
+        test <@ isOld timeProvider picture = Success picture @>
 
     [<Fact>]
     let ``a picture is not old when it is older than one month`` () =
@@ -32,4 +32,4 @@ module AgeTests =
 
         let timeProvider () = dateTimeOffset 2014 12 31
 
-        test <@ not <| isOld timeProvider picture @>
+        test <@ isOld timeProvider picture = (Failure <| Skip.PictureWasNotOldEnough picture) @>
