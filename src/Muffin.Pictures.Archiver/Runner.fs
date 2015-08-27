@@ -8,9 +8,6 @@ open Muffin.Pictures.Archiver.MailReporter
 
 module Runner =
 
-    let moveRequests getMoveRequests arguments =
-        getMoveRequests arguments.SourceDir arguments.DestinationDir
-
     let move moveWithFs compareFiles cleanUp =
         moveWithFs
         >=> compareFiles
