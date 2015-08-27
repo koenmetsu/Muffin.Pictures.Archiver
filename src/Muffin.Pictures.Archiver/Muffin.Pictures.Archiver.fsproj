@@ -231,6 +231,7 @@
     <Compile Include="ConsoleReporter.fs" />
     <Compile Include="MailReporter.fs" />
     <Compile Include="Runner.fs" />
+    <Compile Include="CompositionRoot.fs" />
     <Compile Include="Program.fs" />
     <Content Include="smtp.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
