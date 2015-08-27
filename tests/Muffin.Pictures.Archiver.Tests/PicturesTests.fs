@@ -15,7 +15,7 @@ module PicturesTests =
         let file = stubFile
         let timeTakenRetriever = fun (_ : File) -> Some <| dateTimeOffset 2015 12 31
 
-        let expected = Success {File = file; TakenOn = dateTimeOffset 2015 12 31}
+        let expected = Success { File = file; TakenOn = dateTimeOffset 2015 12 31 }
 
         let actual = toPicture timeTakenRetriever file
 
@@ -26,8 +26,8 @@ module PicturesTests =
         let oldFile = stubFile
         let newFile = anotherStubFile
         let files (_:string) =
-                        seq [   oldFile
-                                newFile ]
+                        seq [ oldFile
+                              newFile ]
 
         let oldDate = dateTimeOffset 2014 12 01
         let newDate = dateTimeOffset 2014 12 31
@@ -42,7 +42,7 @@ module PicturesTests =
 
         let actual = List.ofSeq <| getOldPictures timeTakenRetriever timeProvider files "path"
         let expected : Result<Picture, Skip> list = [
-                                                        Success {File = oldFile; TakenOn = oldDate}
-                                                        Failure <| Skip.PictureWasNotOldEnough {File = newFile; TakenOn = newDate} ]
+                                                        Success { File = oldFile; TakenOn = oldDate }
+                                                        Failure <| Skip.PictureWasNotOldEnough { File = newFile; TakenOn = newDate } ]
 
         test <@ expected = actual @>

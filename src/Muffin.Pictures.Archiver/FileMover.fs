@@ -15,14 +15,14 @@ module FileMover =
             copyToDestination moveRequest
             Success moveRequest
         with
-        | ex -> CouldNotCopyFile {Request = moveRequest; Message = ex.Message} |> Failure
+        | ex -> CouldNotCopyFile { Request = moveRequest; Message = ex.Message } |> Failure
 
     let cleanUp deleteSource moveRequest =
         try
             deleteSource moveRequest
             Success moveRequest
         with
-        | ex -> CouldNotDeleteSource {Request = moveRequest; Message = ex.Message} |> Failure
+        | ex -> CouldNotDeleteSource { Request = moveRequest; Message = ex.Message } |> Failure
 
     let compareFiles readAllBytes moveRequest =
         let sourceStream = readAllBytes moveRequest.Source

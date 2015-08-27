@@ -33,4 +33,4 @@ module Arguments =
                 TimeTakenMode.Strict
         let mailTo = arguments.TryGetResult <@ MailTo @>
 
-        {SourceDir = sourceDir; DestinationDir = destinationDir; Mode = mode; MailTo = mailTo}
+        { SourceDir = sourceDir; DestinationDir = destinationDir; Mode = mode; MailTo = mailTo }

@@ -7,7 +7,7 @@ module Domain =
 
     type FilePath = string
 
-    type File = {FullPath:FilePath; Name:string}
+    type File = { FullPath:FilePath; Name:string }
 
     type TimeTakenMode =
         | Strict
@@ -15,12 +15,12 @@ module Domain =
 
     type TimeTaken = DateTimeOffset
 
-    type Picture = {File:File; TakenOn:TimeTaken} with
+    type Picture = { File:File; TakenOn:TimeTaken } with
         member this.formatTakenOn : string =
             sprintf "%i-%02i" this.TakenOn.Year this.TakenOn.Month
 
-    type MoveRequest = {Source:FilePath; Destination:FilePath}
-    type FailedMove = {Request:MoveRequest; Message : string}
+    type MoveRequest = { Source:FilePath; Destination:FilePath }
+    type FailedMove = { Request:MoveRequest; Message : string }
 
     type Skip =
         | FileHasNoTimeTaken of File
@@ -32,8 +32,8 @@ module Domain =
         | CouldNotDeleteSource of FailedMove
 
 
-    type SuccessfulMove = {Request:MoveRequest}
+    type SuccessfulMove = { Request:MoveRequest }
 
-    type RunnerArguments = {SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option}
+    type RunnerArguments = { SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option }
 
     let notNullOrEmpty = not << System.String.IsNullOrEmpty

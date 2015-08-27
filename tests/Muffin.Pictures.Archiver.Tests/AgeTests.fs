@@ -13,10 +13,8 @@ module AgeTests =
     [<Fact>]
     let ``a picture is old when it is older than one month`` () =
         let picture =
-            {
-                Picture.File = stubFile
-                TakenOn = dateTimeOffset 2014 12 1
-            }
+            { File = stubFile
+              TakenOn = dateTimeOffset 2014 12 1 }
 
         let timeProvider () = dateTimeOffset 2015 12 31
 
@@ -25,10 +23,8 @@ module AgeTests =
     [<Fact>]
     let ``a picture is not old when it is older than one month`` () =
         let picture =
-            {
-                Picture.File = stubFile
-                TakenOn = dateTimeOffset 2014 12 1
-            }
+            { File = stubFile
+              TakenOn = dateTimeOffset 2014 12 1 }
 
         let timeProvider () = dateTimeOffset 2014 12 31
 
