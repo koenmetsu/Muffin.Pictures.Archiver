@@ -223,9 +223,9 @@
     <Compile Include="Files.fs" />
     <Compile Include="Pictures.fs" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Paths.fs" />
-    <Compile Include="MoveRequests.fs" />
+    <Compile Include="FileSystem.fs" />
     <Compile Include="FileMover.fs" />
+    <Compile Include="MoveRequests.fs" />
     <Compile Include="Arguments.fs" />
     <Compile Include="Report.fs" />
     <Compile Include="ConsoleReporter.fs" />
