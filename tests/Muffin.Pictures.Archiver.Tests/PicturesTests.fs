@@ -6,6 +6,7 @@ open Swensen.Unquote
 
 open Muffin.Pictures.Archiver.Pictures
 open Muffin.Pictures.Archiver.Domain
+open Muffin.Pictures.Archiver.Rop
 
 module PicturesTests =
 
@@ -14,7 +15,7 @@ module PicturesTests =
         let file = stubFile
         let timeTakenRetriever = fun (_ : File) -> Some <| dateTimeOffset 2015 12 31
 
-        let expected = Some {File = file; TakenOn = dateTimeOffset 2015 12 31}
+        let expected = Success {File = file; TakenOn = dateTimeOffset 2015 12 31}
 
         let actual = toPicture timeTakenRetriever file
 
@@ -24,10 +25,12 @@ module PicturesTests =
     let ``getOldPictures returns only pictures older than 1 month`` () =
         let oldFile = stubFile
         let newFile = anotherStubFile
-        let files _ = seq [ oldFile
-                            newFile ]
+        let files (_:string) =
+                        seq [   oldFile
+                                newFile ]
 
         let oldDate = dateTimeOffset 2014 12 01
+        let newDate = dateTimeOffset 2014 12 31
 
         let timeTakenRetriever file =
             if file = oldFile then
@@ -38,6 +41,8 @@ module PicturesTests =
         let timeProvider () = dateTimeOffset 2015 01 05
 
         let actual = List.ofSeq <| getOldPictures timeTakenRetriever timeProvider files "path"
-        let expected = [ {File = oldFile; TakenOn = oldDate} ]
+        let expected : Result<Picture, Skip> list = [
+                                                        Success {File = oldFile; TakenOn = oldDate}
+                                                        Failure <| Skip.PictureWasNotOldEnough {File = newFile; TakenOn = newDate} ]
 
         test <@ expected = actual @>

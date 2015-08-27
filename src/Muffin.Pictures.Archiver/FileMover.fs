@@ -42,14 +42,14 @@ module FileMover =
             copyToDestination moveRequest
             Success moveRequest
         with
-        | ex -> CouldNotCopyFile ex.Message |> fail moveRequest
+        | ex -> CouldNotCopyFile {Request = moveRequest; Message = ex.Message} |> Failure
 
     let cleanUp deleteSource moveRequest =
         try
             deleteSource moveRequest
             Success moveRequest
         with
-        | ex -> CouldNotDeleteSource ex.Message |> fail moveRequest
+        | ex -> CouldNotDeleteSource {Request = moveRequest; Message = ex.Message} |> Failure
 
     let compareFiles readAllBytes moveRequest =
         let sourceStream = readAllBytes moveRequest.Source
@@ -57,7 +57,7 @@ module FileMover =
         if sourceStream = destinationStream then
             Success moveRequest
         else
-            BytesDidNotMatch |> fail moveRequest
+            BytesDidNotMatch moveRequest |> Failure
 
     let copyToDestination ensureDirectoryExists copy moveRequest =
         ensureDirectoryExists moveRequest.Destination
