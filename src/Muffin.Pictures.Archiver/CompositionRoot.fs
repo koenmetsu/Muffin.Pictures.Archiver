@@ -10,8 +10,6 @@ open Muffin.Pictures.Archiver.TimeTakenRetriever
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.FileSystem
 
-open Muffin.Pictures.Archiver.Runner
-
 module CompositionRoot =
 
     let fsOperations = FileSystemOperations

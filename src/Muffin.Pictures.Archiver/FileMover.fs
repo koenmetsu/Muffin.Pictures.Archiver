@@ -37,6 +37,11 @@ module FileSystem =
 
 module FileMover =
 
+    let move moveWithFs compareFiles cleanUp =
+        moveWithFs
+        >=> compareFiles
+        >=> cleanUp
+
     let moveFile copyToDestination moveRequest =
         try
             copyToDestination moveRequest

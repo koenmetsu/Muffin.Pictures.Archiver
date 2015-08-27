@@ -1,18 +1,11 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.ConsoleReporter
 open Muffin.Pictures.Archiver.Report
 open Muffin.Pictures.Archiver.MailReporter
 
 module Runner =
-
-    let move moveWithFs compareFiles cleanUp =
-        moveWithFs
-        >=> compareFiles
-        >=> cleanUp
-
 
     let runner move getMoveRequests arguments =
         let moveRequests = getMoveRequests arguments.SourceDir arguments.DestinationDir
