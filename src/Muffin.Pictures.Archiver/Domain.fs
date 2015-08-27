@@ -10,8 +10,8 @@ module Domain =
     type File = {FullPath:FilePath; Name:string}
 
     type TimeTakenMode =
-    | Strict
-    | Fallback
+        | Strict
+        | Fallback
 
     type TimeTaken = DateTimeOffset
 
@@ -23,13 +23,13 @@ module Domain =
     type FailedMove = {Request:MoveRequest; Message : string}
 
     type Skip =
-    | FileHasNoTimeTaken of File
-    | PictureWasNotOldEnough of Picture
+        | FileHasNoTimeTaken of File
+        | PictureWasNotOldEnough of Picture
 
     type Failure =
-    | BytesDidNotMatch of MoveRequest
-    | CouldNotCopyFile of FailedMove
-    | CouldNotDeleteSource of FailedMove
+        | BytesDidNotMatch of MoveRequest
+        | CouldNotCopyFile of FailedMove
+        | CouldNotDeleteSource of FailedMove
 
 
     type SuccessfulMove = {Request:MoveRequest}
