@@ -20,7 +20,7 @@ module TimeTakenRetriever =
         | _ -> let dateTaken = r.Replace(strDate, "-", 2)
                DateTimeOffset.Parse(dateTaken)
 
-    let private timeTakenFromPath timeTakenMode (path : string) =
+    let private timeTakenFromPath timeTakenMode path =
         ExifToolLib.ExifToolIO.Initiailize() |> ignore // todo;
         let fileTagValues = ExifToolVBNetDemo.FileTagValues(path, [|"XMP-xmp:CreateDate";"ExifIFD:CreateDate"|])
 
@@ -37,5 +37,5 @@ module TimeTakenRetriever =
                 | Fallback ->
                     Some <| DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
 
-    let timeTaken timeTakenMode (file : File) =
+    let timeTaken timeTakenMode file =
         timeTakenFromPath timeTakenMode file.FullPath

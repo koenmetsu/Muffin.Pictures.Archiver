@@ -18,7 +18,7 @@ module Runner =
 
 
     let runner move getMoveRequests arguments =
-        let moveRequests : Result<MoveRequest, Skip> list = getMoveRequests arguments.SourceDir arguments.DestinationDir
+        let moveRequests = getMoveRequests arguments.SourceDir arguments.DestinationDir
         let moveResults =
             moveRequests
             |> List.choose isSuccess

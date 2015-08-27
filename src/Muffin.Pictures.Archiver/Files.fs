@@ -6,7 +6,7 @@ open Muffin.Pictures.Archiver.Domain
 
 module Files =
 
-    let allFilesInPath path : seq<File> =
+    let allFilesInPath path =
         let createFileInfo filePath =
             FileInfo filePath
 
