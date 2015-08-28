@@ -6,14 +6,24 @@
 (**
 Muffin.Pictures.Archiver
 ======================
+##### Small bit of context
 
 > Archiver - *pet project that archives pictures based on their date taken.*
 >
 > Pictures - *what it's supposed to be used for*.<br />
 >
-> Muffin - *the name of our NAS (wife got to choose the name).*
+> Muffin - *the name of our NAS, where I'll run this application (wife got to choose the name).*
 
-Archiver takes a folder with pictures, and tries to organize them by date taken.
+ Muffin.Pictures.Archiver is my personal learning project for:
+
+- F#
+- ProjectScaffold
+- OctopusDeploy
+- Mono
+
+---
+
+Archiver takes a folder with pictures, and tries to organize the pictures by date taken.
 
 Archiver tries to find out when a pictures was taken based on the picture's ``XMP-xmp:CreateDate`` or ``ExifIFD:CreateDate`` tag, and moves them to folders based on the year-month.
 
@@ -67,7 +77,7 @@ the project and submit pull requests. If you're adding a new public API, please 
 consider adding [samples][content] that can be turned into a documentation. You might
 also want to read the [library design notes][readme] to understand how it works.
 
-The library is available under Public Domain license, which allows modification and
+The application is available under Public Domain license, which allows modification and
 redistribution for both commercial and non-commercial purposes. For more information see the
 [License file][license] in the GitHub repository.
 
