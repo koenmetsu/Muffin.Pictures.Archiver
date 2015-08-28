@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Archiver for Muffin's pictures"/>
+    <meta name="author" content="Koen Metsu"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/Muffin.Pictures.Archiver/content/style.css" />
+    <script type="text/javascript" src="/Muffin.Pictures.Archiver/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/koenmetsu/Muffin.Pictures.Archiver">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/Muffin.Pictures.Archiver/index.html">Muffin.Pictures.Archiver</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h2><a name="Configuration" class="anchor" href="#Configuration">Configuration</a></h2>
+
+<p>The Archiver can be configured with the following settings, either through command line parameters or through the <code>Muffin.Pictures.Archiver.config</code>.
+However, command line parameters have precedence over XML configuration.</p>
+
+<p><em>Through config:</em></p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">appSettings</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">add</span> <span class="o">key</span><span class="k">="sourceDir"</span> <span class="o">value</span><span class="k">="d:\temp\pictures-inbox"</span><span class="k">/&gt;</span>
+    <span class="k">&lt;</span><span class="i">add</span> <span class="o">key</span><span class="k">="destinationDir"</span> <span class="o">value</span><span class="k">="d:\pictures-final"</span><span class="k">/&gt;</span>
+    <span class="k">&lt;</span><span class="i">add</span> <span class="o">key</span><span class="k">="fallback"</span> <span class="o">value</span><span class="k">="true"</span><span class="k">/&gt;</span>
+    <span class="k">&lt;</span><span class="i">add</span> <span class="o">key</span><span class="k">="mailto"</span> <span class="o">value</span><span class="k">="foo@dog.com"</span><span class="k">/&gt;</span>
+<span class="k">&lt;/</span><span class="i">appSettings</span><span class="k">&gt;</span></code></pre></td></tr></table>
+
+<p><em>Through the command line:</em></p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="console">Muffin.Pictures.Archiver.exe --sourcedir d:\temp\pictures-inbox --destinationdir d:\pictures-final --fallback --mailto foo@dog.com
+</code></pre></td></tr></table>
+
+<h4><a name="SourceDir" class="anchor" href="#SourceDir">SourceDir</a></h4>
+
+<p><strong>Mandatory</strong></p>
+
+<p>The directory from where to move the files.</p>
+
+<h4><a name="DestinationDir" class="anchor" href="#DestinationDir">DestinationDir</a></h4>
+
+<p><strong>Mandatory</strong></p>
+
+<p>The directory where the files will be archived into folders by date.</p>
+
+<h4><a name="Fallback" class="anchor" href="#Fallback">Fallback</a></h4>
+
+<p>Set this flag if you want the Archiver to look at the <code>Date Modified</code> if it can't find the correct EXIF tag.</p>
+
+<p><strong>NOTE: Enabling Fallback will also move any other file type, ie: not only pictures.</strong></p>
+
+<h4><a name="MailTo" class="anchor" href="#MailTo">MailTo</a></h4>
+
+<p>Set this if you want to send an email report of the archival process.</p>
+
+<p><strong>NOTE: This will require you to configure smtp in the <code>smtp.config</code> file.</strong></p>
+
+
+        </div>
+        <div class="span3">
+          <!-- <img src="/Muffin.Pictures.Archiver/img/logo.png" alt="F# Project" style="width:150px;margin:10px" /> -->
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">Muffin.Pictures.Archiver</li>
+            <li><a href="/Muffin.Pictures.Archiver/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://github.com/koenmetsu/Muffin.Pictures.Archiver">Source Code on GitHub</a></li>
+            <li><a href="/Muffin.Pictures.Archiver/license.html">License</a></li>
+            <li><a href="/Muffin.Pictures.Archiver/release-notes.html">Release Notes</a></li>
+
+            <li class="nav-header">Getting started</li>
+            <li><a href="/Muffin.Pictures.Archiver/running.html">Running the application</a></li>
+            <li><a href="/Muffin.Pictures.Archiver/configuration.html">Configuration</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/Muffin.Pictures.Archiver/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/koenmetsu/Muffin.Pictures.Archiver"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
