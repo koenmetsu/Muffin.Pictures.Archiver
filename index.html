@@ -24,6 +24,7 @@
     <div class="container">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
+          <li><a href="http://koenmetsu.com">koenmetsu.com</a></li>
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/koenmetsu/Muffin.Pictures.Archiver">github page</a></li>
         </ul>
@@ -35,15 +36,28 @@
           
 <h1><a name="Muffin-Pictures-Archiver" class="anchor" href="#Muffin-Pictures-Archiver">Muffin.Pictures.Archiver</a></h1>
 
+<h5><a name="Small-bit-of-context" class="anchor" href="#Small-bit-of-context">Small bit of context</a></h5>
+
 <blockquote>
   <p>Archiver - <em>pet project that archives pictures based on their date taken.</em></p>
 
   <p>Pictures - <em>what it's supposed to be used for</em>.<br /></p>
 
-  <p>Muffin - <em>the name of our NAS (wife got to choose the name).</em></p>
+  <p>Muffin - <em>the name of our NAS, where I'll run this application (wife got to choose the name).</em></p>
 </blockquote>
 
-<p>Archiver takes a folder with pictures, and tries to organize them by date taken.</p>
+<p>Muffin.Pictures.Archiver is my personal learning project for:</p>
+
+<ul>
+<li>F#</li>
+<li>ProjectScaffold</li>
+<li>OctopusDeploy</li>
+<li>Mono</li>
+</ul>
+
+<hr />
+
+<p>Archiver takes a folder with pictures, and tries to organize the pictures by date taken.</p>
 
 <p>Archiver tries to find out when a pictures was taken based on the picture's <code>XMP-xmp:CreateDate</code> or <code>ExifIFD:CreateDate</code> tag, and moves them to folders based on the year-month.</p>
 
@@ -117,7 +131,7 @@ the project and submit pull requests. If you're adding a new public API, please 
 consider adding <a href="https://github.com/koenmetsu/Muffin.Pictures.Archiver/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
 also want to read the <a href="https://github.com/koenmetsu/Muffin.Pictures.Archiver/blob/master/README.md">library design notes</a> to understand how it works.</p>
 
-<p>The library is available under Public Domain license, which allows modification and
+<p>The application is available under Public Domain license, which allows modification and
 redistribution for both commercial and non-commercial purposes. For more information see the
 <a href="https://github.com/koenmetsu/Muffin.Pictures.Archiver/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
 
