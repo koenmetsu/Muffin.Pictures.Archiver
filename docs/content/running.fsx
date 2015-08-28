@@ -11,8 +11,6 @@ Build the application with ``build.cmd`` (Windows) or ``build.sh`` (Mono).
 
 #### Setting a source and destination directory
 
-SourceDir and
-
 ```text
     Muffin.Pictures.Archiver.exe --sourcedir c:\temp --destinationdir c:\temp\destination --fallback --mailto foo@dog.com
 ```
