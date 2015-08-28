@@ -12,4 +12,4 @@ module Files =
 
         Directory.EnumerateFiles path
         |> Seq.map createFileInfo
-        |> Seq.map (fun fileInfo -> {FullPath=fileInfo.FullName; Name=fileInfo.Name})
+        |> Seq.map (fun fileInfo -> { FullPath=fileInfo.FullName; Name=fileInfo.Name })

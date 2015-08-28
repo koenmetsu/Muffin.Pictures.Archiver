@@ -38,7 +38,7 @@ module FileMoverTests =
 
     [<Fact>]
     let ``when the move was successful, it returns a successful move`` () =
-        let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
+        let moveRequest = { Source = "source"; Destination = "destination" }
         let copyToDestination _ = ()
 
         let move =
@@ -51,9 +51,9 @@ module FileMoverTests =
         let compareFiles _ = false
         let copyToDestination _ = failwith "File in use or something"
 
-        let moveRequest = {MoveRequest.Source = "source"; Destination = "destination"}
+        let moveRequest = { Source = "source"; Destination = "destination" }
 
         let move =
             moveFile copyToDestination moveRequest
 
-        test <@ Failure <| CouldNotCopyFile {Request = moveRequest; Message = "File in use or something"} = move @>
+        test <@ Failure <| CouldNotCopyFile { Request = moveRequest; Message = "File in use or something" } = move @>

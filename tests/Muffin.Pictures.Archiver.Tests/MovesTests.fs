@@ -15,11 +15,9 @@ module MovesTests =
     let ``getMoveRequests returns the correct moves `` () =
         let getPictures _ =
                 [
-                    Success {
-                              Picture.File = { FullPath = @"c:\path\to\originDir\pic.jpg"; File.Name = "pic.jpg" };
+                    Success { File = { FullPath = @"c:\path\to\originDir\pic.jpg"; File.Name = "pic.jpg" };
                               TakenOn = dateTimeOffset 2014 01 01 }
-                    Success {
-                              Picture.File = { FullPath = @"c:\path\to\originDir\pic2.jpg"; File.Name = "pic2.jpg" };
+                    Success { File = { FullPath = @"c:\path\to\originDir\pic2.jpg"; File.Name = "pic2.jpg" };
                               TakenOn = dateTimeOffset 2014 12 31 }
                 ]
 
