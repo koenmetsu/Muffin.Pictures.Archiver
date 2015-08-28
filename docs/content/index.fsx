@@ -23,7 +23,7 @@ Getting started
 -------
 See how to [build and run the application](running.html).
 
-See how to [configure the application](configure.html).
+See how to [configure the application](configuration.html).
 
 Example
 -------
