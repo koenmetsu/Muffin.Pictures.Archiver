@@ -26,9 +26,9 @@ module Report =
     let formatSkippedFile skipReason =
         match skipReason with
         | FileHasNoTimeTaken file ->
-            sprintf "Reason: File has no time taken.\n\t%s" file.Name
+            sprintf "Reason: File %s has no time taken." file.Name
         | PictureWasNotOldEnough pic ->
-            sprintf "Reason: Picture was not old enough.\n\t%s at %s" pic.File.Name (pic.TakenOn.ToString("yyyy-MM-dd"))
+            sprintf "Reason: Picture %s was not old enough, taken on %s." pic.File.Name (pic.TakenOn.ToString("yyyy-MM-dd"))
 
     let formatSuccess request =
         sprintf "\t%s -> %s" request.Source request.Destination
