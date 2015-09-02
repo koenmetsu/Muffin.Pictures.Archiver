@@ -82,17 +82,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
-    <None Include="exiftool.exe">
+    <None Include="..\..\lib\exiftool.exe">
+      <Link>exiftool.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ExifToolIO">
-      <HintPath>..\..\lib\ExifToolIO.dll</HintPath>
-    </Reference>
-    <Reference Include="ExifToolVBNetDemo">
-      <HintPath>..\..\lib\ExifToolVBNetDemo.exe</HintPath>
-    </Reference>
     <Reference Include="ExiftoolWrapper">
       <HintPath>..\..\lib\ExiftoolWrapper.dll</HintPath>
     </Reference>
