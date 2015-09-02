@@ -32,7 +32,7 @@ module PicturesTests =
         let oldDate = dateTimeOffset 2014 12 01
         let newDate = dateTimeOffset 2014 12 31
 
-        let timeTakenRetriever file =
+        let timeTakenRetriever _ file =
             if file = oldFile then
                 Some oldDate
             else

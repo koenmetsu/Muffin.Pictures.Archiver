@@ -23,9 +23,16 @@ module Pictures =
         else
             Failure <| Skip.PictureWasNotOldEnough picture
 
-    let getOldPictures timeTakenRetriever timeProvider filesProvider wrapper path =
+    let getOldPictures timeTakenRetriever timeProvider filesProvider path =
+        use wrapper = new BBCSharp.ExifToolWrapper("exiftool.exe")
+        wrapper.Start()
+        let tagProvider =
+            (function path ->
+                            wrapper.FetchExifFrom path
+                            |> Seq.map (fun kvp -> (kvp.Key, kvp.Value)))
+
         let toOldPicture =
-            toPicture (timeTakenRetriever wrapper)
+            toPicture (timeTakenRetriever tagProvider)
             >=> (isOld timeProvider)
 
         filesProvider path

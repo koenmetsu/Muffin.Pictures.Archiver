@@ -29,10 +29,8 @@ module TimeTakenRetriever =
                                 | _ -> None)
 
 
-    let private timeTakenFromPath timeTakenMode (wrapper:BBCSharp.ExifToolWrapper) path =
-        let fileTagValues =
-            wrapper.FetchExifFrom path
-            |> Seq.map (fun kvp -> (kvp.Key, kvp.Value))
+    let private timeTakenFromPath timeTakenMode tagProvider path =
+        let fileTagValues = tagProvider path
 
         let findTagFunctions = [   findExifCreateDate
                                    findXmpCreateDate]
@@ -48,5 +46,5 @@ module TimeTakenRetriever =
                 | Fallback ->
                     Some <| DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
 
-    let timeTaken timeTakenMode wrapper file =
-        timeTakenFromPath timeTakenMode wrapper file.FullPath
+    let timeTaken timeTakenMode tagProvider file =
+        timeTakenFromPath timeTakenMode tagProvider file.FullPath
