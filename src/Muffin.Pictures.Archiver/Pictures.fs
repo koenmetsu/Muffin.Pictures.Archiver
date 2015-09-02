@@ -24,7 +24,9 @@ module Pictures =
             Failure <| Skip.PictureWasNotOldEnough picture
 
     let getOldPictures timeTakenRetriever timeProvider filesProvider path =
-        use wrapper = new BBCSharp.ExifToolWrapper("exiftool.exe")
+        let assembly = System.Reflection.Assembly.GetExecutingAssembly()
+        let binLocation = System.IO.Path.GetDirectoryName(assembly.FullName)
+        use wrapper = new BBCSharp.ExifToolWrapper(System.IO.Path.Combine(binLocation, "exiftool.exe"))
         wrapper.Start()
         let tagProvider =
             (function path ->
