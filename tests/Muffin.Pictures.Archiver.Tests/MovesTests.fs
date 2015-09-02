@@ -1,7 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver.Tests
 
 open TestHelpers
-open Xunit
+open NUnit.Framework
 open Swensen.Unquote
 
 open Muffin.Pictures.Archiver.Domain
@@ -11,22 +11,22 @@ module MovesTests =
 
     open Muffin.Pictures.Archiver.MoveRequests;
 
-    [<Fact>]
+    [<Test>]
     let ``getMoveRequests returns the correct moves `` () =
         let getPictures _ =
                 [
-                    Success { File = { FullPath = @"c:\path\to\originDir\pic.jpg"; File.Name = "pic.jpg" };
+                    Success { File = { FullPath = @"/path/to/originDir/pic.jpg"; File.Name = "pic.jpg" };
                               TakenOn = dateTimeOffset 2014 01 01 }
-                    Success { File = { FullPath = @"c:\path\to\originDir\pic2.jpg"; File.Name = "pic2.jpg" };
+                    Success { File = { FullPath = @"/path/to/originDir/pic2.jpg"; File.Name = "pic2.jpg" };
                               TakenOn = dateTimeOffset 2014 12 31 }
                 ]
 
-        let actual = getMoveRequests getPictures "" @"c:\path\to\destinationDir" |> List.ofSeq
+        let actual = getMoveRequests getPictures "" @"/path/to/destinationDir" |> List.ofSeq
         let expected : Result<MoveRequest,Failure> list =
             [
-                    Success { Source = @"c:\path\to\originDir\pic.jpg";
-                              Destination = @"c:\path\to\destinationDir\2014-01\pic.jpg" }
-                    Success { Source = @"c:\path\to\originDir\pic2.jpg";
-                              Destination = @"c:\path\to\destinationDir\2014-12\pic2.jpg" }
+                    Success { Source = @"/path/to/originDir/pic.jpg";
+                              Destination = System.String.Format(@"/path/to/destinationDir{0}2014-01{0}pic.jpg", System.IO.Path.DirectorySeparatorChar) }
+                    Success { Source = @"/path/to/originDir/pic2.jpg";
+                              Destination = System.String.Format(@"/path/to/destinationDir{0}2014-12{0}pic2.jpg", System.IO.Path.DirectorySeparatorChar) }
             ]
         test <@ expected = actual @>

@@ -1,14 +1,14 @@
 namespace Muffin.Pictures.Archiver.Tests
 
 open TestHelpers
-open Xunit
+open NUnit.Framework
 open Swensen.Unquote
 
 open Muffin.Pictures.Archiver.Domain
 
 module DomainTests =
 
-    [<Fact>]
+    [<Test>]
     let ``Picture.formatToken with two-digit month returns unpadded month`` () =
         let picture =
             {
@@ -18,7 +18,7 @@ module DomainTests =
 
         test <@ picture.formatTakenOn = "2014-12" @>
 
-    [<Fact>]
+    [<Test>]
     let ``Picture.formatToken with single digit month returns zero-padded month`` () =
         let picture =
             {

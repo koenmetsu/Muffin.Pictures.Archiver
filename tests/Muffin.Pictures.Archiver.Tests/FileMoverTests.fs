@@ -1,7 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver.Tests
 
 open Swensen.Unquote;
-open Xunit;
+open NUnit.Framework;
 
 open Muffin.Pictures.Archiver.Tests.TestHelpers
 open Muffin.Pictures.Archiver.Domain
@@ -12,7 +12,9 @@ module FileMoverTests =
     open Muffin.Pictures.Archiver.FileMover
     open Muffin.Pictures.Archiver.FileSystem
 
-    [<Fact>]
+    let copyToDestination _ = ()
+
+    [<Test>]
     let ``when directory does not exist, it gets created`` () =
         let directoryExists _ = false
         let mutable createDirectoryCalls = []
@@ -24,7 +26,7 @@ module FileMoverTests =
 
         test <@ ["c:\some\path"] = createDirectoryCalls @>
 
-    [<Fact>]
+    [<Test>]
     let ``when directory exists, it does not get created`` () =
         let directoryExists _ = true
         let mutable createDirectoryCalls = []
@@ -36,7 +38,7 @@ module FileMoverTests =
 
         test <@ List.isEmpty createDirectoryCalls @>
 
-    [<Fact>]
+    [<Test>]
     let ``when the move was successful, it returns a successful move`` () =
         let moveRequest = { Source = "source"; Destination = "destination" }
         let copyToDestination _ = ()
@@ -46,7 +48,7 @@ module FileMoverTests =
 
         test <@ Success moveRequest = move @>
 
-    [<Fact>]
+    [<Test>]
     let ``when the move was NOT successful, it returns a failed move with a failure reason`` () =
         let compareFiles _ = false
         let copyToDestination _ = failwith "File in use or something"

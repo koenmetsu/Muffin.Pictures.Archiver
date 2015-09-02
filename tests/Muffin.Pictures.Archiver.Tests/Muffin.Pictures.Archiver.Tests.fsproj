@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Muffin.Pictures.Archiver.Tests</RootNamespace>
     <AssemblyName>Muffin.Pictures.Archiver.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>Muffin.Pictures.Archiver.Tests</Name>
     <TargetFrameworkProfile />
@@ -90,6 +90,13 @@
       <Project>{3b1a10cf-1e23-481a-ba86-ed83b9c46fdb}</Project>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">

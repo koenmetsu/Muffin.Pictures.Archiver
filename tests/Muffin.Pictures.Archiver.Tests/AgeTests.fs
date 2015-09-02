@@ -1,7 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver.Tests
 
 open TestHelpers
-open Xunit
+open NUnit.Framework
 open Swensen.Unquote
 
 open Muffin.Pictures.Archiver.Domain
@@ -10,7 +10,7 @@ open Muffin.Pictures.Archiver.Rop
 
 module AgeTests =
 
-    [<Fact>]
+    [<Test>]
     let ``a picture is old when it is older than one month`` () =
         let picture =
             { File = stubFile
@@ -20,7 +20,7 @@ module AgeTests =
 
         test <@ isOld timeProvider picture = Success picture @>
 
-    [<Fact>]
+    [<Test>]
     let ``a picture is not old when it is older than one month`` () =
         let picture =
             { File = stubFile

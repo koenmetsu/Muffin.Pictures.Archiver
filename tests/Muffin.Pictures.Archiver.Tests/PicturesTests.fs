@@ -1,7 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver.Tests
 
 open TestHelpers
-open Xunit
+open NUnit.Framework
 open Swensen.Unquote
 
 open Muffin.Pictures.Archiver.Pictures
@@ -10,7 +10,7 @@ open Muffin.Pictures.Archiver.Rop
 
 module PicturesTests =
 
-    [<Fact>]
+    [<Test>]
     let ``toPicture returns Picture with same File and timeTaken provided by timeTakenRetriever`` () =
         let file = stubFile
         let timeTakenRetriever = fun (_ : File) -> Some <| dateTimeOffset 2015 12 31
@@ -21,7 +21,7 @@ module PicturesTests =
 
         test <@ expected = actual @>
 
-    [<Fact>]
+    [<Test>]
     let ``getOldPictures returns only pictures older than 1 month`` () =
         let oldFile = stubFile
         let newFile = anotherStubFile
