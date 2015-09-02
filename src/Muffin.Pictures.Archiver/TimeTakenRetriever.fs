@@ -4,15 +4,11 @@ open System
 open System.Text.RegularExpressions
 
 open Muffin.Pictures.Archiver.Domain
+open Muffin.Pictures.Archiver.Rop
 
 module TimeTakenRetriever =
 
     let private r = new Regex(":")
-
-    let private tryGetPrintValue (tagValue:ExifToolVBNetDemo.TagValue) =
-        match tagValue.PrintValue with
-            | [||] | null -> None
-            | printValue -> Seq.tryFind (fun pValue -> notNullOrEmpty pValue) printValue
 
     let private parseDate strDate =
         match DateTimeOffset.TryParse(strDate) with
@@ -20,25 +16,37 @@ module TimeTakenRetriever =
         | _ -> let dateTaken = r.Replace(strDate, "-", 2)
                DateTimeOffset.Parse(dateTaken)
 
-    let private timeTakenFromPath timeTakenMode path =
-        try
-            ExifToolLib.ExifToolIO.Initiailize() |> ignore // todo;
-            let fileTagValues = ExifToolVBNetDemo.FileTagValues(path, [|"XMP-xmp:CreateDate";"ExifIFD:CreateDate"|])
+    let findExifCreateDate tags =
+        tags |> Seq.tryPick (fun tag ->
+                                match fst(tag) with
+                                | "Date/Time Original" -> Some (snd tag)
+                                | _ -> None)
 
-            fileTagValues.TagValueList
-            |> Seq.cast
-            |> Seq.tryPick tryGetPrintValue
-            |> function
-                | Some x ->
-                    Some <| parseDate x
-                | None ->
-                    match timeTakenMode with
-                    | Strict ->
-                        None
-                    | Fallback ->
-                        Some <| DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
-        finally
-            ExifToolLib.ExifToolIO.Close() |> ignore
+    let findXmpCreateDate tags =
+        tags |> Seq.tryPick (fun tag ->
+                                match fst(tag) with
+                                | "Create Date" -> Some (snd tag)
+                                | _ -> None)
 
-    let timeTaken timeTakenMode file =
-        timeTakenFromPath timeTakenMode file.FullPath
+
+    let private timeTakenFromPath timeTakenMode (wrapper:BBCSharp.ExifToolWrapper) path =
+        let fileTagValues =
+            wrapper.FetchExifFrom path
+            |> Seq.map (fun kvp -> (kvp.Key, kvp.Value))
+
+        let findTagFunctions = [   findExifCreateDate
+                                   findXmpCreateDate]
+        findTagFunctions
+        |> List.tryPick (fun findTag -> findTag fileTagValues)
+        |> function
+            | Some x ->
+                Some <| parseDate x
+            | None ->
+                match timeTakenMode with
+                | Strict ->
+                    None
+                | Fallback ->
+                    Some <| DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
+
+    let timeTaken timeTakenMode wrapper file =
+        timeTakenFromPath timeTakenMode wrapper file.FullPath

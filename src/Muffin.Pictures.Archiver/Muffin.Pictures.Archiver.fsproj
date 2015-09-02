@@ -82,6 +82,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
+    <None Include="exiftool.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ExifToolIO">
@@ -89,6 +92,9 @@
     </Reference>
     <Reference Include="ExifToolVBNetDemo">
       <HintPath>..\..\lib\ExifToolVBNetDemo.exe</HintPath>
+    </Reference>
+    <Reference Include="ExiftoolWrapper">
+      <HintPath>..\..\lib\ExiftoolWrapper.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

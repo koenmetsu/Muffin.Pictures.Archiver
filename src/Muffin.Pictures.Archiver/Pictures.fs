@@ -23,9 +23,9 @@ module Pictures =
         else
             Failure <| Skip.PictureWasNotOldEnough picture
 
-    let getOldPictures timeTakenRetriever timeProvider filesProvider path =
+    let getOldPictures timeTakenRetriever timeProvider filesProvider wrapper path =
         let toOldPicture =
-            toPicture timeTakenRetriever
+            toPicture (timeTakenRetriever wrapper)
             >=> (isOld timeProvider)
 
         filesProvider path
