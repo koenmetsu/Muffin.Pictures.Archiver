@@ -2,6 +2,7 @@ source https://nuget.org/api/v2
 
 nuget FSharp.Formatting
 nuget FAKE
+nuget Microsoft.VisualBasic
 nuget NUnit.Runners
 nuget SourceLink.Fake
 nuget UnionArgParser
