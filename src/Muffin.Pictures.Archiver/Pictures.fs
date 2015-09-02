@@ -28,13 +28,9 @@ module Pictures =
         let binLocation = System.IO.Path.GetDirectoryName(assembly.FullName)
         use wrapper = new BBCSharp.ExifToolWrapper(System.IO.Path.Combine(binLocation, "exiftool.exe"))
         wrapper.Start()
-        let tagProvider =
-            (function path ->
-                            wrapper.FetchExifFrom path
-                            |> Seq.map (fun kvp -> (kvp.Key, kvp.Value)))
 
         let toOldPicture =
-            toPicture (timeTakenRetriever tagProvider)
+            toPicture (timeTakenRetriever wrapper)
             >=> (isOld timeProvider)
 
         filesProvider path

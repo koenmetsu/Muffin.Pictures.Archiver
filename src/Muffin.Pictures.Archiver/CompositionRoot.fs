@@ -27,7 +27,7 @@ module CompositionRoot =
 
     let composeGetPictures arguments =
         let timeProvider () = DateTimeOffset.UtcNow
-        let timeTakenProvider = timeTaken arguments.Mode
+        let timeTakenProvider = timeTaken arguments.Mode tagProvider
         getOldPictures timeTakenProvider timeProvider allFilesInPath
 
     let composeMove =
