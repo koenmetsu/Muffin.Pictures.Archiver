@@ -3,3 +3,4 @@ xunit
 xunit.runner.visualstudio
 xunit.runner.console
 nunit
+FSharp.Data
