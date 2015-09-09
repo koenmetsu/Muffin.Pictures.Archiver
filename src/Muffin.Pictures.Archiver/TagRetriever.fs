@@ -1,16 +1,13 @@
-﻿namespace Muffin.Pictures.Archiver.Tests
+namespace Muffin.Pictures.Archiver
 
-open Swensen.Unquote
-open NUnit.Framework
+open System.Diagnostics
 open FSharp.Data
-
-open Muffin.Pictures.Archiver.Tests.TestHelpers
-open Muffin.Pictures.Archiver.Domain
+open FSharp
+open System.IO
 
 module TagRetriever =
-    open System.Diagnostics
 
-    type Tags = JsonProvider<"test.json">
+    type Tags = JsonProvider<"folder.json">
 
     let callExifTool folder =
         let processStartInfo = new ProcessStartInfo()
@@ -28,21 +25,8 @@ module TagRetriever =
         exifProcess.BeginOutputReadLine()
         exifProcess.WaitForExit()
         let json = builder.ToString()
-        json
+        Tags.Parse json
 
-module TagTests =
-    open TagRetriever
-
-    [<Test>]
-    let ``Call exifTool and try to parse results`` () =
-        let json = callExifTool @"testdata"
-
-        let tags = Tags.Parse(json)
-
-        test <@ Seq.length tags = 3 @>
-
-    [<Test>]
-    let ``Try parsing test`` () =
-        let tags = Tags.Load("test.json")
-
-        test <@ Seq.length tags = 5 @>
+    let getTags (tags:Tags.Root[]) file =
+        tags
+        |> Array.find(fun t -> t.SourceFile = file)

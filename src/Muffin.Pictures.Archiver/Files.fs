@@ -11,5 +11,6 @@ module Files =
             FileInfo filePath
 
         Directory.EnumerateFiles path
-        |> Seq.map createFileInfo
-        |> Seq.map (fun fileInfo -> { FullPath=fileInfo.FullName; Name=fileInfo.Name })
+        |> List.ofSeq
+        |> List.map createFileInfo
+        |> List.map (fun fileInfo -> { FullPath=fileInfo.FullName; Name=fileInfo.Name })

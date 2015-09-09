@@ -9,6 +9,7 @@ open Muffin.Pictures.Archiver.Files
 open Muffin.Pictures.Archiver.TimeTakenRetriever
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.FileSystem
+open Muffin.Pictures.Archiver.TagRetriever
 
 module CompositionRoot =
 
@@ -27,8 +28,9 @@ module CompositionRoot =
 
     let composeGetPictures arguments =
         let timeProvider () = DateTimeOffset.UtcNow
-        let timeTakenProvider = timeTaken arguments.Mode tagProvider
-        getOldPictures timeTakenProvider timeProvider allFilesInPath
+        let timeTakenProvider = timeTaken arguments.Mode
+        let toOldPicture = toOldPicture timeTakenProvider timeProvider
+        getPictures toOldPicture allFilesInPath
 
     let composeMove =
         let moveWithFs = composeMoveWithFs

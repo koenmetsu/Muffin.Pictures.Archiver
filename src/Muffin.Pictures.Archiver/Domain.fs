@@ -5,6 +5,7 @@ open System
 [<AutoOpen>]
 module Domain =
 
+    type DirectoryPath = string
     type FilePath = string
 
     type File = { FullPath:FilePath; Name:string }

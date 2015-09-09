@@ -4,11 +4,12 @@ open System
 
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.Rop
+open Muffin.Pictures.Archiver.TagRetriever
 
 module Pictures =
 
-    let toPicture timeTakenRetriever file =
-        let timeTaken = timeTakenRetriever file
+    let toPicture timeTakenRetriever (tags:Tags.Root[]) file =
+        let timeTaken = timeTakenRetriever tags file
         match timeTaken with
         | Some t -> Success { File = file; TakenOn = t }
         | None -> Failure <| Skip.FileHasNoTimeTaken file
@@ -16,23 +17,19 @@ module Pictures =
     let isOld timeProvider picture =
         // todo: replace this with single time at start of the program,
         // ie: not a function but a DT value
-        let { File=_; TakenOn=takenOn } = picture
+        let { File = _; TakenOn = takenOn } = picture
         let currentTime : DateTimeOffset = timeProvider ()
         if currentTime.AddMonths(-1) > takenOn then
             Success picture
         else
             Failure <| Skip.PictureWasNotOldEnough picture
 
-    let getOldPictures timeTakenRetriever timeProvider filesProvider path =
-        let assembly = System.Reflection.Assembly.GetExecutingAssembly()
-        let binLocation = System.IO.Path.GetDirectoryName(assembly.FullName)
-        use wrapper = new BBCSharp.ExifToolWrapper(System.IO.Path.Combine(binLocation, "exiftool.exe"))
-        wrapper.Start()
+    let toOldPicture timeTakenRetriever timeProvider tags =
+        toPicture timeTakenRetriever tags
+        >=> (isOld timeProvider)
 
-        let toOldPicture =
-            toPicture (timeTakenRetriever wrapper)
-            >=> (isOld timeProvider)
+    let getPictures toOldPicture filesProvider directory =
+        let tagsForAllFiles = callExifTool directory
 
-        filesProvider path
-        |> List.ofSeq
-        |> List.map toOldPicture
+        filesProvider directory
+        |> List.map (toOldPicture tagsForAllFiles)
