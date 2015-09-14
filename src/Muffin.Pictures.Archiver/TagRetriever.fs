@@ -17,7 +17,7 @@ module TagRetriever =
 
     let callExifTool folder =
         let processStartInfo = new ProcessStartInfo()
-        processStartInfo.FileName <- "exiftool"
+        processStartInfo.FileName <- exifFileName
         processStartInfo.Arguments <- sprintf "-fast22 -m -q -j -d \"%%Y.%%m.%%d %%H:%%M:%%S\" %s" folder
         processStartInfo.CreateNoWindow <- true
         processStartInfo.UseShellExecute <- false
@@ -33,6 +33,6 @@ module TagRetriever =
         let json = builder.ToString()
         Tags.Parse json
 
-    let getTags (tags:Tags.Root[]) file =
+    let getTags (tags:Tags.Root[]) (file:FilePath) =
         tags
-        |> Array.find(fun t -> t.SourceFile = file)
+        |> Array.find(fun t -> t.SourceFile = file.Replace("\\","/"))
