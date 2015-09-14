@@ -9,6 +9,12 @@ module TagRetriever =
 
     type Tags = JsonProvider<"folder.json">
 
+    let private exifFileName =
+        if System.Type.GetType ("Mono.Runtime") <> null then
+            "exiftool"
+        else
+            "exiftool.exe"
+
     let callExifTool folder =
         let processStartInfo = new ProcessStartInfo()
         processStartInfo.FileName <- "exiftool"
