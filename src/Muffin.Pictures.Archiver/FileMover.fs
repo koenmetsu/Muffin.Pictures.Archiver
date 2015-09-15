@@ -7,6 +7,43 @@ open System.IO // eventually this should be moved out.
 
 module FileMover =
 
+    type AsyncSeq<'T> = Async<AsyncSeqInner<'T>>
+    and AsyncSeqInner<'T> =
+    | Ended
+    | Item of 'T * AsyncSeq<'T>
+
+    /// Read file 'fn' in blocks of size 'size'
+    /// (returns on-demand asynchronous sequence)
+    let readInBlocks fn size = async {
+        let stream = File.OpenRead(fn)
+        let buffer = Array.zeroCreate size
+
+        /// Returns next block as 'Item' of async seq
+        let rec nextBlock () = async {
+          let! count = stream.AsyncRead(buffer, 0, size)
+          if count = 0 then return Ended
+          else
+            // Create buffer with the right size
+            let res =
+                if count = size then buffer
+                else buffer |> Seq.take count |> Array.ofSeq
+            return Item(res, nextBlock()) }
+
+    return! nextBlock() }
+
+    /// Asynchronous function that compares two asynchronous sequences
+    /// item by item. If an item doesn't match, 'false' is returned
+    /// immediately without generating the rest of the sequence. If the
+    /// lengths don't match, exception is thrown.
+    let rec compareAsyncSeqs seq1 seq2 = async {
+        let! item1 = seq1
+        let! item2 = seq2
+        match item1, item2 with
+        | Item(b1, ns1), Item(b2, ns2) when b1 <> b2 -> return false
+        | Item(b1, ns1), Item(b2, ns2) -> return! compareAsyncSeqs ns1 ns2
+        | Ended, Ended -> return true
+        | _ -> return false }
+
     let move moveWithFs compareFiles cleanUp =
         moveWithFs
         >=> compareFiles
@@ -27,33 +64,14 @@ module FileMover =
         | ex -> CouldNotDeleteSource { Request = moveRequest; Message = ex.Message } |> Failure
 
     let compareFiles readAllBytes moveRequest =
-        let sourceFi = FileInfo moveRequest.Source
-        let destinationFi = FileInfo moveRequest.Destination
-        if sourceFi.Length <> destinationFi.Length then
-            BytesDidNotMatch moveRequest |> Failure
+        let s1 = readInBlocks moveRequest.Source 1000
+        let s2 = readInBlocks moveRequest.Destination 1000
+        let areEqual = Async.RunSynchronously <| compareAsyncSeqs s1 s2
+
+        if areEqual then
+            Success moveRequest
         else
-            use fsSource = sourceFi.OpenRead()
-            use fsDestination = destinationFi.OpenRead()
-            let BYTES_TO_READ = (int)System.Int16.MaxValue 
-            let iterations = int <| System.Math.Ceiling((double)fsSource.Length / (double)BYTES_TO_READ);
-
-            let one = Array.zeroCreate<byte> BYTES_TO_READ
-            let two = Array.zeroCreate<byte> BYTES_TO_READ
-
-            let areAllEqual =
-                [0..iterations]
-                |> Seq.map (fun iter ->
-                                fsSource.Read(one, 0, BYTES_TO_READ) |> ignore
-                                fsDestination.Read(two, 0, BYTES_TO_READ) |> ignore
-
-                                let equal = System.BitConverter.ToInt64(one,0) <> System.BitConverter.ToInt64(two,0)
-                                equal)
-                |> Seq.exists (fun areEqual -> not <| areEqual)
-
-            if areAllEqual then
-                Success moveRequest
-            else
-                BytesDidNotMatch moveRequest |> Failure
+            BytesDidNotMatch moveRequest |> Failure
 
     let copyToDestination ensureDirectoryExists copy moveRequest =
         ensureDirectoryExists moveRequest.Destination

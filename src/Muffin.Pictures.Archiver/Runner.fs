@@ -8,11 +8,18 @@ open Muffin.Pictures.Archiver.MailReporter
 module Runner =
 
     let runner move getMoveRequests arguments =
-        let moveRequests = getMoveRequests arguments.SourceDir arguments.DestinationDir
-        let moveResults =
+        let moveRequests =
+            getMoveRequests arguments.SourceDir arguments.DestinationDir
+
+        let asyncMove request : Async<Rop.Result<MoveRequest, Failure>> = async { return move request }
+
+        let moveResults : Rop.Result<MoveRequest, Failure> list =
             moveRequests
             |> List.choose isSuccess
-            |> List.map move
+            |> List.map asyncMove
+            |> Async.Parallel
+            |> Async.RunSynchronously
+            |> List.ofArray
 
         let report = createReport moveRequests moveResults
 
@@ -20,3 +27,4 @@ module Runner =
 
         if arguments.MailTo.IsSome then
             reportToMail report arguments.MailTo.Value
+
