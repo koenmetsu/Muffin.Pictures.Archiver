@@ -17,11 +17,15 @@ module TimeTakenRetriever =
         | _ -> let dateTaken = r.Replace(strDate, "-", 2)
                DateTimeOffset.Parse(dateTaken)
 
-    let findExifCreateDate (tags:Tags.Root) =
-        tags.DateTimeOriginal
+    let findExifCreateDate (tags:Tags.Root option) =
+        match tags with
+        | Some (t:Tags.Root) -> t.DateTimeOriginal
+        | None -> None
 
-    let findXmpCreateDate (tags:Tags.Root) =
-        tags.CreateDate
+    let findXmpCreateDate (tags:Tags.Root option) =
+        match tags with
+        | Some (t:Tags.Root) -> t.CreateDate
+        | None -> None
 
     let timeTaken timeTakenMode tags file : TimeTaken option =
         let path = file.FullPath
@@ -40,3 +44,4 @@ module TimeTakenRetriever =
                     None
                 | Fallback ->
                     Some <| DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
+

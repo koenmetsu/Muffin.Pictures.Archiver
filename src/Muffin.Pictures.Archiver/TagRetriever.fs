@@ -35,4 +35,4 @@ module TagRetriever =
 
     let getTags (tags:Tags.Root[]) (file:FilePath) =
         tags
-        |> Array.find(fun t -> t.SourceFile = file.Replace("\\","/"))
+        |> Array.tryFind(fun t -> t.SourceFile = file.Replace("\\","/"))
