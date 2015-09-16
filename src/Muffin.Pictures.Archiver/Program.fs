@@ -9,6 +9,8 @@ open Muffin.Pictures.Archiver.Runner
 let main argv =
     let logger = LogManager.GetCurrentClassLogger()
 
+    System.AppDomain.CurrentDomain.UnhandledException.Add(fun exc -> logger.Fatal(exc.ExceptionObject :?> System.Exception, "Unhandled exception"))
+
     logger.Info "Starting Archiver"
     let arguments = parseArguments argv
 
