@@ -17,3 +17,7 @@ module Rop =
         match switch1 x with
         | Success s -> switch2 s
         | Failure f -> Failure f
+
+    let tee f x =
+        f x |> ignore
+        x
