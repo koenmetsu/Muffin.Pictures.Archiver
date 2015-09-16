@@ -10,21 +10,24 @@ module Runner =
     let runner move getMoveRequests arguments =
         let moveRequests =
             getMoveRequests arguments.SourceDir arguments.DestinationDir
+        let watch = System.Diagnostics.Stopwatch()
+        watch.Start()
+        let asyncMove request = async { return move request }
+        let successfulMoveRequests = moveRequests |> List.choose isSuccess
 
-        let asyncMove request : Async<Rop.Result<MoveRequest, Failure>> = async { return move request }
-
-        let moveResults : Rop.Result<MoveRequest, Failure> list =
-            moveRequests
-            |> List.choose isSuccess
+        let moveResults =
+            successfulMoveRequests
             |> List.map asyncMove
             |> Async.Parallel
             |> Async.RunSynchronously
             |> List.ofArray
 
+        watch.Stop()
+
         let report = createReport moveRequests moveResults
 
         reportToConsole report
-
+        System.Console.WriteLine watch.ElapsedMilliseconds
         if arguments.MailTo.IsSome then
             reportToMail report arguments.MailTo.Value
 

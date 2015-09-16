@@ -35,7 +35,7 @@ module CompositionRoot =
     let composeMove =
         let moveWithFs = composeMoveWithFs
         let cleanUp = composeCleanUp
-        let composeCompareFiles = compareFiles fsOperations.ReadAllBytes
+        let composeCompareFiles = compareFiles fsOperations.Compare
         move moveWithFs composeCompareFiles cleanUp
 
     let composeGetMoveRequests arguments =
