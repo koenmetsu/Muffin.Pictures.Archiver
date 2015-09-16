@@ -25,13 +25,19 @@ module TagRetriever =
         processStartInfo.RedirectStandardError <- true
         processStartInfo.RedirectStandardInput <- true
         let exifProcess = Process.Start(processStartInfo)
+
         let builder = new System.Text.StringBuilder()
         exifProcess.OutputDataReceived.Add(fun e ->
-            builder.AppendLine(e.Data) |> ignore)
+            if notNullOrEmpty e.Data then
+                builder.AppendLine(e.Data) |> ignore )
+
         exifProcess.BeginOutputReadLine()
         exifProcess.WaitForExit()
+
         let json = builder.ToString()
-        Tags.Parse json
+
+        if notNullOrEmpty json then Tags.Parse json
+        else [||]
 
     let getTags (tags:Tags.Root[]) (file:FilePath) =
         tags
