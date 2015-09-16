@@ -4,12 +4,12 @@ nuget FSharp.Data
 nuget FSharp.Formatting
 nuget FAKE
 nuget Microsoft.VisualBasic
+nuget Nlog.config
 nuget NUnit.Runners
 nuget SourceLink.Fake
 nuget UnionArgParser
 nuget Unquote
 nuget fsharp.management
-nuget logary
 nuget nunit
 nuget xunit
 nuget xunit.runner.console

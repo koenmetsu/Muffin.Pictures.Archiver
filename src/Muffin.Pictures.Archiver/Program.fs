@@ -1,13 +1,15 @@
-﻿open System
+﻿open NLog
 
 open Muffin.Pictures.Archiver.Arguments
 open Muffin.Pictures.Archiver.CompositionRoot
 open Muffin.Pictures.Archiver.Runner
 
-open System.Diagnostics
 
 [<EntryPoint>]
 let main argv =
+    let logger = LogManager.GetCurrentClassLogger()
+
+    logger.Info "Starting Archiver"
     let arguments = parseArguments argv
 
     let move = composeMove

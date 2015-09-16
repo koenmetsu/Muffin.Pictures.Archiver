@@ -1,5 +1,7 @@
 ﻿namespace Muffin.Pictures.Archiver
 
+open NLog
+
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.ConsoleReporter
 open Muffin.Pictures.Archiver.Report
@@ -7,6 +9,7 @@ open Muffin.Pictures.Archiver.MailReporter
 open Muffin.Pictures.Archiver.Rop
 
 module Runner =
+    let logger = LogManager.GetCurrentClassLogger()
 
     let runner move getMoveRequests arguments =
         let runInParallel =
@@ -35,4 +38,4 @@ module Runner =
             |> tee reportToConsole
             |> reportToMailIfNecessary
 
-        System.Console.WriteLine watch.ElapsedMilliseconds
+        logger.Trace(sprintf "Time elapsed: %i" watch.ElapsedMilliseconds)
