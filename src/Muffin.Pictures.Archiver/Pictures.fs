@@ -15,10 +15,8 @@ module Pictures =
         | None -> Failure <| Skip.FileHasNoTimeTaken file
 
     let isOld timeProvider picture =
-        // todo: replace this with single time at start of the program,
-        // ie: not a function but a DT value
         let { File = _; TakenOn = takenOn } = picture
-        let currentTime : DateTimeOffset = timeProvider ()
+        let currentTime : DateTimeOffset = timeProvider
         if currentTime.AddMonths(-1) > takenOn then
             Success picture
         else

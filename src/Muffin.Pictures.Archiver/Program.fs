@@ -1,4 +1,6 @@
-﻿open NLog
+﻿open System
+
+open NLog
 
 open Muffin.Pictures.Archiver.Arguments
 open Muffin.Pictures.Archiver.CompositionRoot

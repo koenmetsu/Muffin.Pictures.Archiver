@@ -16,7 +16,7 @@ module AgeTests =
             { File = stubFile
               TakenOn = dateTimeOffset 2014 12 1 }
 
-        let timeProvider () = dateTimeOffset 2015 12 31
+        let timeProvider = dateTimeOffset 2015 12 31
 
         test <@ isOld timeProvider picture = Success picture @>
 
@@ -26,6 +26,6 @@ module AgeTests =
             { File = stubFile
               TakenOn = dateTimeOffset 2014 12 1 }
 
-        let timeProvider () = dateTimeOffset 2014 12 31
+        let timeProvider = dateTimeOffset 2014 12 31
 
         test <@ isOld timeProvider picture = (Failure <| Skip.PictureWasNotOldEnough picture) @>

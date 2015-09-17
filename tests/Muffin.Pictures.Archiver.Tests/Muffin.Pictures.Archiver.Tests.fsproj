@@ -56,7 +56,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
@@ -82,15 +82,6 @@
     <Content Include="test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="testdata\1_Flcl_wallpapers_47.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="testdata\2_headshot koen metsu.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="testdata\3_test.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ExiftoolWrapper">
@@ -111,6 +102,11 @@
     <ProjectReference Include="..\..\src\Muffin.Pictures.Archiver\Muffin.Pictures.Archiver.fsproj">
       <Name>Muffin.Pictures.Archiver</Name>
       <Project>{3b1a10cf-1e23-481a-ba86-ed83b9c46fdb}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Muffin.Pictures.Archiver.TestData\Muffin.Pictures.Archiver.TestData.csproj">
+      <Name>Muffin.Pictures.Archiver.TestData</Name>
+      <Project>{f3c6a4ba-afae-49ca-9d90-3080a483b111}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

@@ -24,7 +24,7 @@ module TimeTakenRetriever =
 
     let findXmpCreateDate (tags:Tags.Root option) =
         match tags with
-        | Some (t:Tags.Root) -> t.CreateDate
+        | Some (t:Tags.Root) -> t.DateCreated
         | None -> None
 
     let timeTaken timeTakenMode tags file : TimeTaken option =
