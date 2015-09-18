@@ -11,19 +11,22 @@ open Muffin.Pictures.Archiver.Rop
 module Runner =
     let logger = LogManager.GetCurrentClassLogger()
 
+    let private moveInParallel move =
+        let asyncMove request = async {
+            return move request
+                |> tee (fun _ -> logger.Info((sprintf "Moved Request: %A" request)))
+        }
+
+        List.map asyncMove
+        >> Async.Parallel
+        >> Async.RunSynchronously
+        >> List.ofArray
+
+    let private reportToMailIfNecessary arguments report =
+        if arguments.MailTo.IsSome then
+            reportToMail report arguments.MailTo.Value
+
     let runner move getMoveRequests arguments =
-        let runInParallel =
-            let asyncMove request = async { return move request }
-
-            List.map asyncMove
-            >> Async.Parallel
-            >> Async.RunSynchronously
-            >> List.ofArray
-
-        let reportToMailIfNecessary report =
-            if arguments.MailTo.IsSome then
-                reportToMail report arguments.MailTo.Value
-
         let watch = System.Diagnostics.Stopwatch()
 
         let moveRequests =
@@ -32,10 +35,10 @@ module Runner =
         watch.Start()
         moveRequests
             |> List.choose isSuccess
-            |> runInParallel
+            |> moveInParallel move
             |> tee (fun _ -> watch.Stop())
             |> createReport moveRequests
             |> tee reportToConsole
-            |> reportToMailIfNecessary
+            |> reportToMailIfNecessary arguments
 
         logger.Trace(sprintf "Time elapsed: %i" watch.ElapsedMilliseconds)
