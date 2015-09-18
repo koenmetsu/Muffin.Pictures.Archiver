@@ -35,7 +35,7 @@ module TagTests =
 
     [<Test>]
     let ``Call exifTool and try to parse results`` () =
-        let json = callExifTool @"testdata"
+        let json = callExifTool @"TestData"
 
         let tags = Tags.Parse(json)
 

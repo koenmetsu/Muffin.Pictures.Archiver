@@ -32,7 +32,7 @@ module RunOnActualData =
         if Directory.Exists folder then
             Directory.Delete(folder, true)
 
-        copyDirectory "testdata" folder
+        copyDirectory "TestData" folder
         f folder
         Directory.Delete(folder, true)
 
@@ -73,4 +73,3 @@ module RunOnActualData =
             assertExists [| testFolder; "2015-01" ; fileNoExif |]
             assertExists [| testFolder; "2015-03"; fileXmp201503 |]
         )
-
