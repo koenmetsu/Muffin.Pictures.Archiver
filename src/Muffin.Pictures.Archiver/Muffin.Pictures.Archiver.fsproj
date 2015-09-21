@@ -90,8 +90,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
-    <Content Include="file.json" />
-    <Content Include="folder.json">
+    <Content Include="example_exiftool_output.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="..\..\lib\exiftool.exe">

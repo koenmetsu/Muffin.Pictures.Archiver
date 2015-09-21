@@ -6,8 +6,6 @@ open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.Rop
 
 module FileMover =
-    let logger = LogManager.GetCurrentClassLogger()
-
     let move moveWithFs compareFiles cleanUp =
         moveWithFs
         >=> compareFiles
@@ -28,9 +26,7 @@ module FileMover =
         | ex -> CouldNotDeleteSource { Request = moveRequest; Message = ex.Message } |> Failure
 
     let compareFiles compare moveRequest =
-        logger.Info("Comparing file " + moveRequest.Source)
         let areEqual = compare moveRequest.Source moveRequest.Destination
-        logger.Info("Compared file " + moveRequest.Source + ": " + areEqual.ToString())
         if areEqual then
             Success moveRequest
         else
@@ -43,4 +39,3 @@ module FileMover =
     let ensureDirectoryExists directoryExists createDirectory path =
         if not (directoryExists path) then
             createDirectory path
-
