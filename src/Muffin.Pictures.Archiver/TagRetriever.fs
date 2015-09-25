@@ -18,7 +18,7 @@ module TagRetriever =
     let callExifTool folder =
         let processStartInfo = new ProcessStartInfo()
         processStartInfo.FileName <- exifFileName
-        processStartInfo.Arguments <- sprintf "-fast22 -DateTimeOriginal -DateCreated -FileName -m -q -j -d \"%%Y.%%m.%%d %%H:%%M:%%S\" %s" folder
+        processStartInfo.Arguments <- sprintf "-fast22 -DateTimeOriginal -DateCreated -FileName -m -q -j -d \"%%Y:%%m:%%d %%H:%%M:%%S\" '%s'" folder
         processStartInfo.CreateNoWindow <- true
         processStartInfo.UseShellExecute <- false
         processStartInfo.RedirectStandardOutput <- true
