@@ -24,3 +24,4 @@ let main argv =
     runner move getMoveRequests arguments
 
     0
+
