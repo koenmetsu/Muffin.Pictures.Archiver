@@ -10,7 +10,7 @@ open Muffin.Pictures.Archiver.Domain
 module TagRetriever =
     open System.Diagnostics
 
-    type Tags = JsonProvider<"test.json">
+    type Tags = JsonProvider<"example_exiftool_output.json">
 
     let callExifTool folder =
         let processStartInfo = new ProcessStartInfo()
@@ -43,6 +43,6 @@ module TagTests =
 
     [<Test>]
     let ``Try parsing test`` () =
-        let tags = Tags.Load("test.json")
+        let tags = Tags.Load("example_exiftool_output.json")
 
         test <@ Seq.length tags = 5 @>

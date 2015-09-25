@@ -7,7 +7,7 @@ open System.IO
 
 module TagRetriever =
 
-    type Tags = JsonProvider<"folder.json">
+    type Tags = JsonProvider<"example_exiftool_output.json">
 
     let private exifFileName =
         if System.Type.GetType ("Mono.Runtime") <> null then
