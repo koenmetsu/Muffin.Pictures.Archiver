@@ -112,6 +112,16 @@ Target "CopyBinaries" (fun _ ->
     |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
 )
 
+Target "CopyExifLib" (fun _ ->
+    CopyFile "bin/Muffin.Pictures.Archiver/" "lib/exiftool"
+)
+
+Target "CopyMyConfigs" (fun _ ->
+    !! "src/*/my.*.config"
+    |> Seq.map (fun f -> (System.IO.Path.GetFileName f, f))
+    |> Seq.iter (fun (fileName, path) -> CopyFile ("bin/Muffin.Pictures.Archiver/" @@ (fileName.Replace("my.", ""))) path)
+)
+
 // --------------------------------------------------------------------------------------
 // Clean build results
 
@@ -344,6 +354,8 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
+  ==> "CopyExifLib"
+  ==> "CopyMyConfigs"
   ==> "RunTests"
   ==> "GenerateReferenceDocs"
   ==> "GenerateDocs"
