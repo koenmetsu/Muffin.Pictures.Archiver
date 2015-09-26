@@ -19,7 +19,7 @@ Personal learning project for:
 ---
 Archiver takes a folder with pictures, and tries to organize them by date taken.
 
-Archiver tries to find out when a pictures was taken based on the picture's ``XMP-xmp:CreateDate`` or ``ExifIFD:CreateDate`` tag, and moves them to folders based on the year-month.
+Archiver tries to find out when a pictures was taken based on the picture's ``XMP-xmp:CreateDate`` or ``ExifIFD:DateTimeOriginal`` tag, and moves them to folders based on the year-month.
 
 If Archiver cannot find the time taken through EXIF tags, it can optionally fall back to the ``Date Modified`` of the file.
 
