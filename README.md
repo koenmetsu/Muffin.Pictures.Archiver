@@ -1,8 +1,5 @@
 # Muffin.Pictures.Archiver
 
-Muffin.Pictures.Archiver
-======================
-
 > Archiver - *pet project that archives pictures based on their date taken.*
 >
 > Pictures - *what it's supposed to be used for*.<br />
