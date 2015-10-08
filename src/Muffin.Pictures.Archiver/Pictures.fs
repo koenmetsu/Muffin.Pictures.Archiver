@@ -17,7 +17,7 @@ module Pictures =
     let isOld timeProvider picture =
         let { File = _; TakenOn = takenOn } = picture
         let currentTime : DateTimeOffset = timeProvider
-        if currentTime.AddMonths(-1) > takenOn then
+        if currentTime.AddDays(-1.0) >= takenOn then
             Success picture
         else
             Failure <| Skip.PictureWasNotOldEnough picture
