@@ -12,8 +12,10 @@ Personal learning project for:
 - OctopusDeploy
 - Mono
  
+[![Build status](https://ci.appveyor.com/api/projects/status/y5qda1k0udpaen68?svg=true)](https://ci.appveyor.com/project/koenmetsu/muffin-pictures-archiver)
 
 ---
+
 Archiver takes a folder with pictures, and tries to organize them by date taken.
 
 Archiver tries to find out when a pictures was taken based on the picture's ``XMP-xmp:CreateDate`` or ``ExifIFD:DateTimeOriginal`` tag, and moves them to folders based on the year-month.
