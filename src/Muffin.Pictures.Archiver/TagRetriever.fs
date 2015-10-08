@@ -9,16 +9,24 @@ module TagRetriever =
 
     type Tags = JsonProvider<"example_exiftool_output.json">
 
+    let private isMono =
+        System.Type.GetType ("Mono.Runtime") <> null
+
     let private exifFileName =
-        if System.Type.GetType ("Mono.Runtime") <> null then
+        if isMono then
             "exiftool"
         else
             "exiftool.exe"
 
+    let private wrapFolder folder =
+        if isMono then
+            sprintf "'%s'" folder
+        else folder
+
     let callExifTool folder =
         let processStartInfo = new ProcessStartInfo()
         processStartInfo.FileName <- exifFileName
-        processStartInfo.Arguments <- sprintf "-fast22 -DateTimeOriginal -DateCreated -FileName -m -q -j -d \"%%Y:%%m:%%d %%H:%%M:%%S\" '%s'" folder
+        processStartInfo.Arguments <- sprintf "-fast22 -DateTimeOriginal -DateCreated -FileName -m -q -j -d \"%%Y:%%m:%%d %%H:%%M:%%S\" %s" (wrapFolder folder)
         processStartInfo.CreateNoWindow <- true
         processStartInfo.UseShellExecute <- false
         processStartInfo.RedirectStandardOutput <- true
