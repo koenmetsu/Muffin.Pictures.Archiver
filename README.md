@@ -12,7 +12,9 @@ Personal learning project for:
 - OctopusDeploy
 - Mono
  
-[![Build status](https://ci.appveyor.com/api/projects/status/y5qda1k0udpaen68?svg=true)](https://ci.appveyor.com/project/koenmetsu/muffin-pictures-archiver)
+[![Build status: .NET](https://ci.appveyor.com/api/projects/status/y5qda1k0udpaen68?svg=true)](https://ci.appveyor.com/project/koenmetsu/muffin-pictures-archiver)
+
+[![Build Status: Mono](https://travis-ci.org/koenmetsu/Muffin.Pictures.Archiver.svg)](https://travis-ci.org/koenmetsu/Muffin.Pictures.Archiver)
 
 ---
 
