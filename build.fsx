@@ -44,7 +44,7 @@ let authors = [ "Koen Metsu" ]
 // Tags for your project (for NuGet package)
 let tags = "archival pictures"
 
-// File system information 
+// File system information
 let solutionFile  = "Muffin.Pictures.Archiver.sln"
 
 // Pattern specifying assemblies to be tested using NUnit
@@ -52,7 +52,7 @@ let testAssemblies = "tests/**/bin/Release/*Tests*.dll"
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitOwner = "koenmetsu" 
+let gitOwner = "koenmetsu"
 let gitHome = "https://github.com/" + gitOwner
 
 // The name of the project on GitHub
@@ -69,7 +69,7 @@ let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/koenmetsu"
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
 
 // Helper active pattern for project types
-let (|Fsproj|Csproj|Vbproj|) (projFileName:string) = 
+let (|Fsproj|Csproj|Vbproj|) (projFileName:string) =
     match projFileName with
     | f when f.EndsWith("fsproj") -> Fsproj
     | f when f.EndsWith("csproj") -> Csproj
@@ -87,7 +87,7 @@ Target "AssemblyInfo" (fun _ ->
 
     let getProjectDetails projectPath =
         let projectName = System.IO.Path.GetFileNameWithoutExtension(projectPath)
-        ( projectPath, 
+        ( projectPath,
           projectName,
           System.IO.Path.GetDirectoryName(projectPath),
           (getAssemblyInfoAttributes projectName)
@@ -104,7 +104,7 @@ Target "AssemblyInfo" (fun _ ->
 )
 
 // Copies binaries from default VS location to exepcted bin folder
-// But keeps a subdirectory structure for each project in the 
+// But keeps a subdirectory structure for each project in the
 // src folder to support multiple project outputs
 Target "CopyBinaries" (fun _ ->
     !! "src/**/*.??proj"
@@ -163,17 +163,17 @@ Target "RunTests" (fun _ ->
 Target "SourceLink" (fun _ ->
     let baseUrl = sprintf "%s/%s/{0}/%%var2%%" gitRaw (project.ToLower())
     use repo = new GitRepo(__SOURCE_DIRECTORY__)
-    
-    let addAssemblyInfo (projFileName:String) = 
+
+    let addAssemblyInfo (projFileName:String) =
         match projFileName with
         | Fsproj -> (projFileName, "**/AssemblyInfo.fs")
         | Csproj -> (projFileName, "**/AssemblyInfo.cs")
         | Vbproj -> (projFileName, "**/AssemblyInfo.vb")
-        
+
     !! "src/**/*.??proj"
     |> Seq.map addAssemblyInfo
     |> Seq.iter (fun (projFile, assemblyInfo) ->
-        let proj = VsProj.LoadRelease projFile 
+        let proj = VsProj.LoadRelease projFile
         logfn "source linking %s" proj.OutputFilePdb
         let files = proj.CompilesNotLinked -- assemblyInfo
         repo.VerifyChecksums files
@@ -189,7 +189,7 @@ Target "SourceLink" (fun _ ->
 // Build a NuGet package
 
 Target "NuGet" (fun _ ->
-    Paket.Pack(fun p -> 
+    Paket.Pack(fun p ->
         { p with
             OutputPath = "bin"
             Version = release.NugetVersion
@@ -197,7 +197,7 @@ Target "NuGet" (fun _ ->
 )
 
 Target "PublishNuget" (fun _ ->
-    Paket.Push(fun p -> 
+    Paket.Push(fun p ->
         { p with
             ApiKey = getBuildParam "NugetKey"
             PublishUrl = getBuildParam "NugetUrl"
@@ -252,7 +252,7 @@ Target "GenerateHelpDebug" (fun _ ->
     generateHelp' true true
 )
 
-Target "KeepRunning" (fun _ ->    
+Target "KeepRunning" (fun _ ->
     use watcher = new FileSystemWatcher(DirectoryInfo("docs/content").FullName,"*.*")
     watcher.EnableRaisingEvents <- true
     watcher.Changed.Add(fun e -> generateHelp false)
@@ -272,7 +272,7 @@ Target "GenerateDocs" DoNothing
 
 let createIndexFsx lang =
     let content = """(*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
+// This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
 #I "../../../bin"
 
@@ -334,11 +334,11 @@ Target "Release" (fun _ ->
 
     Branches.tag "" release.NugetVersion
     Branches.pushTag "" "origin" release.NugetVersion
-    
+
     // release on github
     createClient (getBuildParamOrDefault "github-user" "") (getBuildParamOrDefault "github-pw" "")
-    |> createDraft gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes 
-    // TODO: |> uploadFile "PATH_TO_FILE"    
+    |> createDraft gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes
+    // TODO: |> uploadFile "PATH_TO_FILE"
     |> releaseDraft
     |> Async.RunSynchronously
 )
@@ -354,7 +354,9 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
+#if MONO
   ==> "CopyExifLib"
+#endif
   ==> "CopyMyConfigs"
   ==> "RunTests"
   ==> "GenerateReferenceDocs"
@@ -362,7 +364,7 @@ Target "All" DoNothing
   ==> "All"
   =?> ("ReleaseDocs",isLocalBuild)
 
-"All" 
+"All"
 #if MONO
 #else
   =?> ("SourceLink", Pdbstr.tryFind().IsSome )
@@ -380,7 +382,7 @@ Target "All" DoNothing
 
 "GenerateHelp"
   ==> "KeepRunning"
-    
+
 "ReleaseDocs"
   ==> "Release"
 
