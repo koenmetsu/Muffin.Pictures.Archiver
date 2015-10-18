@@ -6,5 +6,6 @@ perl Makefile.PL
 make test
 make install
 cp exiftool ../exiftool
+cp lib ../lib -r
 popd
 rm Image-ExifTool-10.02* -rf

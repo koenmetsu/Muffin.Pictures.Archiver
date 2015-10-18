@@ -114,6 +114,11 @@ Target "CopyBinaries" (fun _ ->
 
 Target "CopyExifLib" (fun _ ->
     CopyFile "bin/Muffin.Pictures.Archiver/" "lib/exiftool"
+    CopyDir "bin/Muffin.Pictures.Archiver/" "lib/lib" (fun _ -> true)
+    !! "tests/*/bin/Release/"
+    |> Seq.iter (fun d ->
+                        CopyFile d "lib/exiftool"
+                        CopyDir d "lib/lib" (fun _ -> true))
 )
 
 Target "CopyMyConfigs" (fun _ ->
