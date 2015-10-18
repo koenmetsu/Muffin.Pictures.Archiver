@@ -195,3 +195,4 @@ docs/content/release-notes.md
 **/*/my.*.config
 
 lib/exiftool
+lib/lib
