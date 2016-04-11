@@ -7,8 +7,8 @@ pushd Image-ExifTool-10.02
 perl Makefile.PL
 make test
 make PREFIX=. install
-cp exiftool ../exiftool
-cp lib ../lib -r
+cp exiftool ../lib/exiftool
+# cp lib ../lib -r
 popd
 rm tmp -rf
 rm Image-ExifTool-10.02* -rf
