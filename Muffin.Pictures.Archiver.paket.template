@@ -6,5 +6,6 @@ description
 	Picture Archiver
 
 files
-	bin/Release/*.exe ==> .
-	bin/Release/*.dll ==> .
+	bin/Muffin.Pictures.Archiver/*.exe ==> .
+	bin/Muffin.Pictures.Archiver/*.dll ==> .
+	postDeploy.sh ==> .

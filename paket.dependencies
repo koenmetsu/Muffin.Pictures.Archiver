@@ -6,6 +6,7 @@ nuget FAKE
 nuget Microsoft.VisualBasic
 nuget Nlog.config
 nuget NUnit.Runners
+nuget OctopusTools
 nuget SourceLink.Fake
 nuget UnionArgParser
 nuget Unquote
