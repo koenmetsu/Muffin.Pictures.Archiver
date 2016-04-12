@@ -1,6 +1,8 @@
+#### 0.1.5-beta
+* Include exiftool in package
+
 #### 0.1.4-beta
 * Chmod to executable
-
 
 #### 0.1.3-beta
 * Add postDeploy script to chmod Muffin.Pictures.Archiver
