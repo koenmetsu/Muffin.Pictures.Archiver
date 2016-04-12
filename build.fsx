@@ -172,7 +172,7 @@ Target "SourceLink" DoNothing
 // --------------------------------------------------------------------------------------
 // Build a NuGet package
 
-Target "NuGet" (fun _ ->
+Target "PaketPack" (fun _ ->
     Paket.Pack(fun p ->
         { p with
             OutputPath = "bin"
@@ -180,7 +180,7 @@ Target "NuGet" (fun _ ->
             ReleaseNotes = toLines release.Notes})
 )
 
-Target "PublishNuget" (fun _ ->
+Target "PaketPushToOctopus" (fun _ ->
     Paket.Push(fun p ->
         { p with
             ApiKey = getBuildParam "OctopusKey"
@@ -310,7 +310,7 @@ Target "ReleaseDocs" (fun _ ->
 
 open Fake.OctoTools
 
-Target "Release" (fun _ ->
+Target "OctopusCreateReleaseAndDeploy" (fun _ ->
     let release = { releaseOptions with Project = "Muffin.Pictures.Archiver" }
     let deploy  = { deployOptions with DeployTo = "PRD" }
     let server = { Server = getBuildParam "OctopusApi"; ApiKey = getBuildParam "OctopusKey" }
@@ -323,11 +323,7 @@ Target "Release" (fun _ ->
     )
 )
 
-Target "BuildPackage" DoNothing
-
-// --------------------------------------------------------------------------------------
-// Run all targets by default. Invoke 'build <Target>' to override
-
+Target "DeployOnly" DoNothing
 Target "All" DoNothing
 
 "Clean"
@@ -339,18 +335,13 @@ Target "All" DoNothing
 #endif
   ==> "CopyMyConfigs"
   ==> "RunTests"
-  ==> "GenerateReferenceDocs"
-  ==> "GenerateDocs"
   ==> "All"
   =?> ("ReleaseDocs",isLocalBuild)
 
-"All"
-#if MONO
-#else
-  //=?> ("SourceLink", Pdbstr.tryFind().IsSome )
-#endif
-  ==> "NuGet"
-  ==> "BuildPackage"
+"PaketPack"
+  ==> "PaketPushToOctopus"
+  ==> "OctopusCreateReleaseAndDeploy"
+  ==> "DeployOnly"
 
 "CleanDocs"
   ==> "GenerateHelp"
@@ -362,12 +353,5 @@ Target "All" DoNothing
 
 "GenerateHelp"
   ==> "KeepRunning"
-
-//"ReleaseDocs"
-//  ==> "Release"
-
-"BuildPackage"
-  ==> "PublishNuget"
-  ==> "Release"
 
 RunTargetOrDefault "All"

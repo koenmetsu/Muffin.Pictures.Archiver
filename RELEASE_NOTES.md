@@ -1,3 +1,10 @@
+#### 0.1.4-beta
+* Chmod to executable
+
+
+#### 0.1.3-beta
+* Add postDeploy script to chmod Muffin.Pictures.Archiver
+
 #### 0.1.2-beta - May 29 2015
 * trying out package without tools folder
 
