@@ -8,4 +8,5 @@ description
 files
 	bin/Muffin.Pictures.Archiver/*.exe ==> .
 	bin/Muffin.Pictures.Archiver/*.dll ==> .
+	bin/Muffin.Pictures.Archiver/exiftool* ==> .
 	postDeploy.sh ==> .
