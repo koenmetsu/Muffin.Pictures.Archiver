@@ -5,6 +5,7 @@ nuget FSharp.Formatting
 nuget FAKE
 nuget Microsoft.VisualBasic
 nuget Nlog.config
+nuget NuGet.CommandLine
 nuget NUnit.Runners
 nuget OctopusTools
 nuget SourceLink.Fake
