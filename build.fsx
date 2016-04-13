@@ -173,11 +173,13 @@ Target "SourceLink" DoNothing
 // Build a NuGet package
 
 Target "PaketPack" (fun _ ->
-    Paket.Pack(fun p ->
-        { p with
-            OutputPath = "bin"
-            Version = release.NugetVersion
-            ReleaseNotes = toLines release.Notes})
+    NuGetPack (fun p ->
+                {p with
+                        Version = release.NugetVersion
+                        WorkingDir = "."
+                        OutputPath = "bin"
+                        ReleaseNotes = toLines release.Notes})
+                        "Muffin.Pictures.Archiver.nuspec"
 )
 
 Target "PaketPushToOctopus" (fun _ ->
