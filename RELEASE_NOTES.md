@@ -1,3 +1,6 @@
+#### 0.1.6.beta
+* Reverse slashes in nuspec 
+
 #### 0.1.5-beta
 * Include exiftool in package
 

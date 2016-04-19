@@ -8,9 +8,9 @@
     <description>Route Debugger is a little utility I wrote...</description>
   </metadata>
   <files>
-    <file src="bin/Muffin.Pictures.Archiver/*.dll" />
-    <file src="bin/Muffin.Pictures.Archiver/*.exe" />
-    <file src="bin/Muffin.Pictures.Archiver/exiftool*" />
+    <file src="bin\Muffin.Pictures.Archiver\*.dll" />
+    <file src="bin\Muffin.Pictures.Archiver\*.exe" />
+    <file src="bin\Muffin.Pictures.Archiver\exiftool*" />
     <file src="postDeploy.sh" />
   </files>
 </package>
