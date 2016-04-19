@@ -112,15 +112,6 @@ Target "CopyBinaries" (fun _ ->
     |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
 )
 
-Target "CopyExifLib" (fun _ ->
-    CopyFile "bin/Muffin.Pictures.Archiver/" "lib/exiftool"
-    CopyDir "bin/Muffin.Pictures.Archiver/" "lib/lib" (fun _ -> true)
-    !! "tests/*/bin/Release/"
-    |> Seq.iter (fun d ->
-                        CopyFile d "lib/exiftool"
-                        CopyDir d "lib/lib" (fun _ -> true))
-)
-
 Target "CopyMyConfigs" (fun _ ->
     !! "src/*/my.*.config"
     |> Seq.map (fun f -> (System.IO.Path.GetFileName f, f))

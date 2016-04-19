@@ -1,3 +1,6 @@
+#### 0.1.7.beta
+* Install exiftool on postInstall 
+
 #### 0.1.6.beta
 * Reverse slashes in nuspec 
 
