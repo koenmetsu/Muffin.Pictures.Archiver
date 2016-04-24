@@ -323,9 +323,6 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyBinaries"
-#if MONO
-  ==> "CopyExifLib"
-#endif
   ==> "CopyMyConfigs"
   ==> "RunTests"
   ==> "All"
