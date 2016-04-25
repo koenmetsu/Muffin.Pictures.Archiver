@@ -10,6 +10,7 @@
   <files>
     <file src="bin\Muffin.Pictures.Archiver\*.dll" />
     <file src="bin\Muffin.Pictures.Archiver\*.exe" />
+    <file src="bin\Muffin.Pictures.Archiver\*.config" />
     <file src="bin\Muffin.Pictures.Archiver\exiftool*" />
     <file src="postDeploy.sh" />
     <file src="install-exif.sh" />
