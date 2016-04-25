@@ -1,3 +1,4 @@
+#!/bin/bash
 chmod +x Muffin.Pictures.Archiver.exe
-chmod +x install-exif.#!/bin/sh
+chmod +x install-exif.sh
 sh install-exif.sh
