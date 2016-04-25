@@ -80,6 +80,7 @@
     <Compile Include="CompositionRoot.fs" />
     <Compile Include="Program.fs" />
     <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Paket>True</Paket>
     </Content>
     <Content Include="NLog.xsd">

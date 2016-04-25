@@ -1,3 +1,6 @@
+#### 0.1.10
+* Include NLog.config in bin 
+
 #### 0.1.9
 * Use bash to start install-exif postdeploy
 
