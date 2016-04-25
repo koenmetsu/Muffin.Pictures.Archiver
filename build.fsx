@@ -118,6 +118,16 @@ Target "CopyMyConfigs" (fun _ ->
     |> Seq.iter (fun (fileName, path) -> CopyFile ("bin/Muffin.Pictures.Archiver/" @@ (fileName.Replace("my.", ""))) path)
 )
 
+Target "CopyExifLib" (fun _ ->
+    CopyFile "bin/Muffin.Pictures.Archiver/" "lib/exiftool"
+    CopyDir "bin/Muffin.Pictures.Archiver/" "lib/lib" (fun _ -> true)
+    !! "tests/*/bin/Release/"
+    |> Seq.iter (fun d ->
+                        CopyFile d "lib/exiftool"
+                        CopyDir d "lib/lib" (fun _ -> true))
+)
+
+
 // --------------------------------------------------------------------------------------
 // Clean build results
 
@@ -324,6 +334,9 @@ Target "All" DoNothing
   ==> "Build"
   ==> "CopyBinaries"
   ==> "CopyMyConfigs"
+#if MONO
+  ==> "CopyExifLib"
+#endif
   ==> "RunTests"
   ==> "All"
   =?> ("ReleaseDocs",isLocalBuild)
