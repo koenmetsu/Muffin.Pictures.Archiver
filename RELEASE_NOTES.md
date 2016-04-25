@@ -1,3 +1,6 @@
+#### 0.1.7
+* Fix build for mono 
+
 #### 0.1.7.beta
 * Install exiftool on postInstall 
 
