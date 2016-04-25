@@ -1,3 +1,6 @@
+#### 0.1.11
+* Clean up install-exif 
+
 #### 0.1.10
 * Include NLog.config in bin 
 
