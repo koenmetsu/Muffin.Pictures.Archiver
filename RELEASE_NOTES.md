@@ -1,3 +1,6 @@
+#### 0.1.9
+* Use bash to start install-exif postdeploy
+
 #### 0.1.8
 * Add octopusdeploy variable placeholders to smtp conf 
 
