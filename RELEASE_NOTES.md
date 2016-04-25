@@ -1,3 +1,6 @@
+#### 0.1.8
+* Add octopusdeploy variable placeholders to smtp conf 
+
 #### 0.1.7
 * Fix build for mono 
 
