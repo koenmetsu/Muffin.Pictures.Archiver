@@ -1,7 +1,7 @@
 language: csharp
 
-sudo: false # use the new container-based Travis infrastructure 
+sudo: required # use the new container-based Travis infrastructure 
 
-script: 
-  - ./install-exif.sh
+script:
+  - ./install-exif-global.sh
   - ./build.sh All

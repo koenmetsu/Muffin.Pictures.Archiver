@@ -334,9 +334,6 @@ Target "All" DoNothing
   ==> "Build"
   ==> "CopyBinaries"
   ==> "CopyMyConfigs"
-#if MONO
-  ==> "CopyExifLib"
-#endif
   ==> "RunTests"
   ==> "All"
   =?> ("ReleaseDocs",isLocalBuild)
