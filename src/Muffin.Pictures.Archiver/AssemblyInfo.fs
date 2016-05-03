@@ -4,9 +4,9 @@ open System.Reflection
 [<assembly: AssemblyTitleAttribute("Muffin.Pictures.Archiver")>]
 [<assembly: AssemblyProductAttribute("Muffin.Pictures.Archiver")>]
 [<assembly: AssemblyDescriptionAttribute("Archiver for Muffin's pictures")>]
-[<assembly: AssemblyVersionAttribute("0.1.4")>]
-[<assembly: AssemblyFileVersionAttribute("0.1.4")>]
+[<assembly: AssemblyVersionAttribute("0.1.7")>]
+[<assembly: AssemblyFileVersionAttribute("0.1.7")>]
 do ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] Version = "0.1.4"
+    let [<Literal>] Version = "0.1.7"

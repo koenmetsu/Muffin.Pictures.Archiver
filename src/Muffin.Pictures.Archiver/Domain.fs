@@ -20,7 +20,7 @@ module Domain =
         member this.formatTakenOn : string =
             sprintf "%i-%02i" this.TakenOn.Year this.TakenOn.Month
 
-    type MoveRequest = { Source:FilePath; Destination:FilePath }
+    type MoveRequest = { Source:FilePath; Destination:FilePath; TimeTaken: TimeTaken }
     type FailedMove = { Request:MoveRequest; Message : string }
 
     type Skip =
@@ -31,9 +31,6 @@ module Domain =
         | BytesDidNotMatch of MoveRequest
         | CouldNotCopyFile of FailedMove
         | CouldNotDeleteSource of FailedMove
-
-
-    type SuccessfulMove = { Request:MoveRequest }
 
     type RunnerArguments = { SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option }
 
