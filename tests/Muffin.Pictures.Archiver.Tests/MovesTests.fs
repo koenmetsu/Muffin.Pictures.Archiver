@@ -25,8 +25,8 @@ module MovesTests =
         let expected : Result<MoveRequest,Failure> list =
             [
                     Success { Source = @"/path/to/originDir/pic.jpg";
-                              Destination = System.String.Format(@"/path/to/destinationDir{0}2014-01{0}pic.jpg", System.IO.Path.DirectorySeparatorChar) }
+                              Destination = System.String.Format(@"/path/to/destinationDir{0}2014-01{0}pic.jpg", System.IO.Path.DirectorySeparatorChar); TimeTaken = System.DateTimeOffset.Now }
                     Success { Source = @"/path/to/originDir/pic2.jpg";
-                              Destination = System.String.Format(@"/path/to/destinationDir{0}2014-12{0}pic2.jpg", System.IO.Path.DirectorySeparatorChar) }
+                              Destination = System.String.Format(@"/path/to/destinationDir{0}2014-12{0}pic2.jpg", System.IO.Path.DirectorySeparatorChar); TimeTaken = System.DateTimeOffset.Now }
             ]
         test <@ expected = actual @>

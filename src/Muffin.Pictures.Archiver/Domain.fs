@@ -32,6 +32,6 @@ module Domain =
         | CouldNotCopyFile of FailedMove
         | CouldNotDeleteSource of FailedMove
 
-    type RunnerArguments = { SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option }
+    type RunnerArguments = { SourceDir: string; DestinationDir: string; Mode: TimeTakenMode; MailTo : string option; ElasticUrl: Uri option }
 
     let notNullOrEmpty = not << System.String.IsNullOrEmpty

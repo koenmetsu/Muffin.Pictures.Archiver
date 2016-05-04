@@ -48,7 +48,7 @@ module RunOnActualData =
             let currentDirectory = sprintf "Current directory: %s" (System.IO.Directory.GetCurrentDirectory())
             System.Console.WriteLine(currentDirectory)
             printfn "%s" currentDirectory
-            let arguments = { SourceDir = testFolder; DestinationDir = testFolder; Mode = TimeTakenMode.Strict; MailTo = None}
+            let arguments = { SourceDir = testFolder; DestinationDir = testFolder; Mode = TimeTakenMode.Strict; MailTo = None; ElasticUrl = None}
             let move = composeMove
             let getMoveRequests = composeGetMoveRequests' arguments <| DateTimeOffset.UtcNow.AddYears 1
 
@@ -69,7 +69,7 @@ module RunOnActualData =
 
             File.SetLastWriteTimeUtc(Path.Combine(testFolder, fileNoExif), DateTime.Parse("2015-01-01"))
 
-            let arguments = { SourceDir = testFolder; DestinationDir = testFolder; Mode = TimeTakenMode.Fallback; MailTo = None}
+            let arguments = { SourceDir = testFolder; DestinationDir = testFolder; Mode = TimeTakenMode.Fallback; MailTo = None; ElasticUrl = None}
             let move = composeMove
             let getMoveRequests = composeGetMoveRequests' arguments <| DateTimeOffset.UtcNow.AddYears 1
 

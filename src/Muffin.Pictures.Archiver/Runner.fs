@@ -41,7 +41,7 @@ module Runner =
             |> tee (fun _ -> watch.Stop())
             |> createReport moveRequests
             |> tee reportToConsole
-            |> tee reportToElastic
+            |> tee (reportToElastic arguments.ElasticUrl)
             |> reportToMailIfNecessary arguments
 
         logger.Trace(sprintf "Time elapsed: %i" watch.ElapsedMilliseconds)
