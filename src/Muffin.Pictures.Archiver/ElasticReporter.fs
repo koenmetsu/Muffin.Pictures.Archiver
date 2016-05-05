@@ -9,9 +9,10 @@ open Microsoft.FSharp.Linq.RuntimeHelpers
 module MoveResultsIndex =
 
     type MoveResult = { Result: string;
-                        Date: DateTime }
+                        Date: DateTime;
+                        Count: int }
 
-    let moveResultsIndexName = "move-results"
+    let moveResultsIndexName = "files-in-src-dir"
 
     let private moveResult quotation =
         quotation
@@ -30,11 +31,18 @@ module MoveResultsIndex =
                                 s.Name(moveResult result)
                                  .Index(Nest.FieldIndexOption.NotAnalyzed)))))
 
-    let indexCases (client:ElasticClient) date cases  =
-        cases
-        |> List.map(fun i -> {Result = i.GetType().Name; Date = date})
-        |> List.map(fun case -> client.Index(case, fun idx -> idx.Index(moveResultsIndexName)))
-        |> ignore
+    let private index (client:ElasticClient) (date:DateTime) (items:list<'a>) =
+        if not (Seq.isEmpty items) then
+            let name = items.Head.GetType().Name
+
+            {Result = name; Date = date; Count = items.Length}
+            |> fun case -> client.Index(case, fun idx -> idx.Index(moveResultsIndexName))
+            |> ignore
+
+    let indexFilesInSourceDir (client:ElasticClient) (date:DateTime) report =
+        index client date report.Skips
+        index client date report.Successes
+        index client date report.Failures
 
 module ProcessedMovesIndex =
 
@@ -91,19 +99,14 @@ module ElasticReporter =
         let settings = new ConnectionSettings(node)
         let client = new ElasticClient(settings)
 
-        let date = System.DateTime.Now.Date
+        let date = System.DateTime.Now
 
         createMoveResultsIndex client |> ignore
         createProcessedMovesIndex client |> ignore
 
-        let indexCases cases =
-            indexCases client date cases
-
-        indexCases report.Skips
-        indexCases report.Successes
-        indexCases report.Failures
-
+        indexFilesInSourceDir client date report
         indexMoves client report
+
         ()
 
     let reportToElastic (elasticUri:Uri option) (report:Report) =
