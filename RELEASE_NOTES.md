@@ -1,3 +1,6 @@
+#### 0.3.0
+* Change the way ES logs the move results 
+
 #### 0.2.1
 * Fix nlog config 
 
