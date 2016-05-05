@@ -4,6 +4,7 @@ nuget FSharp.Data
 nuget FSharp.Formatting
 nuget FAKE
 nuget Microsoft.VisualBasic
+nuget NEST
 nuget Nlog.config
 nuget NuGet.CommandLine
 nuget NUnit.Runners

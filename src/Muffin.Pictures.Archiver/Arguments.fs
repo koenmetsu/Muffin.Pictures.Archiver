@@ -11,6 +11,7 @@ module Arguments =
         | [<Mandatory>][<AltCommandLine("-d")>] DestinationDir of string
         | Fallback
         | MailTo of string
+        | ElasticUrl of string
     with
         interface IArgParserTemplate with
             member s.Usage =
@@ -19,6 +20,7 @@ module Arguments =
                 | DestinationDir _ -> "Specify a destination directory"
                 | Fallback _ -> "Specify whether or not to fallback on last date modified if no \"Date Taken\" tag was found"
                 | MailTo _ -> "Specify whether or not to send an email (use system.net.mailsettings in config file to specify sender)"
+                | ElasticUrl _ -> "Specify the elasticsearch url if you want to report to elasticsearch"
 
     let parseArguments argv =
         let parser = UnionArgParser.Create<Arguments>()
@@ -32,5 +34,9 @@ module Arguments =
             else
                 TimeTakenMode.Strict
         let mailTo = arguments.TryGetResult <@ MailTo @>
+        let elasticUrl =
+            match arguments.TryGetResult <@ ElasticUrl @> with
+            | Some uri -> Some (new System.Uri(uri))
+            | None -> None
 
-        { SourceDir = sourceDir; DestinationDir = destinationDir; Mode = mode; MailTo = mailTo }
+        { SourceDir = sourceDir; DestinationDir = destinationDir; Mode = mode; MailTo = mailTo; ElasticUrl = elasticUrl }

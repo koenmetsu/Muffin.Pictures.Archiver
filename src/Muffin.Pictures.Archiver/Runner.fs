@@ -9,7 +9,9 @@ open Muffin.Pictures.Archiver.MailReporter
 open Muffin.Pictures.Archiver.Rop
 
 module Runner =
-    let logger = LogManager.GetCurrentClassLogger()
+    open ElasticReporter
+
+    let private logger = LogManager.GetCurrentClassLogger()
 
     let private moveInParallel move =
         let asyncMove request = async {
@@ -39,6 +41,7 @@ module Runner =
             |> tee (fun _ -> watch.Stop())
             |> createReport moveRequests
             |> tee reportToConsole
+            |> tee (reportToElastic arguments.ElasticUrl)
             |> reportToMailIfNecessary arguments
 
         logger.Trace(sprintf "Time elapsed: %i" watch.ElapsedMilliseconds)

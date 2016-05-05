@@ -12,7 +12,9 @@ module MoveRequests =
         let destination =
             pathCombine destinationFolder picture.File.Name
 
-        { Source = picture.File.FullPath; Destination = destination }
+        { Source = picture.File.FullPath;
+          Destination = destination;
+          TimeTaken = picture.TakenOn }
 
     let getMoveRequests getPictures sourceDir destinationDir =
         let toMoveRequest picture =
