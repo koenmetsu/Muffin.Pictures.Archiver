@@ -1,3 +1,6 @@
+#### 0.2.1
+* Fix nlog config 
+
 #### 0.2.0
 * Add elastic reporter
 
