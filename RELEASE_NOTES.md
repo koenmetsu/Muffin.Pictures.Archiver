@@ -1,3 +1,6 @@
+#### 0.2.0
+* Add elastic reporter
+
 #### 0.1.11
 * Clean up install-exif 
 
