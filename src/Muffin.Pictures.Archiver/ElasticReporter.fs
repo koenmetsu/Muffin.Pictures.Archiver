@@ -1,15 +1,42 @@
 ﻿namespace Muffin.Pictures.Archiver
 
 open Muffin.Pictures.Archiver.Report
+open Nest
+open System
+open System.Linq.Expressions
+open Microsoft.FSharp.Linq.RuntimeHelpers
 
-module ElasticReporter =
-    open Nest
-    open System
-    open System.Linq.Expressions
-    open Microsoft.FSharp.Linq.RuntimeHelpers
+module MoveResultsIndex =
 
     type MoveResult = { Result: string;
                         Date: DateTime }
+
+    let moveResultsIndexName = "move-results"
+
+    let private moveResult quotation =
+        quotation
+        |> LeafExpressionConverter.QuotationToLambdaExpression
+        |> unbox<Expression<Func<MoveResult, obj>>>
+
+    let createMoveResultsIndex (client:ElasticClient) =
+        let result =
+            <@ System.Func<_, _>(fun n -> box n.Result) @>
+
+        client.CreateIndex(moveResultsIndexName, fun i ->
+                i.AddMapping(fun m ->
+                    m.Type<MoveResult>()
+                        .Properties(fun p ->
+                            p.String(fun s ->
+                                s.Name(moveResult result)
+                                 .Index(Nest.FieldIndexOption.NotAnalyzed)))))
+
+    let indexCases (client:ElasticClient) date cases  =
+        cases
+        |> List.map(fun i -> {Result = i.GetType().Name; Date = date})
+        |> List.map(fun case -> client.Index(case, fun idx -> idx.Index(moveResultsIndexName)))
+        |> ignore
+
+module ProcessedMovesIndex =
 
     type ProcessedMove = { MoveRequest: MoveRequest;
                            Year: int;
@@ -18,7 +45,6 @@ module ElasticReporter =
                            Hour: int;
                            DayOfWeek: string}
 
-    let moveResultsIndexName = "move-results"
     let processedMovesIndexName = "processed-moves"
 
     let private processedMove quotation =
@@ -26,12 +52,8 @@ module ElasticReporter =
             |> LeafExpressionConverter.QuotationToLambdaExpression
             |> unbox<Expression<Func<ProcessedMove, obj>>>
 
-    let private moveResult quotation =
-        quotation
-        |> LeafExpressionConverter.QuotationToLambdaExpression
-        |> unbox<Expression<Func<MoveResult, obj>>>
 
-    let private createProcessedMovesIndex (client:ElasticClient) =
+    let createProcessedMovesIndex (client:ElasticClient) =
         let moveRequestDestination =
             <@ System.Func<_, _>(fun n -> box n.MoveRequest.Destination) @>
 
@@ -48,17 +70,21 @@ module ElasticReporter =
                         s.Name(processedMove dayOfWeek)
                          .Index(Nest.FieldIndexOption.NotAnalyzed)))))
 
-    let private createMoveResultsIndex (client:ElasticClient) =
-        let result =
-            <@ System.Func<_, _>(fun n -> box n.Result) @>
+    let indexMoves (client:ElasticClient) report =
+        let create success =
+            let taken = success.TimeTaken
+            {MoveRequest = success; Year = taken.Year; Month = taken.Month; Day = taken.Day; Hour = taken.Hour; DayOfWeek = Enum.GetName(taken.DayOfWeek.GetType(), taken.DayOfWeek)}
 
-        client.CreateIndex(moveResultsIndexName, fun i ->
-                i.AddMapping(fun m ->
-                    m.Type<MoveResult>()
-                        .Properties(fun p ->
-                            p.String(fun s ->
-                                s.Name(moveResult result)
-                                 .Index(Nest.FieldIndexOption.NotAnalyzed)))))
+        report.Successes
+        |> List.map(fun success -> client.Index(create success, fun idx -> idx.Index(processedMovesIndexName)))
+        |> ignore
+
+
+module ElasticReporter =
+
+    open ProcessedMovesIndex
+    open MoveResultsIndex
+    open Rop
 
     let private reportToElastic' elasticUri report =
         let node = new Uri(elasticUri.ToString())
@@ -71,26 +97,13 @@ module ElasticReporter =
         createProcessedMovesIndex client |> ignore
 
         let indexCases cases =
-            cases
-            |> List.map(fun i -> {Result = i.GetType().Name; Date = date})
-            |> List.map(fun case -> client.Index(case, fun idx -> idx.Index(moveResultsIndexName)))
-            |> ignore
-
-        let indexMoves report =
-            let create success =
-                let taken = success.TimeTaken
-                {MoveRequest = success; Year = taken.Year; Month = taken.Month; Day = taken.Day; Hour = taken.Hour; DayOfWeek = Enum.GetName(taken.DayOfWeek.GetType(), taken.DayOfWeek)}
-
-            report.Successes
-            |> List.map(fun success -> client.Index(create success, fun idx -> idx.Index(processedMovesIndexName)))
-            |> ignore
-
+            indexCases client date cases
 
         indexCases report.Skips
         indexCases report.Successes
         indexCases report.Failures
 
-        indexMoves report
+        indexMoves client report
         ()
 
     let reportToElastic (elasticUri:Uri option) (report:Report) =
