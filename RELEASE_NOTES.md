@@ -1,3 +1,6 @@
+#### 1.0.1
+* Only process jpgs for now, vids are too much for comparison 
+
 #### 0.4.1
 * Use octopus tokens for nlog config as well 
 
