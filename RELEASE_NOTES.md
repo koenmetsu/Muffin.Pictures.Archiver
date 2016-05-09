@@ -1,3 +1,6 @@
+#### 0.4.1
+* Use octopus tokens for nlog config as well 
+
 #### 0.4.0
 * Find time taken in file names as well
 * Only send mails for failures
