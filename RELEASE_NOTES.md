@@ -1,3 +1,7 @@
+#### 0.4.0
+* Find time taken in file names as well
+* Only send mails for failures
+
 #### 0.3.0
 * Change the way ES logs the move results 
 
