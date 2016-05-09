@@ -26,7 +26,7 @@ module Runner =
 
     let private reportToMailIfNecessary arguments report =
         if arguments.MailTo.IsSome then
-            reportToMail report arguments.MailTo.Value
+            reportFailuresToMail report arguments.MailTo.Value
 
     let runner move getMoveRequests arguments =
         let watch = System.Diagnostics.Stopwatch()

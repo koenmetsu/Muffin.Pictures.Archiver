@@ -4,7 +4,6 @@ open System
 open System.Text.RegularExpressions
 
 open Muffin.Pictures.Archiver.Domain
-open Muffin.Pictures.Archiver.Rop
 open Muffin.Pictures.Archiver.TagRetriever
 
 module TimeTakenRetriever =

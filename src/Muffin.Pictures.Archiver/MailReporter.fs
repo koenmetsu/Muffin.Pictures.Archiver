@@ -16,12 +16,15 @@ module MailReporter =
 
         client.Send(msg)
 
-    let reportToMail report mailTo =
+    let reportFailuresToMail report mailTo =
         let builder = new System.Text.StringBuilder()
         let builderWriter text =
             bprintf builder "%s\n" text
 
-        reportTo report builderWriter
+        report.Failures
+        |> List.map formatFailure
+        |> List.iter builderWriter
 
         let mailBody = builder.ToString()
-        sendMail mailBody mailTo
+        if notNullOrEmpty mailBody then
+            sendMail mailBody mailTo
