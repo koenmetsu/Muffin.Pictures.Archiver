@@ -11,19 +11,37 @@ module TimeTakenRetriever =
     let private r = new Regex(":")
 
     let private parseDate strDate =
-        match DateTimeOffset.TryParse(strDate) with
-        | true, date -> date
-        | _ -> let dateTaken = r.Replace(strDate, "-", 2)
-               DateTimeOffset.Parse(dateTaken)
+        match strDate with
+        | Some d ->
+            match DateTimeOffset.TryParse(d) with
+            | true, date -> date
+            | _ -> let dateTaken = r.Replace(d, "-", 2)
+                   DateTimeOffset.Parse(dateTaken)
+            |> Some
+        | None -> None
+
 
     let findExifCreateDate (tags:Tags.Root option) =
         match tags with
-        | Some (t:Tags.Root) -> t.DateTimeOriginal
+        | Some (t:Tags.Root) -> parseDate t.DateTimeOriginal
         | None -> None
 
     let findXmpCreateDate (tags:Tags.Root option) =
         match tags with
-        | Some (t:Tags.Root) -> t.DateCreated
+        | Some (t:Tags.Root) -> parseDate t.DateCreated
+        | None -> None
+
+    let findTimeInName (tags:Tags.Root option) =
+        match tags with
+        | Some (t:Tags.Root) ->
+            let dateRegex = Regex("[0-9]{8}_[0-9]{6}")
+            let matched = dateRegex.Match(t.FileName)
+            if matched.Success then
+               let couldParse, parsed = DateTimeOffset.TryParseExact(matched.Value, [|"yyyyMMdd_HHmmss"|], System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None)
+               if couldParse
+               then Some parsed
+               else None
+            else None
         | None -> None
 
     let timeTaken timeTakenMode tags file : TimeTaken option =
@@ -31,12 +49,12 @@ module TimeTakenRetriever =
         let fileTagValues = getTags tags path
 
         let findTagFunctions = [   findExifCreateDate
-                                   findXmpCreateDate ]
+                                   findXmpCreateDate
+                                   findTimeInName ]
         findTagFunctions
         |> List.tryPick (fun findTag -> findTag fileTagValues)
         |> function
-            | Some x ->
-                Some <| parseDate x
+            | Some x -> Some x
             | None ->
                 match timeTakenMode with
                 | Strict ->
