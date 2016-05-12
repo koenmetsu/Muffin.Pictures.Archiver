@@ -62,3 +62,16 @@ module TimeTakenRetriever =
                 | Fallback ->
                     Some <| DateTimeOffset(System.IO.File.GetLastWriteTimeUtc(path))
 
+    let location tags file : string option =
+        let path = file.FullPath
+        let fileTagValues = getTags tags path
+
+        match fileTagValues with
+        | Some (t:Tags.Root) ->
+            match t.GpsLongitude, t.GpsLatitude with
+            | Some lat, Some lon ->
+                Some <| sprintf "%s, %s" lon lat
+            | _ -> None
+        | None -> None
+
+

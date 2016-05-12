@@ -16,7 +16,7 @@ module PicturesTests =
         let file = stubFile
         let timeTakenRetriever _ _ = Some <| dateTimeOffset 2015 12 31
 
-        let expected = Success { File = file; TakenOn = dateTimeOffset 2015 12 31 }
+        let expected = Success { File = file; TakenOn = dateTimeOffset 2015 12 31; Location = None }
 
         let actual = toPicture timeTakenRetriever [||] file
 

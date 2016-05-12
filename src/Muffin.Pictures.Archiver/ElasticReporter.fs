@@ -51,7 +51,8 @@ module ProcessedMovesIndex =
                            Month: int;
                            Day: int;
                            Hour: int;
-                           DayOfWeek: string}
+                           DayOfWeek: string;
+                           Location: string}
 
     let processedMovesIndexName = "processed-moves"
 
@@ -68,6 +69,9 @@ module ProcessedMovesIndex =
         let dayOfWeek =
             <@ System.Func<_, _>(fun n -> box n.DayOfWeek) @>
 
+        let location =
+            <@ System.Func<_, _>(fun n -> box n.Location) @>
+
         client.CreateIndex(processedMovesIndexName, fun i ->
             i.AddMapping<ProcessedMove>(fun m ->
                 m.Properties(fun p ->
@@ -77,11 +81,24 @@ module ProcessedMovesIndex =
                     ).String(fun s ->
                         s.Name(processedMove dayOfWeek)
                          .Index(Nest.FieldIndexOption.NotAnalyzed)))))
+        |> ignore
+
+        let index = client.Map<ProcessedMove>(fun m ->
+            m.Properties(fun p ->
+                p.GeoPoint(fun s ->
+                    s.Name(processedMove location))))
+        ()
 
     let indexMoves (client:ElasticClient) report =
         let create success =
             let taken = success.TimeTaken
-            {MoveRequest = success; Year = taken.Year; Month = taken.Month; Day = taken.Day; Hour = taken.Hour; DayOfWeek = Enum.GetName(taken.DayOfWeek.GetType(), taken.DayOfWeek)}
+            {MoveRequest = success;
+            Year = taken.Year;
+            Month = taken.Month;
+            Day = taken.Day;
+            Hour = taken.Hour;
+            DayOfWeek = Enum.GetName(taken.DayOfWeek.GetType(), taken.DayOfWeek);
+            Location = success.locationOrEmpty}
 
         report.Successes
         |> List.map(fun success -> client.Index(create success, fun idx -> idx.Index(processedMovesIndexName)))
@@ -92,7 +109,6 @@ module ElasticReporter =
 
     open ProcessedMovesIndex
     open MoveResultsIndex
-    open Rop
 
     let private reportToElastic' elasticUri report =
         let node = new Uri(elasticUri.ToString())

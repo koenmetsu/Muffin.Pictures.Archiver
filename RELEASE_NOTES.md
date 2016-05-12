@@ -1,3 +1,6 @@
+#### 1.1.0
+* Report gps locations to ES 
+
 #### 1.0.1
 * Only process jpgs for now, vids are too much for comparison 
 

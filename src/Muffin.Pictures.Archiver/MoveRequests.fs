@@ -14,7 +14,8 @@ module MoveRequests =
 
         { Source = picture.File.FullPath;
           Destination = destination;
-          TimeTaken = picture.TakenOn }
+          TimeTaken = picture.TakenOn;
+          Location = picture.Location }
 
     let getMoveRequests getPictures sourceDir destinationDir =
         let toMoveRequest picture =

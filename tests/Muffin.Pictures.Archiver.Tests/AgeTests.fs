@@ -15,7 +15,8 @@ module AgeTests =
         let olderThan1Day = (dateTimeOffset 2014 12 31).AddTicks(-1L)
         let picture =
             { File = stubFile
-              TakenOn = olderThan1Day }
+              TakenOn = olderThan1Day
+              Location = None }
 
         let timeProvider = dateTimeOffset 2015 01 01
 
@@ -25,7 +26,7 @@ module AgeTests =
     let ``a picture is old when it is exactly one day old`` () =
         let picture =
             { File = stubFile
-              TakenOn = dateTimeOffset 2014 12 31 }
+              TakenOn = dateTimeOffset 2014 12 31; Location = None }
 
         let timeProvider = dateTimeOffset 2015 01 01
 
@@ -35,7 +36,7 @@ module AgeTests =
     let ``a picture is not old when it is not older than one day`` () =
         let picture =
             { File = stubFile
-              TakenOn = System.DateTimeOffset.Parse("2014-12-01 00:00") }
+              TakenOn = System.DateTimeOffset.Parse("2014-12-01 00:00"); Location = None }
 
         let timeProvider = System.DateTimeOffset.Parse("2014-12-01 23:59")
 

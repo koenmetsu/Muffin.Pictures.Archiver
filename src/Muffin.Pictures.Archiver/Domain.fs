@@ -16,11 +16,16 @@ module Domain =
 
     type TimeTaken = DateTimeOffset
 
-    type Picture = { File:File; TakenOn:TimeTaken } with
+    type Picture = { File:File; TakenOn:TimeTaken; Location: string option } with
         member this.formatTakenOn : string =
             sprintf "%i-%02i" this.TakenOn.Year this.TakenOn.Month
 
-    type MoveRequest = { Source:FilePath; Destination:FilePath; TimeTaken: TimeTaken }
+    type MoveRequest = { Source:FilePath; Destination:FilePath; TimeTaken: TimeTaken; Location: string option } with
+        member this.locationOrEmpty : string =
+            match this.Location with
+            | Some location -> location
+            | None -> String.Empty
+
     type FailedMove = { Request:MoveRequest; Message : string }
 
     type Skip =

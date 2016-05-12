@@ -14,6 +14,7 @@ module DomainTests =
             {
                 File = stubFile
                 TakenOn = dateTimeOffset 2014 12 31
+                Location = None
             }
 
         test <@ picture.formatTakenOn = "2014-12" @>
@@ -24,6 +25,7 @@ module DomainTests =
             {
                 File = stubFile
                 TakenOn = dateTimeOffset 2015 01 01
+                Location = None
             }
 
         test <@ picture.formatTakenOn = "2015-01" @>

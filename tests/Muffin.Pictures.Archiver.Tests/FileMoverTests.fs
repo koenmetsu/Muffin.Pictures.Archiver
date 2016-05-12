@@ -40,7 +40,7 @@ module FileMoverTests =
 
     [<Test>]
     let ``when the move was successful, it returns a successful move`` () =
-        let moveRequest = { Source = "source"; Destination = "destination"; TimeTaken = System.DateTimeOffset.Now }
+        let moveRequest = { Source = "source"; Destination = "destination"; TimeTaken = System.DateTimeOffset.Now; Location = None }
         let copyToDestination _ = ()
 
         let move =
@@ -53,7 +53,7 @@ module FileMoverTests =
         let compareFiles _ = false
         let copyToDestination _ = failwith "File in use or something"
 
-        let moveRequest = { Source = "source"; Destination = "destination"; TimeTaken = System.DateTimeOffset.Now }
+        let moveRequest = { Source = "source"; Destination = "destination"; TimeTaken = System.DateTimeOffset.Now; Location = None }
 
         let move =
             moveFile copyToDestination moveRequest
