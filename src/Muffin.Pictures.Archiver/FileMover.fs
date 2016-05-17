@@ -1,7 +1,5 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open NLog
-
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.Rop
 

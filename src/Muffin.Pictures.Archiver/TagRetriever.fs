@@ -12,7 +12,7 @@ module TagRetriever =
     let private isMono =
         System.Type.GetType ("Mono.Runtime") <> null
 
-    let private exifFileName =
+    let exifFile =
         if isMono then
             "exiftool"
         else
@@ -23,9 +23,9 @@ module TagRetriever =
             sprintf "'%s'" folder
         else folder
 
-    let callExifTool folder =
+    let callExifTool exifLocation folder =
         let processStartInfo = new System.Diagnostics.ProcessStartInfo()
-        processStartInfo.FileName <- exifFileName
+        processStartInfo.FileName <- exifLocation
         processStartInfo.Arguments <- sprintf "-fast22 -DateTimeOriginal -DateCreated -FileName -gpslatitude -gpslongitude -n -m -q -j -d \"%%Y:%%m:%%d %%H:%%M:%%S\" %s" (wrapFolder folder)
         processStartInfo.CreateNoWindow <- true
         processStartInfo.UseShellExecute <- false

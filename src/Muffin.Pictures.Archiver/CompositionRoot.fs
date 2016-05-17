@@ -26,11 +26,11 @@ module CompositionRoot =
 
         moveFile copyToDestination
 
-    let composeGetPictures arguments time =
+    let composeGetPictures arguments exifTool time =
         let timeProvider = time
         let timeTakenProvider = timeTaken arguments.Mode
         let toOldPicture = toOldPicture timeTakenProvider timeProvider
-        getPictures toOldPicture allFilesInPath
+        getPictures toOldPicture allFilesInPath exifTool
 
     let composeMove =
         let moveWithFs = composeMoveWithFs
@@ -38,9 +38,6 @@ module CompositionRoot =
         let composeCompareFiles = compareFiles fsOperations.Compare
         move moveWithFs composeCompareFiles cleanUp
 
-    let composeGetMoveRequests' arguments time =
-        let getPictures = composeGetPictures arguments time
+    let composeGetMoveRequests arguments exifTool time =
+        let getPictures = composeGetPictures arguments exifTool time
         getMoveRequests getPictures
-
-    let composeGetMoveRequests arguments =
-        composeGetMoveRequests' arguments DateTimeOffset.UtcNow

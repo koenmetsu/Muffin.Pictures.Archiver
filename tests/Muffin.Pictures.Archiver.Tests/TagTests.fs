@@ -12,9 +12,9 @@ module TagRetriever =
 
     type Tags = JsonProvider<"example_exiftool_output.json">
 
-    let callExifTool folder =
+    let callExifTool exifTool folder =
         let processStartInfo = new ProcessStartInfo()
-        processStartInfo.FileName <- "exiftool"
+        processStartInfo.FileName <- exifTool
         processStartInfo.Arguments <- sprintf "-fast22 -m -q -j -d \"%%Y.%%m.%%d %%H:%%M:%%S\" %s" folder
         processStartInfo.CreateNoWindow <- true
         processStartInfo.UseShellExecute <- false
@@ -32,10 +32,18 @@ module TagRetriever =
 
 module TagTests =
     open TagRetriever
+    open System.IO
+
+    let private location name =
+        System.Reflection.Assembly.GetExecutingAssembly().Location
+        |> Directory.GetParent
+        |> fun dir -> Path.Combine(dir.FullName, name)
 
     [<Test>]
     let ``Call exifTool and try to parse results`` () =
-        let json = callExifTool @"TestData"
+        let json = callExifTool
+                        (location "exifTool.exe")
+                        (location @"TestData")
 
         let tags = Tags.Parse(json)
 

@@ -1,3 +1,6 @@
+### 1.2.0
+* Remove NLog, log to ES instead
+
 #### 1.1.0
 * Report gps locations to ES 
 

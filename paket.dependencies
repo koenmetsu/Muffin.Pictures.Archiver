@@ -5,10 +5,12 @@ nuget FSharp.Formatting
 nuget FAKE
 nuget Microsoft.VisualBasic
 nuget NEST
-nuget Nlog.config
 nuget NuGet.CommandLine
+nuget NUnit.ConsoleRunner
 nuget NUnit.Runners
 nuget OctopusTools
+nuget Serilog.Exceptions
+nuget serilog.sinks.elasticsearch
 nuget SourceLink.Fake
 nuget UnionArgParser
 nuget Unquote

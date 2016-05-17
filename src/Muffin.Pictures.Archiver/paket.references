@@ -1,5 +1,6 @@
 UnionArgParser
 Microsoft.VisualBasic
 fsharp.data
-Nlog.config
 NEST
+serilog.sinks.elasticsearch
+Serilog.Exceptions

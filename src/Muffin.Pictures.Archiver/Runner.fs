@@ -1,22 +1,20 @@
 ﻿namespace Muffin.Pictures.Archiver
 
-open NLog
-
 open Muffin.Pictures.Archiver.Domain
 open Muffin.Pictures.Archiver.ConsoleReporter
 open Muffin.Pictures.Archiver.Report
 open Muffin.Pictures.Archiver.MailReporter
 open Muffin.Pictures.Archiver.Rop
+open Serilog
 
 module Runner =
     open ElasticReporter
 
-    let private logger = LogManager.GetCurrentClassLogger()
 
     let private moveInParallel move =
-        let asyncMove request = async {
+        let asyncMove (request:MoveRequest) = async {
             return move request
-                |> tee (fun _ -> logger.Info((sprintf "Moved Request: %A" request)))
+                |> tee (fun _ -> Log.Information("Moved Request: {@Request}", request))
         }
 
         List.map asyncMove
@@ -44,4 +42,4 @@ module Runner =
             |> tee (reportToElastic arguments.ElasticUrl)
             |> reportToMailIfNecessary arguments
 
-        logger.Trace(sprintf "Time elapsed: %i" watch.ElapsedMilliseconds)
+        Log.Verbose("Time elapsed: {TimeInMilliseconds}", watch.ElapsedMilliseconds)

@@ -27,8 +27,8 @@ module Pictures =
         toPicture timeTakenRetriever tags
         >=> (isOld timeProvider)
 
-    let getPictures toOldPicture filesProvider directory =
-        let tagsForAllFiles = callExifTool directory
+    let getPictures toOldPicture filesProvider exifTool directory =
+        let tagsForAllFiles = callExifTool exifTool directory
 
         filesProvider directory
         |> List.map (toOldPicture tagsForAllFiles)

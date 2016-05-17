@@ -10,6 +10,13 @@ open Muffin.Pictures.Archiver.Domain
 
 module RunOnActualData =
 
+    let private location name =
+        System.Reflection.Assembly.GetExecutingAssembly().Location
+        |> Directory.GetParent
+        |> fun dir -> Path.Combine(dir.FullName, name)
+
+    let private exifTool = location "exifTool.exe"
+
     let assertExists paths =
         let filePath = Path.Combine(paths) |> FileInfo |> fun fi -> fi.FullName
         Assert.IsTrue(File.Exists(filePath), "Verify that file \"{0}\" exists.", filePath)
@@ -28,13 +35,17 @@ module RunOnActualData =
             let temppath = System.IO.Path.Combine(dest, file.Name)
             file.CopyTo(temppath, true) |> ignore
 
-    let runInCopy folder f =
-        if Directory.Exists folder then
-            Directory.Delete(folder, true)
+    let runInCopy folderName f =
+        let original = location "TestData"
+        let copy = location folderName
 
-        copyDirectory "TestData" folder
-        f folder
-        Directory.Delete(folder, true)
+        if Directory.Exists copy then
+            Directory.Delete(copy, true)
+
+        copyDirectory original copy
+
+        f copy
+        Directory.Delete(copy, true)
 
     let fileExif20141202 = "exif20141202.jpg" // has no tag for time taken
     let fileXmp201503 = "xmp20150316.jpg" // has time taken
@@ -50,7 +61,7 @@ module RunOnActualData =
             printfn "%s" currentDirectory
             let arguments = { SourceDir = testFolder; DestinationDir = testFolder; Mode = TimeTakenMode.Strict; MailTo = None; ElasticUrl = None}
             let move = composeMove
-            let getMoveRequests = composeGetMoveRequests' arguments <| DateTimeOffset.UtcNow.AddYears 1
+            let getMoveRequests = composeGetMoveRequests arguments exifTool (DateTimeOffset.UtcNow.AddYears 1)
 
             runner move getMoveRequests arguments
 
@@ -71,7 +82,7 @@ module RunOnActualData =
 
             let arguments = { SourceDir = testFolder; DestinationDir = testFolder; Mode = TimeTakenMode.Fallback; MailTo = None; ElasticUrl = None}
             let move = composeMove
-            let getMoveRequests = composeGetMoveRequests' arguments <| DateTimeOffset.UtcNow.AddYears 1
+            let getMoveRequests = composeGetMoveRequests arguments exifTool (DateTimeOffset.UtcNow.AddYears 1)
 
             runner move getMoveRequests arguments
 
