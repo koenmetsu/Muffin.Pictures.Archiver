@@ -1,3 +1,6 @@
+### 1.3.0
+* Change Target Framework to 4.6.1
+
 ### 1.2.0
 * Remove NLog, log to ES instead
 
