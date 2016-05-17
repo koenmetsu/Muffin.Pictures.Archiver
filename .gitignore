@@ -196,3 +196,5 @@ docs/content/release-notes.md
 
 lib/exiftool
 lib/lib
+.fake
+TestResult.xml
