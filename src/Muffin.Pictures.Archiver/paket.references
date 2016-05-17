@@ -4,4 +4,3 @@ fsharp.data
 NEST
 serilog.sinks.elasticsearch
 Serilog.Exceptions
-System.Runtime
