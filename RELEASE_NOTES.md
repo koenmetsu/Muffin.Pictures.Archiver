@@ -1,3 +1,6 @@
+### 1.3.1
+* Add reference to System.Runtime 
+
 ### 1.3.0
 * Change Target Framework to 4.6.1
 

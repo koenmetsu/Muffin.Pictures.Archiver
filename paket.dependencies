@@ -12,6 +12,7 @@ nuget OctopusTools
 nuget Serilog.Exceptions
 nuget serilog.sinks.elasticsearch
 nuget SourceLink.Fake
+nuget System.Runtime
 nuget UnionArgParser
 nuget Unquote
 nuget fsharp.management

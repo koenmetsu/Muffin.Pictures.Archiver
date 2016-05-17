@@ -172,7 +172,7 @@ NUGET
       System.Reflection (>= 4.0.10) - framework: dnxcore50
       System.Runtime (>= 4.0) - framework: dnxcore50
       System.Runtime (>= 4.0.20) - framework: dnxcore50
-    System.Runtime (4.0.20) - framework: dnxcore50
+    System.Runtime (4.0.20)
       System.Private.Uri (>= 4.0) - framework: dnxcore50
     System.Runtime.Extensions (4.0.10) - framework: dnxcore50
       System.Runtime (>= 4.0.20) - framework: dnxcore50
