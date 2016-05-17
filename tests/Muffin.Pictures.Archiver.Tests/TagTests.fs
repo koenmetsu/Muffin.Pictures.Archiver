@@ -12,9 +12,12 @@ module TagTests =
     open Muffin.Pictures.Archiver.TagRetriever
 
     let private location name =
-        System.Reflection.Assembly.GetExecutingAssembly().Location
-        |> Directory.GetParent
-        |> fun dir -> Path.Combine(dir.FullName, name)
+        if File.Exists name then
+            name
+        else
+            System.Reflection.Assembly.GetExecutingAssembly().Location
+            |> Directory.GetParent
+            |> fun dir -> Path.Combine(dir.FullName, name)
 
     [<Test>]
     let ``Call exifTool and try to parse results`` () =

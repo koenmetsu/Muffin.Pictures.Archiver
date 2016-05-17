@@ -11,9 +11,12 @@ open Muffin.Pictures.Archiver.Domain
 module RunOnActualData =
 
     let private location name =
-        System.Reflection.Assembly.GetExecutingAssembly().Location
-        |> Directory.GetParent
-        |> fun dir -> Path.Combine(dir.FullName, name)
+        if File.Exists name then
+            name
+        else
+            System.Reflection.Assembly.GetExecutingAssembly().Location
+            |> Directory.GetParent
+            |> fun dir -> Path.Combine(dir.FullName, name)
 
     let private exifTool = location "exifTool.exe"
 
