@@ -1,6 +1,3 @@
-### 1.3.2
-* Add reference to System.Runtime in all projects 
-
 ### 1.3.1
 * Add reference to System.Runtime 
 
