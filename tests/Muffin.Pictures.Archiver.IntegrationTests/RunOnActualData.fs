@@ -18,7 +18,7 @@ module RunOnActualData =
             |> Directory.GetParent
             |> fun dir -> Path.Combine(dir.FullName, name)
 
-    let private exifTool = location "exifTool.exe"
+    let private exifTool = location "exifTool"
 
     let assertExists paths =
         let filePath = Path.Combine(paths) |> FileInfo |> fun fi -> fi.FullName
