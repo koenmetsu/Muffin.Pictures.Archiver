@@ -1,4 +1,4 @@
-### 1.3.0
+### 1.4444.0
 * Log fatal errors to email 
 
 ### 1.2.0
