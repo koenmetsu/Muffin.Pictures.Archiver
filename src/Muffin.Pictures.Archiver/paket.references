@@ -4,3 +4,4 @@ fsharp.data
 NEST
 serilog.sinks.elasticsearch
 Serilog.Exceptions
+SeriLog.Sinks.Email

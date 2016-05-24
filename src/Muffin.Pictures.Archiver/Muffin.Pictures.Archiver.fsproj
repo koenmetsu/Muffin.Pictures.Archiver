@@ -79,6 +79,7 @@
     <Compile Include="MailReporter.fs" />
     <Compile Include="Runner.fs" />
     <Compile Include="CompositionRoot.fs" />
+    <Compile Include="Logging.fs" />
     <Compile Include="Program.fs" />
     <Content Include="smtp.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -101,6 +102,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -399,6 +401,26 @@
       <ItemGroup>
         <Reference Include="Serilog.Sinks.Elasticsearch">
           <HintPath>..\..\packages\Serilog.Sinks.ElasticSearch\lib\net45\Serilog.Sinks.Elasticsearch.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
+      <ItemGroup>
+        <Reference Include="Serilog.Sinks.Email">
+          <HintPath>..\..\packages\Serilog.Sinks.Email\lib\net40\Serilog.Sinks.Email.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
+      <ItemGroup>
+        <Reference Include="Serilog.Sinks.Email">
+          <HintPath>..\..\packages\Serilog.Sinks.Email\lib\net45\Serilog.Sinks.Email.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

@@ -1,3 +1,6 @@
+### 1.3.0
+* Log fatal errors to email 
+
 ### 1.2.0
 * Remove NLog, log to ES instead
 

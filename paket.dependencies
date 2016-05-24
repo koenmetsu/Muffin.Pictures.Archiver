@@ -11,6 +11,7 @@ nuget NUnit.Runners
 nuget OctopusTools
 nuget Serilog.Exceptions
 nuget serilog.sinks.elasticsearch
+nuget SeriLog.Sinks.Email
 nuget SourceLink.Fake
 nuget UnionArgParser
 nuget Unquote

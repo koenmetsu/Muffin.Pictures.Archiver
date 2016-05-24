@@ -53,7 +53,7 @@ NUGET
       NUnit.Extension.NUnitV2ResultWriter (3.2.1)
       NUnit.Extension.VSProjectLoader (3.2.1)
     Octokit (0.19)
-      Microsoft.Net.Http  - framework: net10, net11, net20, net30, net35, net40, net40-full
+      Microsoft.Net.Http
     OctopusTools (3.3.14)
     Serilog (1.5.14)
     Serilog.Exceptions (1.1)
@@ -61,6 +61,8 @@ NUGET
     Serilog.Sinks.ElasticSearch (2.0.80)
       Elasticsearch.Net (>= 1.7.1)
       Serilog (>= 1.5.14 < 2.0)
+    Serilog.Sinks.Email (1.5.37)
+      Serilog (>= 1.5.11 < 2.0)
     SourceLink.Fake (1.1)
     System.Collections (4.0.10) - framework: dnxcore50
       System.Diagnostics.Debug (>= 4.0) - framework: dnxcore50
@@ -255,5 +257,5 @@ NUGET
 GITHUB
   remote: fsharp/FAKE
   specs:
-    modules/Octokit/Octokit.fsx (32e262c11174b196dc8af16a577c8c3aa0ab0b2b)
+    modules/Octokit/Octokit.fsx (8c077f35f8cd0350485109ddd1810dafe9885d1a)
       Octokit
