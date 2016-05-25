@@ -5,7 +5,7 @@
     <version>1.0.1</version>
     <authors>Koen Metsu</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Route Debugger is a little utility I wrote...</description>
+    <description>Archives pictures based on metadata</description>
   </metadata>
   <files>
     <file src="bin\Muffin.Pictures.Archiver\*.dll" />
