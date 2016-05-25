@@ -1,4 +1,7 @@
-### 1.4444.0
+### 1.5.0
+* Print version number before starting a run 
+
+### 1.4.0
 * Log fatal errors to email 
 
 ### 1.2.0

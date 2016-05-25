@@ -16,6 +16,8 @@ module Logging =
 
     let createLogger arguments =
 
+        printfn "Start up Muffin.Pictures.Archiver %s" ((System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ToString())
+
         let loggerConfig =
             LoggerConfiguration()
                 .Enrich.WithExceptionDetails()
