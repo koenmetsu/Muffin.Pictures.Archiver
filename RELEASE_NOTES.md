@@ -1,3 +1,6 @@
+### 1.5.1
+* Disable Serilog ExceptionDetails Enricher because it crashes on Mono 
+
 ### 1.5.0
 * Print version number before starting a run 
 
