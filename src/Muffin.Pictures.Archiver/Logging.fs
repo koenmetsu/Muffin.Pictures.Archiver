@@ -24,7 +24,7 @@ module Logging =
                 .WriteTo.RollingFile("log-{Date}.log")
 
         if Option.isSome arguments.MailTo then
-            let smtpSettings = ConfigurationManager.GetSection("system.net/mailSettings/smtp1234");
+            let smtpSettings = ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             match smtpSettings with
             | :? SmtpSection as section ->
                 loggerConfig.WriteTo.Email(

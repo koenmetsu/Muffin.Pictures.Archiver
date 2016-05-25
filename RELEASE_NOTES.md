@@ -1,3 +1,6 @@
+### 1.5.2
+* Remove test typo  
+
 ### 1.5.1
 * Disable Serilog ExceptionDetails Enricher because it crashes on Mono 
 
