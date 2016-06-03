@@ -14,15 +14,12 @@ module Logging =
     open Serilog.Sinks.Email
     open Serilog.Exceptions
 
-    let createLogger arguments =
+    let basicLogConfig =
+        LoggerConfiguration()
+            //.Enrich.WithExceptionDetails() // does not work on Mono
+            .WriteTo.RollingFile("log-{Date}.log")
 
-        printfn "Start up Muffin.Pictures.Archiver %s" ((System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ToString())
-
-        let loggerConfig =
-            LoggerConfiguration()
-                //.Enrich.WithExceptionDetails() // does not work on Mono
-                .WriteTo.RollingFile("log-{Date}.log")
-
+    let enhanceLogConfig (loggerConfig:LoggerConfiguration) arguments =
         if Option.isSome arguments.MailTo then
             let smtpSettings = ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             match smtpSettings with
@@ -42,6 +39,6 @@ module Logging =
             |> loggerConfig.WriteTo.Elasticsearch
             |> ignore
 
-        loggerConfig.CreateLogger()
+        loggerConfig
 
 

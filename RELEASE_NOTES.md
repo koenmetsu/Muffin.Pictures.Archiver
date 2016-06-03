@@ -1,3 +1,6 @@
+### 1.5.3
+* Use Serilog to do initial startup log 
+
 ### 1.5.2
 * Remove test typo  
 
